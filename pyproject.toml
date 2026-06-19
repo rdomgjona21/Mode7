@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aetherfront"
+version = "0.1.0"
+description = "A Mode7-style steampunk airship shooter"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Robert Domgjonaj" }]
+dependencies = [
+  "numpy>=2.0,<3",
+  "pygame>=2.6,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pyinstaller>=6.10,<7",
+  "pytest>=8.3,<9",
+  "ruff>=0.8,<1",
+]
+
+[project.scripts]
+aetherfront = "aetherfront.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+aetherfront = ["data/*.json", "assets/**/*.csv"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+

@@ -1,0 +1,107 @@
+# Projektni plan — Aetherfront: Zeppelin Wars
+
+**Verzija:** 1.0  
+**Autor:** Robert Domgjonaj  
+**Oznaka projekta:** P5 — Mode7 / pucačina  
+**Planirano razdoblje:** 18. lipnja – 8. srpnja 2026.  
+**Opterećenje:** najmanje 20 sati tjedno; ukupno 60 sati  
+**Platforma:** macOS aplikacija za preuzimanje  
+**Tehnologije:** Python 3.12, PyGame, NumPy, PyInstaller  
+**Žanr i tema:** steampunk pucačina; rat zračnih brodova iznad industrijskih nebeskih otoka
+
+> Administrativni uvjet: prije službene predaje ili objave potrebno je odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored.
+
+## 1. Svrha i glavni cilj
+
+Cilj je izraditi stabilnu, samostalnu macOS igru na engleskom jeziku pod nazivom **Aetherfront: Zeppelin Wars**. Igrač upravlja borbenim zračnim brodom u cjelovitoj misiji trajanja 10–15 minuta, poražava tri vala protivnika i uništava dreadnought s dvije faze. Projekt demonstrira učinkovit, NumPyjem vektoriziran Mode7 prikaz u PyGameu.
+
+## 2. Mjerljivi posebni ciljevi
+
+1. Izraditi jednu dovršenu razinu „Siege of Brasshaven” s tokom od glavnog izbornika do pobjede.
+2. Održati prosječno najmanje 55 FPS pri najvećem predviđenom borbenom opterećenju na ciljanom M1 MacBook Airu.
+3. Implementirati tri oružja, tri vrste protivnika, tri vala, predmete za popravak, bodovanje i šefa s dvije faze.
+4. Uključiti upute, pauzu, poraz, pobjedu, HUD, zvuk, glazbu, čestice, povratnu informaciju sudara i podrhtavanje zaslona.
+5. Proći automatizirane provjere prikaza, sudara, oružja, valova i licenci resursa.
+6. Završiti pet uzastopnih ručnih igranja bez neobrađene iznimke.
+7. Predati izvorni kod, macOS ZIP, projektni plan, GDD, tehničku dokumentaciju, izvještaj o testiranju, prezentaciju, evidenciju resursa i izjavu o uporabi AI-ja.
+
+## 3. Opseg
+
+### Uključeno
+
+- Jedna razina trajanja 10–15 minuta i jedan šef.
+- Vektorizirana Mode7 ravnina i 2D objekti skalirani prema udaljenosti.
+- Zračni brod s topom, raspršenom paljbom i raketama.
+- Protivnici scout, gunship i bomber te tri skriptirana vala.
+- Zdravlje, popravci, bodovi, vremena hlađenja, sudari i povratne informacije.
+- Glavni izbornik, upute, pauza, poraz, pobjeda, HUD i zvuk.
+- macOS `.app` i ZIP, dokumentacija, testovi i prezentacija.
+
+### Isključeno
+
+Višeigrački način, proceduralno stvaranje razina, više razina, spremanje, mrežna ljestvica, preglednička ili mobilna inačica, kontroler, uređivač razina, dodatni šefovi i razine težine nisu dio opsega.
+
+## 4. Radni paketi i isporuke
+
+| RP | Radni paket | Rezultat | Dokaz prihvata | Sati |
+|---|---|---|---|---:|
+| 1 | Planiranje i postavljanje | Repozitorij, okruženje, plan, početni GDD | Pokretanje izvornog koda | 6 |
+| 2 | Prototip prikaza | Mode7, kamera, nebo, omatanje svijeta | Test ≥55 FPS | 12 |
+| 3 | Borbeni sustavi | Oružja, projektili, šteta, popravci, sudari | Automatizirani testovi | 10 |
+| 4 | Sadržaj i napredovanje | Tri vrste protivnika, tri vala, dvije faze šefa | Cjelovito igranje do pobjede | 12 |
+| 5 | Sučelje i dorada | HUD, izbornici, zvuk, čestice, povratne informacije | Popis funkcionalnosti | 7 |
+| 6 | Testiranje i balans | Pet igranja, popravci i balansiranje | Dnevnik testiranja | 7 |
+| 7 | Izdanje i dokumentacija | `.app`, ZIP, PDF-ovi, PPTX, licence, AI evidencija | Provjera čistog izdanja | 6 |
+| | **Ukupno** | | | **60** |
+
+## 5. Trotjedni raspored
+
+### Ganttov prikaz
+
+| Aktivnost | 18.–21. 6. | 22.–24. 6. | 25.–28. 6. | 29. 6.–1. 7. | 2.–5. 7. | 6.–8. 7. |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Odobrenje, plan i repozitorij | ███ | █ | | | | |
+| Mode7 prikaz i kamera | ███ | ███ | | | | |
+| Test performansi i rana aplikacija | | ███ | | | | |
+| Borbeni sustavi | | | ███ | █ | | |
+| Protivnici, valovi i šef | | | ███ | ███ | | |
+| Sučelje, zvuk i efekti | | | █ | ███ | █ | |
+| Zamrzavanje funkcionalnosti i testovi | | | | | ███ | █ |
+| Dokumentacija i prezentacija | █ | | | █ | ███ | ███ |
+| Provjera izdanja | | | | | | ███ |
+
+### Ključne točke
+
+- **24. lipnja — tehnički prag:** Mode7 stabilno radi na ≥55 FPS i postoji rana zapakirana aplikacija.
+- **1. srpnja — vertikalni presjek:** moguć je cijeli tok od izbornika do pobjede.
+- **2. srpnja — zamrzavanje funkcionalnosti:** nastavljaju se samo popravci, balans, dokumentacija i izdanje.
+- **8. srpnja — kandidat za izdanje:** dovršeni su izvorni kod, ZIP, PDF-ovi, prezentacija i dokazi.
+
+## 6. Uloge i odgovornosti
+
+Projekt je individualan. Robert Domgjonaj obavlja uloge voditelja projekta, programera, dizajnera igre, vizualnog dizajnera, integratora zvuka, testera i autora dokumentacije. Voditelj čuva opseg i raspored; programer izrađuje prikaz, mehanike i pakiranje; dizajner određuje petlju i balans; tester vodi automatizirane i ručne provjere; autor dokumentacije održava sve isporuke i licence.
+
+## 7. Strategija kvalitete i testiranja
+
+Svaka promjena mora proći `ruff check .` i `pytest`. Test Mode7 performansi obvezni je prag izdanja. Automatizirani testovi provjeravaju konačne i omotane projekcije, determinističke sudare, vrijeme hlađenja i štetu oružja, redoslijed valova, potpunost popisa resursa i osnovni tok aplikacije. Ručno se provjeravaju cijela igra, zapakirana aplikacija, kontrole, povratne informacije, sav sadržaj, pet cjelovitih igranja i pokretanje iz čistog ZIP-a.
+
+## 8. Registar rizika
+
+| Rizik | Vjerojatnost | Utjecaj | Mjera ublažavanja |
+|---|---|---|---|
+| Mode7 je prespor | Srednja | Visok | NumPy vektorizacija, 640×360, predizračuni i prag u prvom tjednu |
+| Širenje opsega | Srednja | Visok | Fiksna ograničenja jedne razine, tri oružja, tri protivnika i jednog šefa |
+| Kasna izrada šefa | Srednja | Srednji | Prvo ponašanje uz proceduralnu grafiku, zatim dorada |
+| Neuspjelo pakiranje | Srednja | Visok | Rana izrada u prvom tjednu i ponavljanje nakon zamrzavanja |
+| Kašnjenje resursa ili licenci | Niska | Srednji | Generirani resursi; odbacivanje svega bez jasne licence |
+| Premalo vremena za testiranje | Srednja | Visok | Zamrzavanje 2. srpnja i sedam rezerviranih sati |
+| Neusklađena uporaba AI-ja | Niska | Visok | FOI razina 4, evidencija, provjera i zabrana povjerljivih podataka |
+| Nema odobrenja nastavnika | Srednja | Visok | Odmah zatražiti odobrenje; ne objavljivati prije potvrde |
+
+## 9. Izvještavanje o napretku
+
+Napredak se tjedno zapisuje u dnevnik promjena. Izvještaj navodi završene radne pakete, planirane i stvarne sate, rezultate testova i performansi, aktivne rizike, odluke te plan za sljedećih sedam dana. Git povijest služi kao evidencija promjena, a kontrolni popis i bilješke testiranja kao dokaz prihvata.
+
+## 10. Ograničenja, proračun i promjene
+
+Novčani proračun iznosi 0 €. Koriste se alati otvorenog koda i vlastiti generirani resursi. Izvođenje ne ovisi o internetu. Svaka promjena opsega mora navesti trošak u satima i ukloniti barem jednako velik postojeći zahtjev. Nakon 2. srpnja nisu dopuštene nove funkcionalnosti. Objava na itch.io i službena predaja slijede tek nakon potrebnog odobrenja.
