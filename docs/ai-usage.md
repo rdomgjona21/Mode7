@@ -42,3 +42,12 @@
 - **Utjecaj:** dodane su matrice koordinata za buduće uzorkovanje Mode7 teksture; vizualni
   prikaz i gameplay nisu dodani.
 - **Provjera:** Ruff, Pytest te testovi oblika, konačnosti, rotacije i omatanja projekcije.
+
+## 19. lipnja 2026. — proceduralna tekstura terena
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** implementacija determinističkog NumPy generatora industrijske teksture,
+  validacije ulaza, testova i obrazovnih objašnjenja.
+- **Utjecaj:** dodana je tekstura koja se stvara u memoriji bez vanjskih resursa; još nije
+  povezana s vizualnim rendererom.
+- **Provjera:** Ruff, Pytest te testovi oblika, tipa, raspona, seeda i raznolikosti boja.

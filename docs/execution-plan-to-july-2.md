@@ -10,6 +10,7 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
 ## Evidencija napretka
 
 - **19.6.:** Mode7 projekcijska matematika i testovi dovršeni su prije planiranog datuma.
+- **19.6.:** proceduralni generator teksture terena dovršen je kao priprema za renderer.
 - **Odobrenje nastavnika:** čeka potvrdu korisnika.
 
 ## Dnevni raspored

@@ -14,6 +14,7 @@ Projekt se nalazi na početku tehničke implementacije. Dovršeni su:
 - osnovni PyGame prozor, glavna petlja i skaliranje interne slike;
 - kamera s upravljanjem, brzinom i omatanjem svijeta;
 - vektorizirana Mode7 projekcijska matematika;
+- proceduralni NumPy generator teksture terena;
 - početni automatizirani testovi i validacijska skripta.
 
 Gameplay, vizualni Mode7 prikaz, protivnici, zvuk, testovi igre, prezentacija i distribucijski paket još nisu implementirani.
@@ -29,7 +30,7 @@ python -m pip install -e '.[dev]'
 python -m aetherfront
 ```
 
-Posljednja naredba otvara tehnički prototip kamere. `A/D` ili strelice lijevo/desno mijenjaju smjer, a `W/S` ili strelice gore/dolje mijenjaju brzinu. Trenutačne vrijednosti prikazane su u prozoru; Mode7 i gameplay još nisu implementirani.
+Posljednja naredba otvara tehnički prototip kamere. `A/D` ili strelice lijevo/desno mijenjaju smjer, a `W/S` ili strelice gore/dolje mijenjaju brzinu. Projekcijska matematika i generator terena postoje, ali još nisu povezani s prozorom; vizualni Mode7 i gameplay nisu implementirani.
 
 Provjera koda i testova pokreće se naredbom:
 

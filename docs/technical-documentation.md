@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 0.3
+**Verzija:** 0.4
 
 **Datum:** 19. lipnja 2026.
 
-**Status:** aplikacijska osnova, kamera i Mode7 projekcijska matematika
+**Status:** aplikacijska osnova, kamera, Mode7 projekcija i generator terena
 
 ## Arhitektura
 
@@ -32,6 +32,17 @@ Operator modulo omata obje koordinate unutar svijeta veličine 2.048 jedinica.
 Rezultat `ProjectionGrid` sadrži `screen_rows`, `world_x` i `world_y`. Matrice koordinata
 imaju oblik 224×640 i spremne su za buduće NumPy uzorkovanje teksture. U izračunu nema
 Python petlje po pikselima. Vizualni renderer još nije povezan s glavnom petljom.
+
+## Proceduralna tekstura terena
+
+`generate_terrain_texture(size=512, seed=7)` vraća kontinuiranu NumPy RGB matricu tipa
+`uint8`. Periodične sinusne funkcije stvaraju olujno-plave zone, pragovi izdvajaju svjetlije
+oblake i tamnije industrijske površine, a modularna mreža dodaje mjedene navigacijske
+linije. Isti seed uvijek daje jednak rezultat, što olakšava ponovljive testove.
+
+Tekstura se generira u memoriji tijekom pokretanja i ne koristi vanjske slike, autore ni
+licence. Zbog toga u ovom koraku nije dodan novi asset zapis. Vizualni renderer još ne
+uzorkuje teksturu; to je sljedeća zasebna cjelina.
 
 ## Kamera i vrijeme
 
