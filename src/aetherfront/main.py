@@ -1,16 +1,11 @@
-"""Development-environment verification entry point."""
+"""Application entry point."""
 
-import numpy
-import pygame
+from aetherfront.core.game import Game
 
 
 def main() -> int:
-    """Report configured dependencies without starting gameplay."""
-    print("Aetherfront development environment is configured.")
-    print(f"PyGame {pygame.version.ver}")
-    print(f"NumPy {numpy.__version__}")
-    print("Gameplay has not been implemented yet.")
-    return 0
+    """Start the technical prototype."""
+    return Game().run()
 
 
 if __name__ == "__main__":
