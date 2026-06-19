@@ -3,7 +3,7 @@
 **Verzija:** 1.0  
 **Autor:** Robert Domgjonaj  
 **Datum:** 18. lipnja 2026.  
-**Status:** početni nacrt; aplikacijska osnova i kamera implementirane
+**Status:** početni nacrt; aplikacijska osnova, kamera i Mode7 projekcija implementirane
 
 ## Sadržaj
 
@@ -121,7 +121,7 @@ Planirana arhitektura koristi Python 3.12 i PyGame petlju sa stanjima. Budući `
 
 Brodovi, efekti, popravci i projektili projicirat će se iz svijeta na zaslon, sortirati po dubini i zatim crtati. Sudari će koristiti determinističke kružnice i najkraću udaljenost unutar svijeta opsega 2.048 jedinica. Planirani `WaveDirector` čitat će `data/waves.json`, a `data/balance.json` bilježit će vrijednosti balansa. Podrijetlo budućih resursa vodit će se u `assets/manifest.csv`.
 
-Trenutačna naredba `python -m aetherfront` pokreće osnovni PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja, sigurno gašenje i kamera s upravljanjem, brzinom i omatanjem svijeta su implementirani, dok Mode7 prikaz i gameplay još nisu. Ruff i Pytest već su konfigurirani, a PyInstaller će se koristiti za kasniju izradu `.app` aplikacije i ZIP-a.
+Trenutačna naredba `python -m aetherfront` pokreće osnovni PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja, kamera i vektorizirana Mode7 projekcijska matematika su implementirane. Projekcija stvara omotane matrice koordinata svijeta, dok vizualno uzorkovanje terena i gameplay još nisu implementirani. Ruff i Pytest već su konfigurirani, a PyInstaller će se koristiti za kasniju izradu `.app` aplikacije i ZIP-a.
 
 ### Sistemski zahtjevi
 
@@ -147,7 +147,7 @@ Proceduralna ravnina neprekidno se omata, pa igrač ne može napustiti borbeni p
 
 ## 13. Razvoj, proračun i objava
 
-Razvoj traje od 18. lipnja do 8. srpnja 2026. i planiran je na 60 individualnih sati. Proračun iznosi 0 €. Itch.io izdanje bit će besplatno i na engleskom, s opisom, kontrolama, zahtjevima, snimkama zaslona, videom, licencama i napomenom da je riječ o akademskom projektu P5. Objava slijedi tek nakon odobrenja.
+Razvoj traje od 18. lipnja do 2. srpnja 2026. i procijenjen je na 66 individualnih sati. Proračun iznosi 0 €. Itch.io izdanje bit će besplatno i na engleskom, s opisom, kontrolama, zahtjevima, snimkama zaslona, videom, licencama i napomenom da je riječ o akademskom projektu P5. Objava slijedi tek nakon odobrenja.
 
 ## 14. Rizici, izvori, licence, AI i pojmovnik
 
@@ -178,3 +178,4 @@ Generativni AI trenutačno se koristi prema FOI razini 4 za planiranje, struktur
 | 0.2 | 19. 6. 2026. | Robert Domgjonaj | Početni GDD usklađen sa stanjem prije implementacije |
 | 0.3 | 19. 6. 2026. | Robert Domgjonaj | Evidentirana implementirana aplikacijska osnova |
 | 0.4 | 19. 6. 2026. | Robert Domgjonaj | Evidentirana upravljiva kamera i omatanje svijeta |
+| 0.5 | 19. 6. 2026. | Robert Domgjonaj | Evidentirana Mode7 projekcijska matematika i novi rok |

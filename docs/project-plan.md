@@ -1,12 +1,19 @@
 # Projektni plan — Aetherfront: Zeppelin Wars
 
-**Verzija:** 1.0  
-**Autor:** Robert Domgjonaj  
-**Oznaka projekta:** P5 — Mode7 / pucačina  
-**Planirano razdoblje:** 18. lipnja – 8. srpnja 2026.  
-**Opterećenje:** najmanje 20 sati tjedno; ukupno 60 sati  
-**Platforma:** macOS aplikacija za preuzimanje  
-**Tehnologije:** Python 3.12, PyGame, NumPy, PyInstaller  
+**Verzija:** 1.1
+
+**Autor:** Robert Domgjonaj
+
+**Oznaka projekta:** P5 — Mode7 / pucačina
+
+**Planirano razdoblje:** 18. lipnja – 2. srpnja 2026.
+
+**Opterećenje:** približno 28 sati tjedno; ukupno 66 sati
+
+**Platforma:** macOS aplikacija za preuzimanje
+
+**Tehnologije:** Python 3.12, PyGame, NumPy, PyInstaller
+
 **Žanr i tema:** steampunk pucačina; rat zračnih brodova iznad industrijskih nebeskih otoka
 
 > Administrativni uvjet: prije službene predaje ili objave potrebno je odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored.
@@ -45,37 +52,37 @@ Višeigrački način, proceduralno stvaranje razina, više razina, spremanje, mr
 
 | RP | Radni paket | Rezultat | Dokaz prihvata | Sati |
 |---|---|---|---|---:|
-| 1 | Planiranje i postavljanje | Repozitorij, okruženje, plan, početni GDD | Pokretanje izvornog koda | 6 |
+| 1 | Planiranje i postavljanje | Repozitorij, okruženje, plan, početni GDD | Pokretanje izvornog koda | 8 |
 | 2 | Prototip prikaza | Mode7, kamera, nebo, omatanje svijeta | Test ≥55 FPS | 12 |
 | 3 | Borbeni sustavi | Oružja, projektili, šteta, popravci, sudari | Automatizirani testovi | 10 |
 | 4 | Sadržaj i napredovanje | Tri vrste protivnika, tri vala, dvije faze šefa | Cjelovito igranje do pobjede | 12 |
-| 5 | Sučelje i dorada | HUD, izbornici, zvuk, čestice, povratne informacije | Popis funkcionalnosti | 7 |
-| 6 | Testiranje i balans | Pet igranja, popravci i balansiranje | Dnevnik testiranja | 7 |
-| 7 | Izdanje i dokumentacija | `.app`, ZIP, PDF-ovi, PPTX, licence, AI evidencija | Provjera čistog izdanja | 6 |
-| | **Ukupno** | | | **60** |
+| 5 | Sučelje i dorada | HUD, izbornici, zvuk, čestice, povratne informacije | Popis funkcionalnosti | 8 |
+| 6 | Testiranje i balans | Pet igranja, popravci i balansiranje | Dnevnik testiranja | 8 |
+| 7 | Izdanje i dokumentacija | `.app`, ZIP, PDF-ovi, PPTX, licence, AI evidencija | Provjera čistog izdanja | 8 |
+| | **Ukupno** | | | **66** |
 
 ## 5. Trotjedni raspored
 
 ### Ganttov prikaz
 
-| Aktivnost | 18.–21. 6. | 22.–24. 6. | 25.–28. 6. | 29. 6.–1. 7. | 2.–5. 7. | 6.–8. 7. |
+| Aktivnost | 18.–20. 6. | 21.–23. 6. | 24.–26. 6. | 27.–29. 6. | 30. 6.–1. 7. | 2. 7. |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
-| Odobrenje, plan i repozitorij | ███ | █ | | | | |
+| Odobrenje, plan i repozitorij | ███ | | | | | |
 | Mode7 prikaz i kamera | ███ | ███ | | | | |
 | Test performansi i rana aplikacija | | ███ | | | | |
-| Borbeni sustavi | | | ███ | █ | | |
-| Protivnici, valovi i šef | | | ███ | ███ | | |
-| Sučelje, zvuk i efekti | | | █ | ███ | █ | |
+| Borbeni sustavi | | | ███ | | | |
+| Protivnici, valovi i šef | | | █ | ███ | | |
+| Sučelje, zvuk i efekti | | | | ███ | | |
 | Zamrzavanje funkcionalnosti i testovi | | | | | ███ | █ |
-| Dokumentacija i prezentacija | █ | | | █ | ███ | ███ |
-| Provjera izdanja | | | | | | ███ |
+| Dokumentacija i prezentacija | █ | | █ | █ | ███ | █ |
+| Provjera izdanja | | | | | ███ | █ |
 
 ### Ključne točke
 
-- **24. lipnja — tehnički prag:** Mode7 stabilno radi na ≥55 FPS i postoji rana zapakirana aplikacija.
-- **1. srpnja — vertikalni presjek:** moguć je cijeli tok od izbornika do pobjede.
-- **2. srpnja — zamrzavanje funkcionalnosti:** nastavljaju se samo popravci, balans, dokumentacija i izdanje.
-- **8. srpnja — kandidat za izdanje:** dovršeni su izvorni kod, ZIP, PDF-ovi, prezentacija i dokazi.
+- **21. lipnja — tehnički prag:** Mode7 stabilno radi na ≥55 FPS.
+- **27. lipnja — igrivi borbeni tok:** moguće je odigrati cijelu borbu do pobjede nad šefom.
+- **29. lipnja — zamrzavanje funkcionalnosti:** nastavljaju se samo popravci, balans, dokumentacija i izdanje.
+- **2. srpnja — kandidat za izdanje:** dovršeni su izvorni kod, ZIP, PDF-ovi, prezentacija i dokazi.
 
 ## 6. Uloge i odgovornosti
 
@@ -94,7 +101,7 @@ Svaka promjena mora proći `ruff check .` i `pytest`. Test Mode7 performansi obv
 | Kasna izrada šefa | Srednja | Srednji | Prvo ponašanje uz proceduralnu grafiku, zatim dorada |
 | Neuspjelo pakiranje | Srednja | Visok | Rana izrada u prvom tjednu i ponavljanje nakon zamrzavanja |
 | Kašnjenje resursa ili licenci | Niska | Srednji | Generirani resursi; odbacivanje svega bez jasne licence |
-| Premalo vremena za testiranje | Srednja | Visok | Zamrzavanje 2. srpnja i sedam rezerviranih sati |
+| Premalo vremena za testiranje | Srednja | Visok | Zamrzavanje 29. lipnja i završna tri dana bez novih funkcionalnosti |
 | Neusklađena uporaba AI-ja | Niska | Visok | FOI razina 4, evidencija, provjera i zabrana povjerljivih podataka |
 | Nema odobrenja nastavnika | Srednja | Visok | Odmah zatražiti odobrenje; ne objavljivati prije potvrde |
 
@@ -104,4 +111,4 @@ Napredak se tjedno zapisuje u dnevnik promjena. Izvještaj navodi završene radn
 
 ## 10. Ograničenja, proračun i promjene
 
-Novčani proračun iznosi 0 €. Koriste se alati otvorenog koda i vlastiti generirani resursi. Izvođenje ne ovisi o internetu. Svaka promjena opsega mora navesti trošak u satima i ukloniti barem jednako velik postojeći zahtjev. Nakon 2. srpnja nisu dopuštene nove funkcionalnosti. Objava na itch.io i službena predaja slijede tek nakon potrebnog odobrenja.
+Novčani proračun iznosi 0 €. Koriste se alati otvorenog koda i vlastiti generirani resursi. Izvođenje ne ovisi o internetu. Svaka promjena opsega mora navesti trošak u satima i ukloniti barem jednako velik postojeći zahtjev. Nakon 29. lipnja nisu dopuštene nove funkcionalnosti. Objava na itch.io i službena predaja slijede tek nakon potrebnog odobrenja.

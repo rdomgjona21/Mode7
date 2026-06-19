@@ -33,7 +33,22 @@ Smjer se zapisuje u radijanima. `cos(smjer)` daje vodoravni, a `sin(smjer)` okom
 kretanja. Operator `% WORLD_SIZE` vraća položaj na suprotni rub kada prijeđe granicu
 svijeta. Funkcija `_clamp()` ograničava ulaze na -1 do 1 i brzinu na vrijednosti iz GDD-a.
 
-## 4. Glavna petlja
+## 4. Mode7 projekcijska matematika
+
+`Mode7Projection` ne crta sliku. Ona za svaki piksel tla odgovara na pitanje: „Koju
+koordinatu svijeta ovaj piksel predstavlja?” Retci neposredno ispod horizonta predstavljaju
+veliku udaljenost, a retci pri dnu zaslona predstavljaju prostor blizu kamere.
+
+Konstruktor unaprijed računa udaljenosti redaka i bočne otklone stupaca jer se te vrijednosti
+ne mijenjaju tijekom igre. Metoda `project(camera)` koristi `cos` i `sin` trenutnog smjera
+kamere za vektore naprijed i desno te proizvodi dvije NumPy matrice: `world_x` i `world_y`.
+
+Primjerice, središnji stupac nema bočni otklon. Ako je smjer kamere `0`, njegova vrijednost
+`world_y` ostaje jednaka položaju kamere, dok `world_x` pokazuje dalje ispred nje. Nakon
+rotacije za 90° isti stupac napreduje po osi `y`. Vizualni renderer će u sljedećem koraku
+koristiti te koordinate kao indekse proceduralne teksture.
+
+## 5. Glavna petlja
 
 `Game.run()` prvo provjerava testni argument `max_frames`, zatim inicijalizira PyGame.
 Blok `try/finally` jamči poziv `pygame.quit()` čak i ako se tijekom izvođenja dogodi
@@ -58,7 +73,7 @@ Petlja `while running` čini jedan frame u svakom prolazu:
 `max_frames` se koristi samo u testovima kako bi se petlja sama zaustavila. U normalnom
 pokretanju vrijednost je `None`, pa aplikacija radi dok korisnik ne zatvori prozor.
 
-## 5. Automatizirani testovi
+## 6. Automatizirani testovi
 
 `test_config.py` provjerava da ključne postavke imaju očekivane vrijednosti.
 `test_game.py` koristi SDL upravljačke programe `dummy`, zbog čega PyGame može izvesti
@@ -69,7 +84,10 @@ Drugi test šalje neispravnu vrijednost `max_frames=0` i očekuje `ValueError`. 
 kamere zasebno provjeravaju pomak, neovisnost o podjeli frameova, granice brzine,
 normalizaciju smjera, omatanje svijeta i odbijanje negativnog vremena.
 
-## 6. Validacija
+Testovi Mode7 projekcije provjeravaju oblike matrica, konačne vrijednosti, granice svijeta,
+središnji smjer, rotaciju za 90°, omatanje i odbijanje neispravnih postavki.
+
+## 7. Validacija
 
 `scripts/validate.sh` pokreće dvije provjere. Ruff provjerava stil, uvoze i česte Python
 pogreške. Pytest izvršava sve funkcije čiji naziv počinje s `test_`. Postavka

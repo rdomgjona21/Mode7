@@ -33,3 +33,12 @@
   materijala do 2. srpnja 2026.
 - **Utjecaj:** plan raspoređuje preostale funkcionalnosti, testiranje, dokumentaciju i
   izdanje na 13 dnevnih cjelina; ne mijenja ponašanje aplikacije.
+
+## 19. lipnja 2026. — Mode7 projekcijska matematika
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** implementacija vektoriziranog izračuna udaljenosti redaka, bočnih otklona,
+  transformacije prema kameri, omatanja svijeta i automatiziranih testova.
+- **Utjecaj:** dodane su matrice koordinata za buduće uzorkovanje Mode7 teksture; vizualni
+  prikaz i gameplay nisu dodani.
+- **Provjera:** Ruff, Pytest te testovi oblika, konačnosti, rotacije i omatanja projekcije.

@@ -10,4 +10,8 @@ def test_display_configuration() -> None:
     assert config.MIN_SPEED == 20.0
     assert config.MAX_SPEED == 92.0
     assert config.TURN_RATE == 1.65
+    assert config.HORIZON_Y == 135
+    assert config.CAMERA_HEIGHT == 50.0
+    assert config.HORIZONTAL_FOV_DEGREES == 60.0
+    assert config.MAX_VIEW_DISTANCE == 1400.0
     assert config.PROTOTYPE_LABEL == "Technical Prototype"

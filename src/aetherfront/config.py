@@ -14,6 +14,13 @@ MAX_SPEED = 92.0
 SPEED_CHANGE_RATE = 36.0
 TURN_RATE = 1.65
 
+# Mode7 projekcija počinje ispod horizonta i ograničava najudaljenije uzorke kako
+# bi se izbjeglo višestruko omatanje cijelog svijeta u prvih nekoliko redaka.
+HORIZON_Y = 135
+CAMERA_HEIGHT = 50.0
+HORIZONTAL_FOV_DEGREES = 60.0
+MAX_VIEW_DISTANCE = 1400.0
+
 # PyGame boje zapisuju se kao RGB trojke, gdje je svaka vrijednost od 0 do 255.
 BACKGROUND_COLOR = (24, 35, 51)
 TEXT_COLOR = (229, 215, 174)

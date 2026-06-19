@@ -5,8 +5,12 @@
 **Planirano preostalo opterećenje:** 56 sati
 
 Ovaj dokument čuva dogovoreni operativni raspored za potpuno završenu aplikaciju i sve
-materijale do 2. srpnja. On vremenski zamjenjuje stariji raspored do 8. srpnja iz
-`project-plan.md`; formalni projektni plan treba uskladiti 20. lipnja.
+materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19. lipnja.
+
+## Evidencija napretka
+
+- **19.6.:** Mode7 projekcijska matematika i testovi dovršeni su prije planiranog datuma.
+- **Odobrenje nastavnika:** čeka potvrdu korisnika.
 
 ## Dnevni raspored
 
