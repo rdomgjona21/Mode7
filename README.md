@@ -38,6 +38,7 @@ Provjera koda i testova pokreće se naredbom:
 
 ## Dokumentacija
 
+- [Aktivni operativni plan do 2. srpnja](docs/execution-plan-to-july-2.md)
 - [Projektni plan](docs/project-plan.md)
 - [Početni dokument dizajna igre](docs/gdd.md)
 - [Tehnička dokumentacija](docs/technical-documentation.md)

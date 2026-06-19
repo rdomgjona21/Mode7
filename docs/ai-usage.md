@@ -25,3 +25,11 @@
   dijagnostičkog prikaza, testova i prateće dokumentacije.
 - **Utjecaj:** dodana je tehnička osnova kretanja bez Mode7 prikaza i gameplaya.
 - **Provjera:** Ruff, Pytest, testovi matematike kamere i pokretanje stvarnog prozora.
+
+## 19. lipnja 2026. — operativni plan do 2. srpnja
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** izrada i trajno spremanje dnevnog rasporeda završetka aplikacije i svih
+  materijala do 2. srpnja 2026.
+- **Utjecaj:** plan raspoređuje preostale funkcionalnosti, testiranje, dokumentaciju i
+  izdanje na 13 dnevnih cjelina; ne mijenja ponašanje aplikacije.
