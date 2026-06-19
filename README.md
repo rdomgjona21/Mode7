@@ -40,6 +40,7 @@ Provjera koda i testova pokreće se naredbom:
 - [Projektni plan](docs/project-plan.md)
 - [Početni dokument dizajna igre](docs/gdd.md)
 - [Tehnička dokumentacija](docs/technical-documentation.md)
+- [Vodič kroz trenutačni kod](docs/code-walkthrough.md)
 - [Evidencija uporabe AI-ja](docs/ai-usage.md)
 
 Dokumentacija je na hrvatskom. Planirani tekst unutar igre i završna prezentacija bit će na engleskom.

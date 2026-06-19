@@ -9,3 +9,11 @@
   pokrenuti i razumjeti prije predaje.
 - **Provjera:** Ruff, Pytest, headless pokretanje jednog framea i ručno pokretanje prozora.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 19. lipnja 2026. — obrazovna objašnjenja koda
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** dodavanje hrvatskih komentara, docstringova i vodiča kroz postojeći kod.
+- **Utjecaj:** ponašanje aplikacije nije mijenjano; dodana su samo objašnjenja namijenjena
+  autorovu učenju i provjeri razumijevanja.
+- **Provjera:** Ruff i Pytest nakon dokumentacijskih izmjena.
