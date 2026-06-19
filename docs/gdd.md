@@ -3,7 +3,7 @@
 **Verzija:** 1.0  
 **Autor:** Robert Domgjonaj  
 **Datum:** 18. lipnja 2026.  
-**Status:** početni nacrt; aplikacijska osnova implementirana
+**Status:** početni nacrt; aplikacijska osnova i kamera implementirane
 
 ## Sadržaj
 
@@ -121,7 +121,7 @@ Planirana arhitektura koristi Python 3.12 i PyGame petlju sa stanjima. Budući `
 
 Brodovi, efekti, popravci i projektili projicirat će se iz svijeta na zaslon, sortirati po dubini i zatim crtati. Sudari će koristiti determinističke kružnice i najkraću udaljenost unutar svijeta opsega 2.048 jedinica. Planirani `WaveDirector` čitat će `data/waves.json`, a `data/balance.json` bilježit će vrijednosti balansa. Podrijetlo budućih resursa vodit će se u `assets/manifest.csv`.
 
-Trenutačna naredba `python -m aetherfront` pokreće osnovni PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja i sigurno gašenje su implementirani, dok kamera, Mode7 prikaz i gameplay još nisu. Ruff i Pytest već su konfigurirani, a PyInstaller će se koristiti za kasniju izradu `.app` aplikacije i ZIP-a.
+Trenutačna naredba `python -m aetherfront` pokreće osnovni PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja, sigurno gašenje i kamera s upravljanjem, brzinom i omatanjem svijeta su implementirani, dok Mode7 prikaz i gameplay još nisu. Ruff i Pytest već su konfigurirani, a PyInstaller će se koristiti za kasniju izradu `.app` aplikacije i ZIP-a.
 
 ### Sistemski zahtjevi
 
@@ -177,3 +177,4 @@ Generativni AI trenutačno se koristi prema FOI razini 4 za planiranje, struktur
 | 0.1 | 18. 6. 2026. | Robert Domgjonaj | Početni koncept P5 i zaključani opseg |
 | 0.2 | 19. 6. 2026. | Robert Domgjonaj | Početni GDD usklađen sa stanjem prije implementacije |
 | 0.3 | 19. 6. 2026. | Robert Domgjonaj | Evidentirana implementirana aplikacijska osnova |
+| 0.4 | 19. 6. 2026. | Robert Domgjonaj | Evidentirana upravljiva kamera i omatanje svijeta |

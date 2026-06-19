@@ -12,9 +12,10 @@ Projekt se nalazi na početku tehničke implementacije. Dovršeni su:
 - Python virtualno okruženje;
 - konfiguracija paketa Python 3.12, PyGame, NumPy, Ruff, Pytest i PyInstaller;
 - osnovni PyGame prozor, glavna petlja i skaliranje interne slike;
+- kamera s upravljanjem, brzinom i omatanjem svijeta;
 - početni automatizirani testovi i validacijska skripta.
 
-Kamera, gameplay, Mode7 prikaz, protivnici, zvuk, testovi igre, prezentacija i distribucijski paket još nisu implementirani.
+Gameplay, Mode7 prikaz, protivnici, zvuk, testovi igre, prezentacija i distribucijski paket još nisu implementirani.
 
 Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored još treba evidentirati prije nastavka razvoja.
 
@@ -27,7 +28,7 @@ python -m pip install -e '.[dev]'
 python -m aetherfront
 ```
 
-Posljednja naredba otvara prozor aplikacijske osnove. Trenutačno prikazuje statični tehnički prototip bez gameplaya.
+Posljednja naredba otvara tehnički prototip kamere. `A/D` ili strelice lijevo/desno mijenjaju smjer, a `W/S` ili strelice gore/dolje mijenjaju brzinu. Trenutačne vrijednosti prikazane su u prozoru; Mode7 i gameplay još nisu implementirani.
 
 Provjera koda i testova pokreće se naredbom:
 

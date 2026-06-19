@@ -7,7 +7,15 @@ INTERNAL_SIZE = (640, 360)
 WINDOW_SIZE = (1280, 720)
 TARGET_FPS = 60
 
+# Kamera se ne može zaustaviti: promjena brzine ostaje unutar GDD granica 20-92.
+WORLD_SIZE = 2048.0
+MIN_SPEED = 20.0
+MAX_SPEED = 92.0
+SPEED_CHANGE_RATE = 36.0
+TURN_RATE = 1.65
+
 # PyGame boje zapisuju se kao RGB trojke, gdje je svaka vrijednost od 0 do 255.
 BACKGROUND_COLOR = (24, 35, 51)
 TEXT_COLOR = (229, 215, 174)
 PROTOTYPE_LABEL = "Technical Prototype"
+CONTROLS_LABEL = "Steer: A/D or Arrow Keys | Throttle: W/S or Arrow Keys"

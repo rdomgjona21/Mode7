@@ -17,3 +17,11 @@
 - **Utjecaj:** ponašanje aplikacije nije mijenjano; dodana su samo objašnjenja namijenjena
   autorovu učenju i provjeri razumijevanja.
 - **Provjera:** Ruff i Pytest nakon dokumentacijskih izmjena.
+
+## 19. lipnja 2026. — upravljiva kamera
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** implementacija modela kamere, vremenski neovisnog kretanja, obrade tipki,
+  dijagnostičkog prikaza, testova i prateće dokumentacije.
+- **Utjecaj:** dodana je tehnička osnova kretanja bez Mode7 prikaza i gameplaya.
+- **Provjera:** Ruff, Pytest, testovi matematike kamere i pokretanje stvarnog prozora.
