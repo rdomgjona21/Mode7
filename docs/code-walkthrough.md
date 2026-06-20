@@ -1,7 +1,7 @@
 # Vodič kroz trenutačni kod
 
-Ovaj dokument objašnjava aplikacijsku osnovu prije uvođenja kamere, Mode7 prikaza i
-gameplaya. Najlakše ju je razumjeti praćenjem redoslijeda kojim Python izvodi kod.
+Ovaj dokument objašnjava aplikacijsku osnovu, kameru i vizualni Mode7 prototip prije
+uvođenja gameplaya. Najlakše ih je razumjeti praćenjem redoslijeda kojim Python izvodi kod.
 
 ## 1. Pokretanje paketa
 
@@ -45,8 +45,8 @@ kamere za vektore naprijed i desno te proizvodi dvije NumPy matrice: `world_x` i
 
 Primjerice, središnji stupac nema bočni otklon. Ako je smjer kamere `0`, njegova vrijednost
 `world_y` ostaje jednaka položaju kamere, dok `world_x` pokazuje dalje ispred nje. Nakon
-rotacije za 90° isti stupac napreduje po osi `y`. Vizualni renderer će u sljedećem koraku
-koristiti te koordinate kao indekse proceduralne teksture.
+rotacije za 90° isti stupac napreduje po osi `y`. Vizualni renderer koristi te koordinate
+kao indekse proceduralne teksture.
 
 ## 5. Proceduralna tekstura terena
 
@@ -60,7 +60,19 @@ zone i mjedene linije. Svaka maska istodobno mijenja mnogo piksela; ne postoji P
 petlja koja obrađuje jedan piksel po prolazu. Rezultat je matrica `uint8` istog formata
 koji očekuje slikovni prikaz.
 
-## 6. Glavna petlja
+## 6. Vizualni Mode7 renderer
+
+`Mode7Renderer.sample_ground()` množi koordinate svijeta omjerom veličine teksture i
+svijeta. Tako nastaju indeksi piksela teksture. NumPy zatim jednom operacijom bira boju
+za svaki piksel tla. Operator modulo zadržava indekse unutar teksture čak i pri prelasku
+granice svijeta.
+
+Metoda `draw()` prenosi unaprijed izračunatu gradaciju neba i uzorkovano tlo na PyGame
+površinu. `np.swapaxes()` je potreban jer NumPy slike u ovom projektu koriste redoslijed
+visina–širina, dok PyGameov `surfarray` očekuje širina–visina. Jedina obična linija koju
+PyGame crta jest mjedeni horizont; ne postoji Python petlja po pikselima.
+
+## 7. Glavna petlja
 
 `Game.run()` prvo provjerava testni argument `max_frames`, zatim inicijalizira PyGame.
 Blok `try/finally` jamči poziv `pygame.quit()` čak i ako se tijekom izvođenja dogodi
@@ -75,9 +87,9 @@ Petlja `while running` čini jedan frame u svakom prolazu:
 
 1. čita događaje operacijskog sustava;
 2. prekida rad nakon događaja `QUIT`;
-3. briše prethodni frame bojom pozadine;
-4. pretvara pritisnute tipke u osi rotacije i gasa;
-5. ažurira kameru pomoću `dt`;
+3. pretvara pritisnute tipke u osi rotacije i gasa;
+4. ažurira kameru pomoću `dt`;
+5. crta Mode7 nebo, horizont i teren;
 6. crta tekst i dijagnostičke vrijednosti na internu površinu;
 7. povećava internu površinu na prozor;
 8. prikazuje dovršenu sliku pozivom `pygame.display.flip()`.
@@ -85,7 +97,7 @@ Petlja `while running` čini jedan frame u svakom prolazu:
 `max_frames` se koristi samo u testovima kako bi se petlja sama zaustavila. U normalnom
 pokretanju vrijednost je `None`, pa aplikacija radi dok korisnik ne zatvori prozor.
 
-## 7. Automatizirani testovi
+## 8. Automatizirani testovi
 
 `test_config.py` provjerava da ključne postavke imaju očekivane vrijednosti.
 `test_game.py` koristi SDL upravljačke programe `dummy`, zbog čega PyGame može izvesti
@@ -102,11 +114,18 @@ središnji smjer, rotaciju za 90°, omatanje i odbijanje neispravnih postavki.
 Testovi generatora terena provjeravaju oblik, RGB raspon, determinističnost, promjenu
 seeda, broj različitih boja i odbijanje neispravnih argumenata.
 
-## 8. Validacija
+Testovi renderera provjeravaju oblik uzorkovanog tla, promjenu slike pri kretanju kamere,
+popunjavanje neba, horizonta i tla te odbijanje pogrešnog formata teksture ili površine.
+
+## 9. Validacija
 
 `scripts/validate.sh` pokreće dvije provjere. Ruff provjerava stil, uvoze i česte Python
 pogreške. Pytest izvršava sve funkcije čiji naziv počinje s `test_`. Postavka
 `set -euo pipefail` zaustavlja skriptu čim neka provjera ne uspije.
+
+`scripts/benchmark_mode7.py` tijekom zadanog vremena neprekidno pomiče kameru i crta
+Mode7 frameove bez ograničenja prozora. Izlazni kod je različit od nule ako prosjek padne
+ispod zadanog praga, primjerice 55 FPS-a.
 
 Za učenje je korisno privremeno promijeniti jednu konstantu ili očekivanje u testu,
 pokrenuti `./scripts/validate.sh`, pročitati pogrešku i zatim vratiti promjenu.

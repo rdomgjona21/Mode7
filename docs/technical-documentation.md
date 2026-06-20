@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 0.4
+**Verzija:** 0.5
 
-**Datum:** 19. lipnja 2026.
+**Datum:** 20. lipnja 2026.
 
-**Status:** aplikacijska osnova, kamera, Mode7 projekcija i generator terena
+**Status:** vizualni Mode7 tehnički prototip
 
 ## Arhitektura
 
@@ -13,9 +13,9 @@ stvara objekt `Game`, koji upravlja inicijalizacijom PyGamea, prozorom, glavnom 
 crtanjem i sigurnim gašenjem.
 
 Prikaz se crta na internu površinu veličine 640×360 i skalira na prozor veličine
-1280×720. Petlja je ograničena na 60 slika u sekundi. Trenutačna verzija prikazuje samo
-tehnički prototip s dijagnostičkim prikazom kamere; Mode7 prikaz i gameplay još nisu
-implementirani.
+1280×720. Petlja je ograničena na 60 slika u sekundi. Trenutačna verzija prikazuje
+vizualni Mode7 prototip s dijagnostičkim podacima kamere i FPS-om; gameplay još nije
+implementiran.
 
 ## Mode7 projekcija
 
@@ -30,8 +30,8 @@ a vektori kamere naprijed i desno pretvaraju udaljenost i otklon u koordinate sv
 Operator modulo omata obje koordinate unutar svijeta veličine 2.048 jedinica.
 
 Rezultat `ProjectionGrid` sadrži `screen_rows`, `world_x` i `world_y`. Matrice koordinata
-imaju oblik 224×640 i spremne su za buduće NumPy uzorkovanje teksture. U izračunu nema
-Python petlje po pikselima. Vizualni renderer još nije povezan s glavnom petljom.
+imaju oblik 224×640 i koristi ih `Mode7Renderer` za NumPy uzorkovanje teksture. U
+izračunu nema Python petlje po pikselima.
 
 ## Proceduralna tekstura terena
 
@@ -41,8 +41,22 @@ oblake i tamnije industrijske površine, a modularna mreža dodaje mjedene navig
 linije. Isti seed uvijek daje jednak rezultat, što olakšava ponovljive testove.
 
 Tekstura se generira u memoriji tijekom pokretanja i ne koristi vanjske slike, autore ni
-licence. Zbog toga u ovom koraku nije dodan novi asset zapis. Vizualni renderer još ne
-uzorkuje teksturu; to je sljedeća zasebna cjelina.
+licence. Zbog toga nije potreban novi zapis u registru vanjskih resursa.
+
+## Vizualni renderer
+
+`Mode7Renderer` pretvara omotane koordinate svijeta u indekse proceduralne teksture.
+Napredno NumPy indeksiranje uzorkuje sva 143.360 piksela tla odjednom, a
+`pygame.surfarray.blit_array()` prenosi rezultat na internu površinu. Iznad tla crta se
+unaprijed izračunata olujno-plava gradacija, a mjedena linija odvaja horizont.
+
+Metoda `sample_ground()` odvojena je od crtanja kako bi se rezultat uzorkovanja mogao
+automatizirano provjeriti. `draw()` prihvaća samo internu površinu 640×360, čime se
+sprječava tiho rastezanje ili rezanje projekcije.
+
+Na ciljanom M1 MacBook Airu izolirani 60-sekundni benchmark 20. lipnja 2026. izmjerio je
+159,3 FPS-a, čime je tehnički prag od najmanje 55 FPS-a ostvaren za trenutačni renderer.
+Mjerenje će se ponoviti pri najvećem planiranom borbenom opterećenju.
 
 ## Kamera i vrijeme
 
@@ -59,6 +73,7 @@ Kretanje koristi `dt`, zbog čega prijeđena udaljenost ne ovisi o broju frameov
 source .venv/bin/activate
 python -m aetherfront
 ./scripts/validate.sh
+python scripts/benchmark_mode7.py --duration 60 --minimum 55
 ```
 
 Neobvezni argument `Game.run(max_frames=...)` postoji samo za ograničeno izvođenje u
@@ -66,5 +81,5 @@ automatiziranim testovima. U normalnom pokretanju aplikacija radi do zatvaranja 
 
 ## Sljedeći tehnički korak
 
-Sljedeća zasebna cjelina je proceduralna tekstura i vizualno NumPy uzorkovanje pomoću
-izračunatih koordinata, uz 60-sekundnu provjeru cilja od najmanje 55 FPS.
+Sljedeća zasebna cjelina je projekcija 2D objekata, dubinsko sortiranje, proceduralni
+prikaz broda Kestrel i rana PyInstaller provjera macOS aplikacije.

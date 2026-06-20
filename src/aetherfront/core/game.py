@@ -15,6 +15,7 @@ from aetherfront.config import (
     WINDOW_TITLE,
 )
 from aetherfront.rendering.camera import Camera
+from aetherfront.rendering.renderer import Mode7Renderer
 
 
 class Game:
@@ -26,20 +27,29 @@ class Game:
         return float(positive) - float(negative)
 
     @staticmethod
-    def _draw_scene(canvas: pygame.Surface, font: pygame.font.Font, camera: Camera) -> None:
-        """Nacrtaj privremeni tekstualni prikaz stanja kamere."""
-        canvas.fill(BACKGROUND_COLOR)
+    def _draw_scene(
+        canvas: pygame.Surface,
+        font: pygame.font.Font,
+        camera: Camera,
+        renderer: Mode7Renderer,
+        fps: float,
+    ) -> None:
+        """Nacrtaj Mode7 ravninu i dijagnostičko stanje kamere."""
+        renderer.draw(canvas, camera)
         lines = (
             PROTOTYPE_LABEL,
             CONTROLS_LABEL,
             f"Position: {camera.x:07.2f}, {camera.y:07.2f}",
             f"Speed: {camera.speed:05.2f}",
             f"Heading: {math.degrees(camera.heading):06.2f} degrees",
+            f"FPS: {fps:05.1f}",
         )
 
         for index, text in enumerate(lines):
+            shadow = font.render(text, True, BACKGROUND_COLOR)
             label = font.render(text, True, TEXT_COLOR)
-            position = label.get_rect(center=(INTERNAL_SIZE[0] // 2, 105 + index * 35))
+            position = (13, 13 + index * 24)
+            canvas.blit(shadow, (position[0] + 1, position[1] + 1))
             canvas.blit(label, position)
 
     def run(self, max_frames: int | None = None) -> int:
@@ -63,6 +73,7 @@ class Game:
             clock = pygame.time.Clock()
             font = pygame.font.Font(None, 26)
             camera = Camera()
+            renderer = Mode7Renderer()
 
             running = True
             frame_count = 0
@@ -86,8 +97,8 @@ class Game:
                 )
                 camera.update(dt, turn, throttle)
 
-                # Statični prototip sada prikazuje mjerljive rezultate upravljanja kamerom.
-                self._draw_scene(canvas, font, camera)
+                # Mode7 renderer pretvara položaj i smjer kamere u perspektivnu ravninu.
+                self._draw_scene(canvas, font, camera, renderer, clock.get_fps())
 
                 # Interna slika povećava se na prozor, a flip prikazuje dovršeni frame.
                 pygame.transform.scale(canvas, WINDOW_SIZE, window)

@@ -51,3 +51,13 @@
 - **Utjecaj:** dodana je tekstura koja se stvara u memoriji bez vanjskih resursa; još nije
   povezana s vizualnim rendererom.
 - **Provjera:** Ruff, Pytest te testovi oblika, tipa, raspona, seeda i raznolikosti boja.
+
+## 20. lipnja 2026. — vizualni Mode7 renderer
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** povezivanje projekcijskih koordinata i proceduralne teksture, izrada neba,
+  horizonta, dijagnostičkog prikaza, benchmarka, testova i prateće dokumentacije.
+- **Utjecaj:** tehnički prototip sada vizualno prikazuje ravninu koja se pomiče i rotira s
+  kamerom; gameplay, igrač i drugi objekti nisu dodani.
+- **Provjera:** Ruff, Pytest, headless frame te kratko i 60-sekundno mjerenje renderera.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

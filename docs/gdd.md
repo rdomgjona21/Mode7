@@ -3,7 +3,7 @@
 **Verzija:** 1.0  
 **Autor:** Robert Domgjonaj  
 **Datum:** 18. lipnja 2026.  
-**Status:** početni nacrt; kamera, Mode7 projekcija i generator terena implementirani
+**Status:** početni nacrt; vizualni Mode7 tehnički prototip implementiran
 
 ## Sadržaj
 
@@ -121,7 +121,7 @@ Planirana arhitektura koristi Python 3.12 i PyGame petlju sa stanjima. Budući `
 
 Brodovi, efekti, popravci i projektili projicirat će se iz svijeta na zaslon, sortirati po dubini i zatim crtati. Sudari će koristiti determinističke kružnice i najkraću udaljenost unutar svijeta opsega 2.048 jedinica. Planirani `WaveDirector` čitat će `data/waves.json`, a `data/balance.json` bilježit će vrijednosti balansa. Podrijetlo budućih resursa vodit će se u `assets/manifest.csv`.
 
-Trenutačna naredba `python -m aetherfront` pokreće osnovni PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja, kamera, vektorizirana Mode7 projekcijska matematika i deterministički generator terena su implementirani. Projekcija stvara omotane matrice koordinata svijeta, a generator stvara RGB teksturu u memoriji. Njihovo vizualno povezivanje i gameplay još nisu implementirani. Ruff i Pytest već su konfigurirani, a PyInstaller će se koristiti za kasniju izradu `.app` aplikacije i ZIP-a.
+Trenutačna naredba `python -m aetherfront` pokreće PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja, kamera, vektorizirana Mode7 projekcija, deterministički generator terena i vizualno NumPy uzorkovanje su implementirani. Renderer crta gradaciju neba, horizont i omotanu ravninu koja reagira na položaj i smjer kamere. Gameplay i 2D objekti još nisu implementirani. Ruff i Pytest već su konfigurirani, a PyInstaller će se koristiti za kasniju izradu `.app` aplikacije i ZIP-a.
 
 ### Sistemski zahtjevi
 
@@ -180,3 +180,4 @@ Generativni AI trenutačno se koristi prema FOI razini 4 za planiranje, struktur
 | 0.4 | 19. 6. 2026. | Robert Domgjonaj | Evidentirana upravljiva kamera i omatanje svijeta |
 | 0.5 | 19. 6. 2026. | Robert Domgjonaj | Evidentirana Mode7 projekcijska matematika i novi rok |
 | 0.6 | 19. 6. 2026. | Robert Domgjonaj | Evidentiran proceduralni generator teksture terena |
+| 0.7 | 20. 6. 2026. | Robert Domgjonaj | Evidentiran vizualni Mode7 renderer i mjerenje performansi |

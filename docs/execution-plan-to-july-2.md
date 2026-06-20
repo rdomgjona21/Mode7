@@ -11,6 +11,8 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
 
 - **19.6.:** Mode7 projekcijska matematika i testovi dovršeni su prije planiranog datuma.
 - **19.6.:** proceduralni generator teksture terena dovršen je kao priprema za renderer.
+- **20.6.:** implementirani su vizualno NumPy uzorkovanje, nebo, horizont i benchmark
+  Mode7 renderera; 60-sekundno mjerenje ostvarilo je 159,3 FPS-a i prošlo prag od 55 FPS-a.
 - **Odobrenje nastavnika:** čeka potvrdu korisnika.
 
 ## Dnevni raspored

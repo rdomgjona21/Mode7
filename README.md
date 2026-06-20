@@ -15,9 +15,11 @@ Projekt se nalazi na početku tehničke implementacije. Dovršeni su:
 - kamera s upravljanjem, brzinom i omatanjem svijeta;
 - vektorizirana Mode7 projekcijska matematika;
 - proceduralni NumPy generator teksture terena;
+- vizualni Mode7 renderer s nebom, horizontom i vektoriziranim uzorkovanjem terena;
+- skripta za 60-sekundno mjerenje performansi renderera;
 - početni automatizirani testovi i validacijska skripta.
 
-Gameplay, vizualni Mode7 prikaz, protivnici, zvuk, testovi igre, prezentacija i distribucijski paket još nisu implementirani.
+Igrač, gameplay, protivnici, zvuk, testovi cijele igre, prezentacija i distribucijski paket još nisu implementirani.
 
 Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored još treba evidentirati prije nastavka razvoja.
 
@@ -30,12 +32,20 @@ python -m pip install -e '.[dev]'
 python -m aetherfront
 ```
 
-Posljednja naredba otvara tehnički prototip kamere. `A/D` ili strelice lijevo/desno mijenjaju smjer, a `W/S` ili strelice gore/dolje mijenjaju brzinu. Projekcijska matematika i generator terena postoje, ali još nisu povezani s prozorom; vizualni Mode7 i gameplay nisu implementirani.
+Posljednja naredba otvara vizualni Mode7 prototip. `A/D` ili strelice lijevo/desno
+mijenjaju smjer, a `W/S` ili strelice gore/dolje mijenjaju brzinu. Nebo, horizont i
+proceduralni teren reagiraju na kameru; gameplay još nije implementiran.
 
 Provjera koda i testova pokreće se naredbom:
 
 ```bash
 ./scripts/validate.sh
+```
+
+Izolirano 60-sekundno mjerenje Mode7 renderera pokreće se naredbom:
+
+```bash
+python scripts/benchmark_mode7.py --duration 60 --minimum 55
 ```
 
 ## Dokumentacija
