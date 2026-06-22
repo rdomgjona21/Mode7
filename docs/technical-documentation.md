@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 0.5
+**Verzija:** 0.6
 
-**Datum:** 20. lipnja 2026.
+**Datum:** 22. lipnja 2026.
 
-**Status:** vizualni Mode7 tehnički prototip
+**Status:** Mode7 prototip, igračev prikaz i rani macOS paket
 
 ## Arhitektura
 
@@ -58,6 +58,27 @@ Na ciljanom M1 MacBook Airu izolirani 60-sekundni benchmark 20. lipnja 2026. izm
 159,3 FPS-a, čime je tehnički prag od najmanje 55 FPS-a ostvaren za trenutačni renderer.
 Mjerenje će se ponoviti pri najvećem planiranom borbenom opterećenju.
 
+## Billboard projekcija
+
+`WorldBillboard` povezuje PyGame površinu s položajem i širinom u koordinatama svijeta.
+`BillboardProjector` najprije računa najkraći pomak kroz omotani svijet, a zatim ga
+rastavlja na dubinu ispred kamere i bočni odmak. Objekti iza kamere, izvan najveće
+udaljenosti ili potpuno izvan zaslona ne crtaju se.
+
+Vidljivi objekt dobiva `pygame.Rect` čija veličina pada s dubinom. Donji rub pravokutnika
+prati projekciju ravnine, pa objekt ostaje usidren u svijetu. `project_all()` sortira
+rezultate od najudaljenijeg prema najbližem kako bi bliži objekti pravilno prekrili
+udaljene. Sustav je pripremljen za buduće protivnike, projektile i popravke.
+
+## Proceduralni Kestrel
+
+`create_kestrel_surface()` crta transparentnu sliku 96×64 pomoću PyGame elipsi, poligona,
+linija i krugova. Brod koristi mjedenu, tamnoželjeznu i cijan paletu te oblikom razlikuje
+balon, trup, kabinu, peraje i pogon. Budući da kamera predstavlja položaj igrača u svijetu,
+Kestrel ostaje vezan uz zaslon, vodoravno centriran i s donjim rubom na retku 344.
+
+Prikaz je generiran kodom, pa nije dodan vanjski resurs ni zapis u licencne manifeste.
+
 ## Kamera i vrijeme
 
 `Camera` čuva položaj `(x, y)`, smjer u radijanima i brzinu. Svaki frame prima proteklo
@@ -74,12 +95,20 @@ source .venv/bin/activate
 python -m aetherfront
 ./scripts/validate.sh
 python scripts/benchmark_mode7.py --duration 60 --minimum 55
+./scripts/package.sh
+open dist/Aetherfront.app
 ```
 
 Neobvezni argument `Game.run(max_frames=...)` postoji samo za ograničeno izvođenje u
 automatiziranim testovima. U normalnom pokretanju aplikacija radi do zatvaranja prozora.
 
+`package.sh` prvo izvodi Ruff i Pytest, zatim gradi prozorsku aplikaciju s identifikatorom
+`hr.foi.aetherfront`. PyInstallerova konfiguracija i cache usmjereni su u ignoriranu mapu
+`tmp/`, a skripta završava pogreškom ako izvršna datoteka unutar `.app` paketa ne postoji.
+Rani ARM64 paket 22. lipnja uspješno je izgrađen, ostao aktivan u headless smoke testu i
+stvarno se otvorio i zatvorio u macOS-u.
+
 ## Sljedeći tehnički korak
 
-Sljedeća zasebna cjelina je projekcija 2D objekata, dubinsko sortiranje, proceduralni
-prikaz broda Kestrel i rana PyInstaller provjera macOS aplikacije.
+Sljedeća zasebna cjelina je osnova borbe: projektili, kružni sudari, šteta, zdravlje igrača,
+kratka neranjivost i početna konfiguracija vrijednosti u `balance.json`.

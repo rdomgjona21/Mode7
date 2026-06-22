@@ -61,3 +61,17 @@
   kamerom; gameplay, igrač i drugi objekti nisu dodani.
 - **Provjera:** Ruff, Pytest, headless frame te kratko i 60-sekundno mjerenje renderera.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 22. lipnja 2026. — billboardi, Kestrel i rani macOS paket
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** implementacija perspektivne projekcije 2D objekata, proceduralnog prikaza
+  igračeva broda, testova, PyInstaller skripte i prateće dokumentacije.
+- **Utjecaj:** Kestrel je prvi vidljivi brod, generički sustav priprema prikaz budućih
+  protivnika, a projekt se može izgraditi kao rana ARM64 macOS aplikacija.
+- **Provjera:** Ruff, 49 Pytest testova, višeframesko headless izvođenje, pregled
+  generiranog framea, PyInstaller build, provjera Mach-O datoteke i stvarno pokretanje i
+  zatvaranje `.app` aplikacije.
+- **Resursi:** brod je generiran kodom; nisu korištene vanjske slike ni zvukovi i zato
+  licencni manifesti nisu mijenjani.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

@@ -72,7 +72,22 @@ površinu. `np.swapaxes()` je potreban jer NumPy slike u ovom projektu koriste r
 visina–širina, dok PyGameov `surfarray` očekuje širina–visina. Jedina obična linija koju
 PyGame crta jest mjedeni horizont; ne postoji Python petlja po pikselima.
 
-## 7. Glavna petlja
+## 7. Billboardi i Kestrel
+
+`WorldBillboard` opisuje gdje se 2D slika nalazi u svijetu. Projektor najprije primjenjuje
+omatanje kako bi pronašao najkraći put između kamere i objekta. Skalarni produkt s
+vektorom kamere daje dubinu, a skalarni produkt s desnim vektorom daje bočni odmak.
+Negativna dubina znači da je objekt iza kamere.
+
+Žarišna duljina pretvara bočni odmak u položaj na zaslonu. Ista dubina određuje veličinu
+slike i položaj njezina donjeg ruba na ravnini. Nakon odbacivanja nevidljivih objekata
+rezultati se sortiraju od najudaljenijeg prema najbližem i tek tada skaliraju i crtaju.
+
+Kestrel nije svjetski billboard: kamera već predstavlja njegov položaj. Zato se njegova
+proceduralno nacrtana transparentna površina postavlja na stalno mjesto pri dnu zaslona,
+nakon terena i prije dijagnostičkog teksta.
+
+## 8. Glavna petlja
 
 `Game.run()` prvo provjerava testni argument `max_frames`, zatim inicijalizira PyGame.
 Blok `try/finally` jamči poziv `pygame.quit()` čak i ako se tijekom izvođenja dogodi
@@ -97,7 +112,7 @@ Petlja `while running` čini jedan frame u svakom prolazu:
 `max_frames` se koristi samo u testovima kako bi se petlja sama zaustavila. U normalnom
 pokretanju vrijednost je `None`, pa aplikacija radi dok korisnik ne zatvori prozor.
 
-## 8. Automatizirani testovi
+## 9. Automatizirani testovi
 
 `test_config.py` provjerava da ključne postavke imaju očekivane vrijednosti.
 `test_game.py` koristi SDL upravljačke programe `dummy`, zbog čega PyGame može izvesti
@@ -117,7 +132,11 @@ seeda, broj različitih boja i odbijanje neispravnih argumenata.
 Testovi renderera provjeravaju oblik uzorkovanog tla, promjenu slike pri kretanju kamere,
 popunjavanje neba, horizonta i tla te odbijanje pogrešnog formata teksture ili površine.
 
-## 9. Validacija
+Testovi billboardskog sustava provjeravaju omatanje, odbacivanje objekata iza kamere,
+skaliranje prema udaljenosti, rotaciju, dubinski redoslijed i crtanje. Testovi Kestrela
+provjeravaju dimenzije, transparentnu pozadinu i prisutnost više vidljivih boja.
+
+## 10. Validacija
 
 `scripts/validate.sh` pokreće dvije provjere. Ruff provjerava stil, uvoze i česte Python
 pogreške. Pytest izvršava sve funkcije čiji naziv počinje s `test_`. Postavka
@@ -126,6 +145,10 @@ pogreške. Pytest izvršava sve funkcije čiji naziv počinje s `test_`. Postavk
 `scripts/benchmark_mode7.py` tijekom zadanog vremena neprekidno pomiče kameru i crta
 Mode7 frameove bez ograničenja prozora. Izlazni kod je različit od nule ako prosjek padne
 ispod zadanog praga, primjerice 55 FPS-a.
+
+`scripts/package.sh` ponavlja validaciju i poziva PyInstaller za izradu ARM64 macOS
+aplikacije. Rezultat u `dist/` nije dio Git repozitorija; skripta na kraju izričito
+provjerava postoji li izvršna datoteka unutar paketa.
 
 Za učenje je korisno privremeno promijeniti jednu konstantu ili očekivanje u testu,
 pokrenuti `./scripts/validate.sh`, pročitati pogrešku i zatim vratiti promjenu.

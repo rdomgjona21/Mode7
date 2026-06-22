@@ -16,10 +16,14 @@ Projekt se nalazi na početku tehničke implementacije. Dovršeni su:
 - vektorizirana Mode7 projekcijska matematika;
 - proceduralni NumPy generator teksture terena;
 - vizualni Mode7 renderer s nebom, horizontom i vektoriziranim uzorkovanjem terena;
+- projekcija, skaliranje i dubinsko sortiranje budućih 2D objekata u svijetu;
+- proceduralni prikaz igračevog broda Kestrel;
 - skripta za 60-sekundno mjerenje performansi renderera;
+- skripta za izradu i provjeru macOS `.app` paketa;
 - početni automatizirani testovi i validacijska skripta.
 
-Igrač, gameplay, protivnici, zvuk, testovi cijele igre, prezentacija i distribucijski paket još nisu implementirani.
+Borba, protivnici, zvuk, testovi cijele igre, prezentacija i završni distribucijski ZIP
+još nisu implementirani.
 
 Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored još treba evidentirati prije nastavka razvoja.
 
@@ -34,7 +38,8 @@ python -m aetherfront
 
 Posljednja naredba otvara vizualni Mode7 prototip. `A/D` ili strelice lijevo/desno
 mijenjaju smjer, a `W/S` ili strelice gore/dolje mijenjaju brzinu. Nebo, horizont i
-proceduralni teren reagiraju na kameru; gameplay još nije implementiran.
+proceduralni teren reagiraju na kameru, a Kestrel je vidljiv pri dnu zaslona; borba još
+nije implementirana.
 
 Provjera koda i testova pokreće se naredbom:
 
@@ -46,6 +51,13 @@ Izolirano 60-sekundno mjerenje Mode7 renderera pokreće se naredbom:
 
 ```bash
 python scripts/benchmark_mode7.py --duration 60 --minimum 55
+```
+
+Rana macOS aplikacija izrađuje se u ignoriranoj mapi `dist/`:
+
+```bash
+./scripts/package.sh
+open dist/Aetherfront.app
 ```
 
 ## Dokumentacija

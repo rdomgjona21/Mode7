@@ -14,4 +14,7 @@ def test_display_configuration() -> None:
     assert config.CAMERA_HEIGHT == 50.0
     assert config.HORIZONTAL_FOV_DEGREES == 60.0
     assert config.MAX_VIEW_DISTANCE == 1400.0
+    assert config.PLAYER_SURFACE_SIZE == (96, 64)
+    assert config.PLAYER_SCREEN_CENTER_X == 320
+    assert config.PLAYER_SCREEN_BOTTOM == 344
     assert config.PROTOTYPE_LABEL == "Technical Prototype"

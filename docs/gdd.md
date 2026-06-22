@@ -3,7 +3,7 @@
 **Verzija:** 1.0  
 **Autor:** Robert Domgjonaj  
 **Datum:** 18. lipnja 2026.  
-**Status:** početni nacrt; vizualni Mode7 tehnički prototip implementiran
+**Status:** početni nacrt; Mode7 prototip i proceduralni Kestrel implementirani
 
 ## Sadržaj
 
@@ -117,11 +117,11 @@ Sav zvuk sintetizira se tijekom izvođenja pomoću NumPyja. Top, raketa, pogodak
 
 ## 10. Tehnička arhitektura
 
-Planirana arhitektura koristi Python 3.12 i PyGame petlju sa stanjima. Budući `Mode7Renderer` unaprijed će računati dubinu redaka i vodoravne koordinate, pretvarati ih u koordinate svijeta te NumPy poljima uzorkovati teksturu bez Python petlje po pikselima. Planirana interna slika je 640×360 uz povećanje na 1280×720.
+Arhitektura koristi Python 3.12 i PyGame petlju, a kasnije će dobiti zasebna aplikacijska stanja. `Mode7Renderer` koristi unaprijed izračunate dubine redaka i vodoravne koordinate, pretvara ih u koordinate svijeta te NumPy poljima uzorkuje teksturu bez Python petlje po pikselima. Interna slika je 640×360 i povećava se na 1280×720.
 
 Brodovi, efekti, popravci i projektili projicirat će se iz svijeta na zaslon, sortirati po dubini i zatim crtati. Sudari će koristiti determinističke kružnice i najkraću udaljenost unutar svijeta opsega 2.048 jedinica. Planirani `WaveDirector` čitat će `data/waves.json`, a `data/balance.json` bilježit će vrijednosti balansa. Podrijetlo budućih resursa vodit će se u `assets/manifest.csv`.
 
-Trenutačna naredba `python -m aetherfront` pokreće PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja, kamera, vektorizirana Mode7 projekcija, deterministički generator terena i vizualno NumPy uzorkovanje su implementirani. Renderer crta gradaciju neba, horizont i omotanu ravninu koja reagira na položaj i smjer kamere. Gameplay i 2D objekti još nisu implementirani. Ruff i Pytest već su konfigurirani, a PyInstaller će se koristiti za kasniju izradu `.app` aplikacije i ZIP-a.
+Trenutačna naredba `python -m aetherfront` pokreće PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja, kamera, vektorizirana Mode7 projekcija, deterministički generator terena i vizualno NumPy uzorkovanje su implementirani. Renderer crta gradaciju neba, horizont i omotanu ravninu koja reagira na položaj i smjer kamere. Proceduralni Kestrel prikazan je pri dnu zaslona. Generički billboard sustav projicira omotane položaje, odbacuje nevidljive objekte, skalira ih prema dubini i crta od udaljenih prema bliskima. Borba još nije implementirana. PyInstaller je uspješno izradio i pokrenuo rani ARM64 macOS `.app`; završni ZIP izradit će se nakon dovršetka igre.
 
 ### Sistemski zahtjevi
 
@@ -181,3 +181,4 @@ Generativni AI trenutačno se koristi prema FOI razini 4 za planiranje, struktur
 | 0.5 | 19. 6. 2026. | Robert Domgjonaj | Evidentirana Mode7 projekcijska matematika i novi rok |
 | 0.6 | 19. 6. 2026. | Robert Domgjonaj | Evidentiran proceduralni generator teksture terena |
 | 0.7 | 20. 6. 2026. | Robert Domgjonaj | Evidentiran vizualni Mode7 renderer i mjerenje performansi |
+| 0.8 | 22. 6. 2026. | Robert Domgjonaj | Evidentirani billboard sustav, Kestrel i rani macOS paket |

@@ -8,6 +8,8 @@ from aetherfront.config import (
     BACKGROUND_COLOR,
     CONTROLS_LABEL,
     INTERNAL_SIZE,
+    PLAYER_SCREEN_BOTTOM,
+    PLAYER_SCREEN_CENTER_X,
     PROTOTYPE_LABEL,
     TARGET_FPS,
     TEXT_COLOR,
@@ -16,6 +18,7 @@ from aetherfront.config import (
 )
 from aetherfront.rendering.camera import Camera
 from aetherfront.rendering.renderer import Mode7Renderer
+from aetherfront.rendering.ships import create_kestrel_surface
 
 
 class Game:
@@ -32,10 +35,16 @@ class Game:
         font: pygame.font.Font,
         camera: Camera,
         renderer: Mode7Renderer,
+        player_surface: pygame.Surface,
         fps: float,
     ) -> None:
         """Nacrtaj Mode7 ravninu i dijagnostičko stanje kamere."""
         renderer.draw(canvas, camera)
+        player_rect = player_surface.get_rect(
+            centerx=PLAYER_SCREEN_CENTER_X,
+            bottom=PLAYER_SCREEN_BOTTOM,
+        )
+        canvas.blit(player_surface, player_rect)
         lines = (
             PROTOTYPE_LABEL,
             CONTROLS_LABEL,
@@ -74,6 +83,7 @@ class Game:
             font = pygame.font.Font(None, 26)
             camera = Camera()
             renderer = Mode7Renderer()
+            player_surface = create_kestrel_surface()
 
             running = True
             frame_count = 0
@@ -98,7 +108,14 @@ class Game:
                 camera.update(dt, turn, throttle)
 
                 # Mode7 renderer pretvara položaj i smjer kamere u perspektivnu ravninu.
-                self._draw_scene(canvas, font, camera, renderer, clock.get_fps())
+                self._draw_scene(
+                    canvas,
+                    font,
+                    camera,
+                    renderer,
+                    player_surface,
+                    clock.get_fps(),
+                )
 
                 # Interna slika povećava se na prozor, a flip prikazuje dovršeni frame.
                 pygame.transform.scale(canvas, WINDOW_SIZE, window)
