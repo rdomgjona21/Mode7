@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 0.6
+**Verzija:** 0.7
 
 **Datum:** 22. lipnja 2026.
 
-**Status:** Mode7 prototip, igračev prikaz i rani macOS paket
+**Status:** Mode7 prototip, igračev prikaz, borbena osnova i rani macOS paket
 
 ## Arhitektura
 
@@ -79,6 +79,23 @@ Kestrel ostaje vezan uz zaslon, vodoravno centriran i s donjim rubom na retku 34
 
 Prikaz je generiran kodom, pa nije dodan vanjski resurs ni zapis u licencne manifeste.
 
+## Borbena osnova
+
+`data/balance.json` trenutačno određuje 100 bodova zdravlja igrača, radijus sudara 18,
+neranjivost od 0,75 sekundi te zadani radijus 4 i trajanje 3 sekunde za projektile.
+`load_combat_balance()` učitava podatke paketnim putem i odbija nedostajuće objekte,
+nebrojčane, beskonačne ili nepozitivne vrijednosti.
+
+`Projectile` čuva položaj, smjer, brzinu, štetu, tim, radijus i preostalo trajanje.
+Kretanje koristi `dt`, položaj se omata unutar svijeta, a istekli projektil prestaje biti
+aktivan. `CircleBody` i `circles_overlap()` provjeravaju dodir kružnica najkraćim putem
+preko granice svijeta.
+
+`PlayerCombatState` počinje punim zdravljem, ograničava ga na raspon od nule do maksimuma
+i nakon prihvaćene štete aktivira kratku neranjivost. Ponovljeni pogodak tijekom zaštite
+se odbija, a liječenje vraća samo zdravlje koje nedostaje. Ti modeli još nisu povezani s
+glavnom petljom, vidljivim projektilima ni HUD-om.
+
 ## Kamera i vrijeme
 
 `Camera` čuva položaj `(x, y)`, smjer u radijanima i brzinu. Svaki frame prima proteklo
@@ -104,11 +121,12 @@ automatiziranim testovima. U normalnom pokretanju aplikacija radi do zatvaranja 
 
 `package.sh` prvo izvodi Ruff i Pytest, zatim gradi prozorsku aplikaciju s identifikatorom
 `hr.foi.aetherfront`. PyInstallerova konfiguracija i cache usmjereni su u ignoriranu mapu
-`tmp/`, a skripta završava pogreškom ako izvršna datoteka unutar `.app` paketa ne postoji.
+`tmp/`, a skripta završava pogreškom ako izvršna datoteka ili paketni `balance.json`
+unutar `.app` paketa ne postoje.
 Rani ARM64 paket 22. lipnja uspješno je izgrađen, ostao aktivan u headless smoke testu i
 stvarno se otvorio i zatvorio u macOS-u.
 
 ## Sljedeći tehnički korak
 
-Sljedeća zasebna cjelina je osnova borbe: projektili, kružni sudari, šteta, zdravlje igrača,
-kratka neranjivost i početna konfiguracija vrijednosti u `balance.json`.
+Sljedeća zasebna cjelina povezuje borbenu osnovu s tri oružja, kontrolama paljbe, testnim
+ciljevima, popravcima i početnim HUD-om.

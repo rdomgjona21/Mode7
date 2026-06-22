@@ -15,6 +15,8 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
   Mode7 renderera; 60-sekundno mjerenje ostvarilo je 159,3 FPS-a i prošlo prag od 55 FPS-a.
 - **22.6.:** implementirani su projekcija i dubinsko sortiranje 2D objekata, proceduralni
   Kestrel te rani ARM64 `.app`; paket je izgrađen i uspješno pokrenut na macOS-u.
+- **22.6.:** prije rasporeda dovršena je testirana borbena osnova: projektili, omotani
+  kružni sudari, zdravlje, liječenje, neranjivost i paketna konfiguracija balansa.
 - **Odobrenje nastavnika:** čeka potvrdu korisnika.
 
 ## Dnevni raspored

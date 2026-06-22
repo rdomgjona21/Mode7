@@ -18,12 +18,14 @@ Projekt se nalazi na početku tehničke implementacije. Dovršeni su:
 - vizualni Mode7 renderer s nebom, horizontom i vektoriziranim uzorkovanjem terena;
 - projekcija, skaliranje i dubinsko sortiranje budućih 2D objekata u svijetu;
 - proceduralni prikaz igračevog broda Kestrel;
+- konfiguracijska i testirana osnova projektila, kružnih sudara, zdravlja i neranjivosti;
 - skripta za 60-sekundno mjerenje performansi renderera;
 - skripta za izradu i provjeru macOS `.app` paketa;
 - početni automatizirani testovi i validacijska skripta.
 
-Borba, protivnici, zvuk, testovi cijele igre, prezentacija i završni distribucijski ZIP
-još nisu implementirani.
+Pucanje, vidljivi pogoci, protivnici, zvuk, testovi cijele igre, prezentacija i završni
+distribucijski ZIP još nisu implementirani. Borbeni modeli trenutačno su odvojena tehnička
+osnova i još nisu povezani s glavnom petljom.
 
 Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored još treba evidentirati prije nastavka razvoja.
 

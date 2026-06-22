@@ -1,0 +1,11 @@
+{
+  "player": {
+    "max_health": 100,
+    "collision_radius": 18.0,
+    "invulnerability_seconds": 0.75
+  },
+  "projectile": {
+    "collision_radius": 4.0,
+    "lifetime_seconds": 3.0
+  }
+}

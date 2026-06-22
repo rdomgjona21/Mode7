@@ -75,3 +75,15 @@
 - **Resursi:** brod je generiran kodom; nisu korištene vanjske slike ni zvukovi i zato
   licencni manifesti nisu mijenjani.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 22. lipnja 2026. — osnova borbe i sudara
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** implementacija konfiguracije balansa, modela projektila, kružnih sudara,
+  zdravlja, liječenja, privremene neranjivosti, testova i dokumentacije.
+- **Utjecaj:** dodana je deterministička borbena jezgra koja još nije povezana s vidljivim
+  pucanjem, protivnicima ni glavnom aplikacijskom petljom.
+- **Provjera:** Ruff, 73 Pytest testa, 120-frame headless izvođenje, provjera prisutnosti
+  `balance.json` u paketu te trosekundni smoke test ARM64 aplikacije.
+- **Resursi:** nisu dodane slike, zvukovi ni drugi vanjski resursi.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
