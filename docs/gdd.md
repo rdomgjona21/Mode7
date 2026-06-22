@@ -147,11 +147,11 @@ Proceduralna ravnina neprekidno se omata, pa igrač ne može napustiti borbeni p
 
 ## 13. Razvoj, proračun i objava
 
-Razvoj traje od 18. lipnja do 2. srpnja 2026. i procijenjen je na 66 individualnih sati. Proračun iznosi 0 €. Itch.io izdanje bit će besplatno i na engleskom, s opisom, kontrolama, zahtjevima, snimkama zaslona, videom, licencama i napomenom da je riječ o akademskom projektu P5. Objava slijedi tek nakon odobrenja.
+Razvoj traje od 18. lipnja do 2. srpnja 2026. i procijenjen je na 66 individualnih sati. Proračun iznosi 0 €. Itch.io izdanje bit će besplatno i na engleskom, s opisom, kontrolama, zahtjevima, snimkama zaslona, videom, licencama i napomenom da je riječ o akademskom projektu P5. Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored zaprimljeno je 22. lipnja 2026.; objava slijedi nakon dovršetka aplikacije i završnih provjera.
 
 ## 14. Rizici, izvori, licence, AI i pojmovnik
 
-Glavni rizici su performanse prikaza, širenje opsega, pakiranje, kasna izrada šefa, vrijeme za testiranje, licence i odobrenje. Projektni plan određuje pragove i mjere. Resursi još nisu odabrani ni izrađeni; svaki budući resurs morat će biti evidentiran prije uporabe.
+Glavni aktivni rizici su performanse prikaza pod punim borbenim opterećenjem, širenje opsega, pakiranje, kasna izrada šefa, vrijeme za testiranje i licence. Administrativni rizik od izostanka odobrenja zatvoren je 22. lipnja 2026. Projektni plan određuje pragove i mjere. Resursi još nisu odabrani ni izrađeni; svaki budući resurs morat će biti evidentiran prije uporabe.
 
 Generativni AI trenutačno se koristi prema FOI razini 4 za planiranje, strukturu projekta i početnu dokumentaciju. Buduća uporaba za kod i testove bit će zasebno evidentirana. Autor je odgovoran za odabir, ispravke, testiranje, izvore, privatnost i konačnu predaju. Tajne i osobni podaci nisu uneseni.
 
@@ -183,3 +183,4 @@ Generativni AI trenutačno se koristi prema FOI razini 4 za planiranje, struktur
 | 0.7 | 20. 6. 2026. | Robert Domgjonaj | Evidentiran vizualni Mode7 renderer i mjerenje performansi |
 | 0.8 | 22. 6. 2026. | Robert Domgjonaj | Evidentirani billboard sustav, Kestrel i rani macOS paket |
 | 0.9 | 22. 6. 2026. | Robert Domgjonaj | Evidentirani projektili, sudari, zdravlje i konfiguracija balansa |
+| 1.0 | 22. 6. 2026. | Robert Domgjonaj | Evidentirano odobrenje teme P5 i izmijenjenog rasporeda |

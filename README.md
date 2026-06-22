@@ -27,7 +27,8 @@ Pucanje, vidljivi pogoci, protivnici, zvuk, testovi cijele igre, prezentacija i 
 distribucijski ZIP još nisu implementirani. Borbeni modeli trenutačno su odvojena tehnička
 osnova i još nisu povezani s glavnom petljom.
 
-Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored još treba evidentirati prije nastavka razvoja.
+Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored zaprimljeno je i
+evidentirano 22. lipnja 2026.
 
 ## Postavljanje okruženja
 

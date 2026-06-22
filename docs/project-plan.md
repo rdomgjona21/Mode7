@@ -16,7 +16,8 @@
 
 **Žanr i tema:** steampunk pucačina; rat zračnih brodova iznad industrijskih nebeskih otoka
 
-> Administrativni uvjet: prije službene predaje ili objave potrebno je odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored.
+> Administrativni uvjet ispunjen: nastavnik je 22. lipnja 2026. odobrio temu P5 i
+> izmijenjeni individualni raspored.
 
 ## 1. Svrha i glavni cilj
 
@@ -67,7 +68,7 @@ Višeigrački način, proceduralno stvaranje razina, više razina, spremanje, mr
 
 | Aktivnost | 18.–20. 6. | 21.–23. 6. | 24.–26. 6. | 27.–29. 6. | 30. 6.–1. 7. | 2. 7. |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
-| Odobrenje, plan i repozitorij | ███ | | | | | |
+| Odobrenje zaprimljeno, plan i repozitorij | ███ | | | | | |
 | Mode7 prikaz i kamera | ███ | ███ | | | | |
 | Test performansi i rana aplikacija | | ███ | | | | |
 | Borbeni sustavi | | | ███ | | | |
@@ -103,7 +104,7 @@ Svaka promjena mora proći `ruff check .` i `pytest`. Test Mode7 performansi obv
 | Kašnjenje resursa ili licenci | Niska | Srednji | Generirani resursi; odbacivanje svega bez jasne licence |
 | Premalo vremena za testiranje | Srednja | Visok | Zamrzavanje 29. lipnja i završna tri dana bez novih funkcionalnosti |
 | Neusklađena uporaba AI-ja | Niska | Visok | FOI razina 4, evidencija, provjera i zabrana povjerljivih podataka |
-| Nema odobrenja nastavnika | Srednja | Visok | Odmah zatražiti odobrenje; ne objavljivati prije potvrde |
+| Nema odobrenja nastavnika | Zatvoren 22. 6. | Visok | Odobrenje teme P5 i izmijenjenog rasporeda zaprimljeno je |
 
 ## 9. Izvještavanje o napretku
 
@@ -111,4 +112,4 @@ Napredak se tjedno zapisuje u dnevnik promjena. Izvještaj navodi završene radn
 
 ## 10. Ograničenja, proračun i promjene
 
-Novčani proračun iznosi 0 €. Koriste se alati otvorenog koda i vlastiti generirani resursi. Izvođenje ne ovisi o internetu. Svaka promjena opsega mora navesti trošak u satima i ukloniti barem jednako velik postojeći zahtjev. Nakon 29. lipnja nisu dopuštene nove funkcionalnosti. Objava na itch.io i službena predaja slijede tek nakon potrebnog odobrenja.
+Novčani proračun iznosi 0 €. Koriste se alati otvorenog koda i vlastiti generirani resursi. Izvođenje ne ovisi o internetu. Svaka promjena opsega mora navesti trošak u satima i ukloniti barem jednako velik postojeći zahtjev. Nakon 29. lipnja nisu dopuštene nove funkcionalnosti. Potrebno odobrenje zaprimljeno je 22. lipnja 2026.; objava na itch.io i službena predaja slijede nakon dovršetka i završne provjere svih materijala.

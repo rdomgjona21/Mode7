@@ -87,3 +87,13 @@
   `balance.json` u paketu te trosekundni smoke test ARM64 aplikacije.
 - **Resursi:** nisu dodane slike, zvukovi ni drugi vanjski resursi.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 22. lipnja 2026. — evidencija odobrenja nastavnika
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** usklađivanje projektnih dokumenata s informacijom autora da je nastavnik
+  odobrio temu P5 i izmijenjeni individualni raspored.
+- **Utjecaj:** administrativni uvjet i pripadajući rizik označeni su ispunjenima; opseg,
+  rok i ponašanje aplikacije nisu mijenjani.
+- **Provjera:** pretražene su sve reference na odobrenje i pokrenuti su Ruff i Pytest.
+- **Podaci:** nije pohranjena poruka nastavnika ni drugi osobni ili povjerljivi sadržaj.

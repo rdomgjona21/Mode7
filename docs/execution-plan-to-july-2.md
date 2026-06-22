@@ -17,7 +17,8 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
   Kestrel te rani ARM64 `.app`; paket je izgrađen i uspješno pokrenut na macOS-u.
 - **22.6.:** prije rasporeda dovršena je testirana borbena osnova: projektili, omotani
   kružni sudari, zdravlje, liječenje, neranjivost i paketna konfiguracija balansa.
-- **Odobrenje nastavnika:** čeka potvrdu korisnika.
+- **22.6.:** zaprimljeno je odobrenje nastavnika za temu P5 i izmijenjeni individualni
+  raspored; administrativni preduvjet je ispunjen.
 
 ## Dnevni raspored
 
@@ -59,5 +60,5 @@ obrasci ostaju na hrvatskom.
 - **2.7.:** ukupno pet uspješnih sesija, čisti ZIP radi, a dokumentacija i prezentacija
   su završene.
 
-Odobrenje nastavnika nije pod kontrolom Codexa. Itch.io objava i službena predaja ne
-smiju se provesti bez potrebne potvrde.
+Odobrenje nastavnika zaprimljeno je 22. lipnja 2026. Itch.io objava i službena predaja
+provode se nakon dovršetka aplikacije, dokumentacije i završnih provjera.
