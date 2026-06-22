@@ -19,6 +19,7 @@ class Projectile:
     radius: float
     lifetime_remaining: float
     team: str
+    kind: str = "cannon"
 
     def __post_init__(self) -> None:
         """Provjeri vrijednosti potrebne za stabilnu simulaciju."""
@@ -33,6 +34,8 @@ class Projectile:
             raise ValueError("projectile lifetime must be positive and finite")
         if not self.team:
             raise ValueError("projectile team must not be empty")
+        if not self.kind:
+            raise ValueError("projectile kind must not be empty")
         self.heading %= math.tau
 
     @property

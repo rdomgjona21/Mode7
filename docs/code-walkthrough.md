@@ -102,7 +102,22 @@ izračuna korijena.
 Nakon toga `update()` odbrojava zaštitu. `heal()` vraća stvarno obnovljenu količinu, što
 će kasnije omogućiti točan prikaz popravaka i spriječiti prelazak preko maksimuma.
 
-## 9. Glavna petlja
+## 9. Oružja i borbena sesija
+
+`WeaponController` nakon svakog framea smanjuje tri neovisna hlađenja. Primarna paljba
+čita trenutačni odabir, dok raketa ima zasebnu metodu. Obje metode najprije provjeravaju
+hlađenje i slobodna mjesta, pa tek zatim stvaraju konfigurirane projektile malo ispred
+kamere.
+
+`CombatSession` je središte trening-borbe. Ažurira projektile, traži njihove sudare s
+ciljem, stvara pickup nakon uništenja, ponovno postavlja cilj i provjerava je li kamera
+ušla u radijus popravka. Time glavna PyGame petlja ne mora sadržavati pravila štete,
+bodovanja i isteka objekata.
+
+HUD samo čita stanje sesije. Ne mijenja zdravlje, hlađenja ni bodove, pa ga je moguće
+zasebno testirati crtanjem na običnu headless površinu.
+
+## 10. Glavna petlja
 
 `Game.run()` prvo provjerava testni argument `max_frames`, zatim inicijalizira PyGame.
 Blok `try/finally` jamči poziv `pygame.quit()` čak i ako se tijekom izvođenja dogodi
@@ -118,16 +133,17 @@ Petlja `while running` čini jedan frame u svakom prolazu:
 1. čita događaje operacijskog sustava;
 2. prekida rad nakon događaja `QUIT`;
 3. pretvara pritisnute tipke u osi rotacije i gasa;
-4. ažurira kameru pomoću `dt`;
-5. crta Mode7 nebo, horizont i teren;
-6. crta tekst i dijagnostičke vrijednosti na internu površinu;
-7. povećava internu površinu na prozor;
-8. prikazuje dovršenu sliku pozivom `pygame.display.flip()`.
+4. obrađuje odabir oružja, paljbu i raketu;
+5. ažurira kameru i borbenu sesiju pomoću `dt`;
+6. crta Mode7 teren i dubinski sortirane borbene objekte;
+7. crta Kestrel, HUD i kontrole;
+8. povećava internu površinu na prozor;
+9. prikazuje dovršenu sliku pozivom `pygame.display.flip()`.
 
 `max_frames` se koristi samo u testovima kako bi se petlja sama zaustavila. U normalnom
 pokretanju vrijednost je `None`, pa aplikacija radi dok korisnik ne zatvori prozor.
 
-## 10. Automatizirani testovi
+## 11. Automatizirani testovi
 
 `test_config.py` provjerava da ključne postavke imaju očekivane vrijednosti.
 `test_game.py` koristi SDL upravljačke programe `dummy`, zbog čega PyGame može izvesti
@@ -155,7 +171,11 @@ Testovi borbene osnove provjeravaju JSON vrijednosti i pogreške, obične i omot
 dodir kružnica, kretanje i istek projektila, zdravlje, smrt, liječenje te blokiranje
 ponovljene štete tijekom neranjivosti.
 
-## 11. Validacija
+Testovi oružja provjeravaju broj, kutove, štetu, hlađenja i ograničenje projektila.
+Testovi sesije provjeravaju uništenje i ponovno stvaranje cilja, nastanak i prikupljanje
+popravka te bodove. HUD i benchmark imaju zasebne headless testove.
+
+## 12. Validacija
 
 `scripts/validate.sh` pokreće dvije provjere. Ruff provjerava stil, uvoze i česte Python
 pogreške. Pytest izvršava sve funkcije čiji naziv počinje s `test_`. Postavka
@@ -163,7 +183,8 @@ pogreške. Pytest izvršava sve funkcije čiji naziv počinje s `test_`. Postavk
 
 `scripts/benchmark_mode7.py` tijekom zadanog vremena neprekidno pomiče kameru i crta
 Mode7 frameove bez ograničenja prozora. Izlazni kod je različit od nule ako prosjek padne
-ispod zadanog praga, primjerice 55 FPS-a.
+ispod zadanog praga, primjerice 55 FPS-a. Svakih deset sekundi ispisuje napredak, a
+`Ctrl+C` završava kratkom porukom bez tracebacka.
 
 `scripts/package.sh` ponavlja validaciju i poziva PyInstaller za izradu ARM64 macOS
 aplikacije. Rezultat u `dist/` nije dio Git repozitorija; skripta na kraju izričito

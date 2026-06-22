@@ -6,6 +6,39 @@
   },
   "projectile": {
     "collision_radius": 4.0,
-    "lifetime_seconds": 3.0
+    "lifetime_seconds": 3.0,
+    "limit": 64
+  },
+  "weapons": {
+    "cannon": {
+      "damage": 16,
+      "cooldown_seconds": 0.18,
+      "projectile_speed": 420,
+      "projectile_radius": 3.0,
+      "projectile_lifetime_seconds": 2.0,
+      "angle_offsets": [0.0]
+    },
+    "spread": {
+      "damage": 10,
+      "cooldown_seconds": 0.34,
+      "projectile_speed": 360,
+      "projectile_radius": 3.0,
+      "projectile_lifetime_seconds": 1.7,
+      "angle_offsets": [-0.16, 0.0, 0.16]
+    },
+    "rocket": {
+      "damage": 48,
+      "cooldown_seconds": 1.15,
+      "projectile_speed": 250,
+      "projectile_radius": 7.0,
+      "projectile_lifetime_seconds": 3.0,
+      "angle_offsets": [0.0]
+    }
+  },
+  "repair": {
+    "heal_amount": 24,
+    "score_value": 50,
+    "collision_radius": 14.0,
+    "lifetime_seconds": 10.0
   }
 }

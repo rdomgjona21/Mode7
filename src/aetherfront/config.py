@@ -24,8 +24,8 @@ MAX_VIEW_DISTANCE = 1400.0
 # PyGame boje zapisuju se kao RGB trojke, gdje je svaka vrijednost od 0 do 255.
 BACKGROUND_COLOR = (24, 35, 51)
 TEXT_COLOR = (229, 215, 174)
-PROTOTYPE_LABEL = "Technical Prototype"
-CONTROLS_LABEL = "Steer: A/D or Arrow Keys | Throttle: W/S or Arrow Keys"
+PROTOTYPE_LABEL = "Combat Training Prototype"
+CONTROLS_LABEL = "1/2 Weapon | Space Fire | Shift Rocket | A/D Steer | W/S Throttle"
 PLAYER_SURFACE_SIZE = (96, 64)
 PLAYER_SCREEN_CENTER_X = INTERNAL_SIZE[0] // 2
 PLAYER_SCREEN_BOTTOM = 344

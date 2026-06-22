@@ -17,6 +17,8 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
   Kestrel te rani ARM64 `.app`; paket je izgrađen i uspješno pokrenut na macOS-u.
 - **22.6.:** prije rasporeda dovršena je testirana borbena osnova: projektili, omotani
   kružni sudari, zdravlje, liječenje, neranjivost i paketna konfiguracija balansa.
+- **22.6.:** prije rasporeda povezana su tri oružja, trening-cilj, repair pickup, bodovi i
+  osnovni HUD; benchmark sada prikazuje napredak i uredno obrađuje prekid.
 - **22.6.:** zaprimljeno je odobrenje nastavnika za temu P5 i izmijenjeni individualni
   raspored; administrativni preduvjet je ispunjen.
 

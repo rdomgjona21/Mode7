@@ -15,6 +15,7 @@ def _projectile(**overrides: float | str) -> Projectile:
         "radius": 4.0,
         "lifetime_remaining": 3.0,
         "team": "player",
+        "kind": "cannon",
     }
     values.update(overrides)
     return Projectile(**values)  # type: ignore[arg-type]
@@ -68,6 +69,7 @@ def test_projectile_exposes_collision_body() -> None:
         ({"radius": 0.0}, "radius"),
         ({"lifetime_remaining": 0.0}, "lifetime"),
         ({"team": ""}, "team"),
+        ({"kind": ""}, "kind"),
         ({"heading": math.inf}, "finite"),
     ],
 )

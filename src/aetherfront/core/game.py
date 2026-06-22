@@ -1,24 +1,28 @@
 """Osnovna PyGame aplikacija i njezina glavna petlja."""
 
-import math
-
 import pygame
 
 from aetherfront.config import (
-    BACKGROUND_COLOR,
     CONTROLS_LABEL,
     INTERNAL_SIZE,
     PLAYER_SCREEN_BOTTOM,
     PLAYER_SCREEN_CENTER_X,
-    PROTOTYPE_LABEL,
     TARGET_FPS,
-    TEXT_COLOR,
     WINDOW_SIZE,
     WINDOW_TITLE,
 )
+from aetherfront.gameplay.session import CombatSession
+from aetherfront.gameplay.weapons import PrimaryWeapon
+from aetherfront.rendering.billboards import BillboardProjector, WorldBillboard
 from aetherfront.rendering.camera import Camera
+from aetherfront.rendering.combat_sprites import (
+    create_projectile_surfaces,
+    create_repair_surface,
+    create_training_target_surface,
+)
 from aetherfront.rendering.renderer import Mode7Renderer
 from aetherfront.rendering.ships import create_kestrel_surface
+from aetherfront.ui.hud import draw_hud
 
 
 class Game:
@@ -35,31 +39,55 @@ class Game:
         font: pygame.font.Font,
         camera: Camera,
         renderer: Mode7Renderer,
+        billboard_projector: BillboardProjector,
+        session: CombatSession,
+        projectile_surfaces: dict[str, pygame.Surface],
+        target_surface: pygame.Surface,
+        repair_surface: pygame.Surface,
         player_surface: pygame.Surface,
         fps: float,
     ) -> None:
-        """Nacrtaj Mode7 ravninu i dijagnostičko stanje kamere."""
+        """Nacrtaj teren, borbene objekte, igrača i HUD."""
         renderer.draw(canvas, camera)
+        billboards: list[WorldBillboard] = []
+        if session.target.alive:
+            billboards.append(
+                WorldBillboard(
+                    target_surface,
+                    session.target.x,
+                    session.target.y,
+                    session.target.radius * 2,
+                )
+            )
+        billboards.extend(
+            WorldBillboard(
+                projectile_surfaces[projectile.kind],
+                projectile.x,
+                projectile.y,
+                projectile.radius * 2,
+            )
+            for projectile in session.projectiles
+        )
+        billboards.extend(
+            WorldBillboard(
+                repair_surface,
+                pickup.x,
+                pickup.y,
+                pickup.radius * 2,
+            )
+            for pickup in session.pickups
+        )
+        billboard_projector.draw(canvas, camera, billboards)
+
         player_rect = player_surface.get_rect(
             centerx=PLAYER_SCREEN_CENTER_X,
             bottom=PLAYER_SCREEN_BOTTOM,
         )
         canvas.blit(player_surface, player_rect)
-        lines = (
-            PROTOTYPE_LABEL,
-            CONTROLS_LABEL,
-            f"Position: {camera.x:07.2f}, {camera.y:07.2f}",
-            f"Speed: {camera.speed:05.2f}",
-            f"Heading: {math.degrees(camera.heading):06.2f} degrees",
-            f"FPS: {fps:05.1f}",
-        )
-
-        for index, text in enumerate(lines):
-            shadow = font.render(text, True, BACKGROUND_COLOR)
-            label = font.render(text, True, TEXT_COLOR)
-            position = (13, 13 + index * 24)
-            canvas.blit(shadow, (position[0] + 1, position[1] + 1))
-            canvas.blit(label, position)
+        draw_hud(canvas, font, session, camera.speed, fps)
+        controls = font.render(CONTROLS_LABEL, True, (232, 220, 181))
+        controls_rect = controls.get_rect(center=(INTERNAL_SIZE[0] // 2, 349))
+        canvas.blit(controls, controls_rect)
 
     def run(self, max_frames: int | None = None) -> int:
         """Izvodi aplikaciju do zatvaranja prozora ili testnog ograničenja frameova.
@@ -83,6 +111,11 @@ class Game:
             font = pygame.font.Font(None, 26)
             camera = Camera()
             renderer = Mode7Renderer()
+            billboard_projector = BillboardProjector()
+            session = CombatSession.create(camera)
+            projectile_surfaces = create_projectile_surfaces()
+            target_surface = create_training_target_surface()
+            repair_surface = create_repair_surface()
             player_surface = create_kestrel_surface()
 
             running = True
@@ -95,6 +128,10 @@ class Game:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         running = False
+                    elif event.type == pygame.KEYDOWN and event.key == pygame.K_1:
+                        session.select_primary(PrimaryWeapon.CANNON)
+                    elif event.type == pygame.KEYDOWN and event.key == pygame.K_2:
+                        session.select_primary(PrimaryWeapon.SPREAD)
 
                 keys = pygame.key.get_pressed()
                 turn = self._axis(
@@ -106,6 +143,12 @@ class Game:
                     keys[pygame.K_s] or keys[pygame.K_DOWN],
                 )
                 camera.update(dt, turn, throttle)
+                session.update(
+                    dt,
+                    camera,
+                    fire_primary=keys[pygame.K_SPACE],
+                    fire_rocket=keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT],
+                )
 
                 # Mode7 renderer pretvara položaj i smjer kamere u perspektivnu ravninu.
                 self._draw_scene(
@@ -113,6 +156,11 @@ class Game:
                     font,
                     camera,
                     renderer,
+                    billboard_projector,
+                    session,
+                    projectile_surfaces,
+                    target_surface,
+                    repair_surface,
                     player_surface,
                     clock.get_fps(),
                 )

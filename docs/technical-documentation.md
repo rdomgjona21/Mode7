@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 0.7
+**Verzija:** 0.8
 
 **Datum:** 22. lipnja 2026.
 
-**Status:** Mode7 prototip, igračev prikaz, borbena osnova i rani macOS paket
+**Status:** igriva Mode7 borbena proba i rani macOS paket
 
 ## Arhitektura
 
@@ -93,8 +93,24 @@ preko granice svijeta.
 
 `PlayerCombatState` počinje punim zdravljem, ograničava ga na raspon od nule do maksimuma
 i nakon prihvaćene štete aktivira kratku neranjivost. Ponovljeni pogodak tijekom zaštite
-se odbija, a liječenje vraća samo zdravlje koje nedostaje. Ti modeli još nisu povezani s
-glavnom petljom, vidljivim projektilima ni HUD-om.
+se odbija, a liječenje vraća samo zdravlje koje nedostaje.
+
+## Oružja, trening-cilj i pickup
+
+`WeaponController` čuva odabrano primarno oružje te zasebna hlađenja za cannon, spread
+gun i raketu. Cannon stvara jedan projektil, spread gun tri projektila pod kutovima
+−0,16, 0 i +0,16 radijana, a raketa koristi neovisnu tipku i hlađenje. Aktivni broj
+projektila ograničen je na 64.
+
+`CombatSession` jednom po frameu povezuje ulaze, projektile, kružne sudare, zdravlje
+trening-cilja, ponovno pojavljivanje, repair pickup i bodove. Cilj ima 100 HP i pojavljuje
+se 400 jedinica ispred igrača. Nakon uništenja stvara popravak koji vraća do 24 HP-a,
+dodaje 50 bodova i nestaje nakon 10 sekundi. Trening-cilj je razvojna pomoć, a ne četvrta
+vrsta protivnika.
+
+Proceduralne slike razlikuju mjedeni cannon, cijan spread gun, crvenu raketu, kružni cilj
+i repair ćeliju. `BillboardProjector` ih zajednički sortira i crta. Engleski HUD prikazuje
+trup, odabrano oružje, hlađenje rakete, bodove, cilj, brzinu i FPS.
 
 ## Kamera i vrijeme
 
@@ -126,7 +142,10 @@ unutar `.app` paketa ne postoje.
 Rani ARM64 paket 22. lipnja uspješno je izgrađen, ostao aktivan u headless smoke testu i
 stvarno se otvorio i zatvorio u macOS-u.
 
+Mode7 benchmark sada tijekom 60-sekundnog izvođenja ispisuje napredak svakih 10 sekundi.
+Prekid tipkama `Ctrl+C` vraća izlazni kod 130 i kratku poruku bez Python tracebacka.
+
 ## Sljedeći tehnički korak
 
-Sljedeća zasebna cjelina povezuje borbenu osnovu s tri oružja, kontrolama paljbe, testnim
-ciljevima, popravcima i početnim HUD-om.
+Sljedeća zasebna cjelina zamjenjuje trening-cilj scoutom, gunshipom i bomberom te dodaje
+njihovo kretanje, zdravlje, napade, proceduralne oblike i bodove.

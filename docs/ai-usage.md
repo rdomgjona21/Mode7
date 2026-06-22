@@ -97,3 +97,17 @@
   rok i ponašanje aplikacije nisu mijenjani.
 - **Provjera:** pretražene su sve reference na odobrenje i pokrenuti su Ruff i Pytest.
 - **Podaci:** nije pohranjena poruka nastavnika ni drugi osobni ili povjerljivi sadržaj.
+
+## 22. lipnja 2026. — oružja, pickup i osnovni HUD
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** povezivanje cannona, spread guna i raketa s glavnom petljom, izrada
+  trening-cilja, repair pickupa, proceduralnih prikaza, HUD-a, testova i dokumentacije.
+- **Utjecaj:** prototip je prvi put ručno igriv kao borbena proba; privremeni cilj nije
+  nova vrsta protivnika i bit će zamijenjen sadržajem iz zaključanog opsega.
+- **Dodatna izmjena:** benchmark prikazuje napredak svakih deset sekundi i nakon `Ctrl+C`
+  završava bez tracebacka.
+- **Provjera:** Ruff, 86 Pytest testova, 120-frame headless izvođenje, pregled generiranog
+  borbenog framea, kratki benchmark i PyInstaller smoke build.
+- **Resursi:** svi novi prikazi generirani su PyGame kodom; nisu dodani vanjski resursi.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

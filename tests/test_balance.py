@@ -14,6 +14,15 @@ def test_default_balance_matches_locked_combat_foundation() -> None:
     assert balance.player.invulnerability_seconds == 0.75
     assert balance.projectile.collision_radius == 4
     assert balance.projectile.lifetime_seconds == 3
+    assert balance.projectile.limit == 64
+    assert balance.cannon.damage == 16
+    assert balance.cannon.cooldown_seconds == 0.18
+    assert balance.spread.damage == 10
+    assert balance.spread.angle_offsets == (-0.16, 0.0, 0.16)
+    assert balance.rocket.damage == 48
+    assert balance.rocket.cooldown_seconds == 1.15
+    assert balance.repair.heal_amount == 24
+    assert balance.repair.score_value == 50
 
 
 def test_balance_rejects_missing_section(tmp_path: Path) -> None:
@@ -26,19 +35,9 @@ def test_balance_rejects_missing_section(tmp_path: Path) -> None:
 
 def test_balance_rejects_non_positive_number(tmp_path: Path) -> None:
     path = tmp_path / "balance.json"
-    path.write_text(
-        json.dumps(
-            {
-                "player": {
-                    "max_health": 0,
-                    "collision_radius": 18,
-                    "invulnerability_seconds": 0.75,
-                },
-                "projectile": {"collision_radius": 4, "lifetime_seconds": 3},
-            }
-        ),
-        encoding="utf-8",
-    )
+    raw = json.loads(Path("src/aetherfront/data/balance.json").read_text(encoding="utf-8"))
+    raw["player"]["max_health"] = 0
+    path.write_text(json.dumps(raw), encoding="utf-8")
 
     with pytest.raises(ValueError, match="player.max_health"):
         load_combat_balance(path)

@@ -19,13 +19,15 @@ Projekt se nalazi na početku tehničke implementacije. Dovršeni su:
 - projekcija, skaliranje i dubinsko sortiranje budućih 2D objekata u svijetu;
 - proceduralni prikaz igračevog broda Kestrel;
 - konfiguracijska i testirana osnova projektila, kružnih sudara, zdravlja i neranjivosti;
+- cannon, spread gun i rakete s vidljivim projektilima i hlađenjem;
+- trening-cilj, repair pickup, bodovi i osnovni engleski HUD;
 - skripta za 60-sekundno mjerenje performansi renderera;
 - skripta za izradu i provjeru macOS `.app` paketa;
 - početni automatizirani testovi i validacijska skripta.
 
-Pucanje, vidljivi pogoci, protivnici, zvuk, testovi cijele igre, prezentacija i završni
-distribucijski ZIP još nisu implementirani. Borbeni modeli trenutačno su odvojena tehnička
-osnova i još nisu povezani s glavnom petljom.
+Tri oružja i vidljivi pogoci sada rade na privremenom trening-cilju. Standardni protivnici,
+valovi, boss, zvuk, testovi cijele igre, prezentacija i završni distribucijski ZIP još nisu
+implementirani.
 
 Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored zaprimljeno je i
 evidentirano 22. lipnja 2026.
@@ -41,8 +43,9 @@ python -m aetherfront
 
 Posljednja naredba otvara vizualni Mode7 prototip. `A/D` ili strelice lijevo/desno
 mijenjaju smjer, a `W/S` ili strelice gore/dolje mijenjaju brzinu. Nebo, horizont i
-proceduralni teren reagiraju na kameru, a Kestrel je vidljiv pri dnu zaslona; borba još
-nije implementirana.
+proceduralni teren reagiraju na kameru, a Kestrel je vidljiv pri dnu zaslona. Borbena
+proba uključuje trening-cilj i tri oružja. `1/2` bira cannon ili spread gun, `Space` puca, a
+lijevi ili desni `Shift` ispaljuje raketu.
 
 Provjera koda i testova pokreće se naredbom:
 

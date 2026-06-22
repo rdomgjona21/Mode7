@@ -17,4 +17,4 @@ def test_display_configuration() -> None:
     assert config.PLAYER_SURFACE_SIZE == (96, 64)
     assert config.PLAYER_SCREEN_CENTER_X == 320
     assert config.PLAYER_SCREEN_BOTTOM == 344
-    assert config.PROTOTYPE_LABEL == "Technical Prototype"
+    assert config.PROTOTYPE_LABEL == "Combat Training Prototype"
