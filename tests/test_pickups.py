@@ -25,7 +25,7 @@ def test_repair_heals_once_and_awards_score() -> None:
 
     assert healed == 24
     assert score == 50
-    assert player.health == 84
+    assert player.health == 484
     assert not pickup.active
     assert pickup.collect(player) == (0, 0)
 

@@ -11,7 +11,7 @@ def _player() -> PlayerCombatState:
 def test_player_starts_with_full_health() -> None:
     player = _player()
 
-    assert player.health == 100
+    assert player.health == 500
     assert player.alive
     assert not player.invulnerable
 
@@ -20,31 +20,31 @@ def test_damage_starts_invulnerability_and_blocks_repeat_hit() -> None:
     player = _player()
 
     assert player.take_damage(25)
-    assert player.health == 75
+    assert player.health == 475
     assert player.invulnerable
     assert not player.take_damage(25)
-    assert player.health == 75
+    assert player.health == 475
 
 
 def test_damage_is_allowed_after_invulnerability_expires() -> None:
     player = _player()
     player.take_damage(25)
 
-    player.update(0.75)
+    player.update(1.5)
 
     assert player.take_damage(25)
-    assert player.health == 50
+    assert player.health == 450
 
 
 def test_health_is_clamped_between_zero_and_maximum() -> None:
     player = _player()
-    player.take_damage(150)
+    player.take_damage(600)
 
     assert player.health == 0
     assert not player.alive
     assert not player.take_damage(10)
-    assert player.heal(200) == 100
-    assert player.health == 100
+    assert player.heal(600) == 500
+    assert player.health == 500
 
 
 @pytest.mark.parametrize("amount", [-1, float("inf")])

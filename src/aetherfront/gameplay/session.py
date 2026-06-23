@@ -2,6 +2,7 @@
 
 import math
 from dataclasses import dataclass, field
+from typing import NamedTuple
 
 from aetherfront.config import WORLD_SIZE
 from aetherfront.gameplay.balance import CombatBalance, load_combat_balance
@@ -14,6 +15,14 @@ from aetherfront.gameplay.projectiles import Projectile
 from aetherfront.gameplay.waves import WaveDirector
 from aetherfront.gameplay.weapons import PrimaryWeapon, WeaponController
 from aetherfront.rendering.camera import Camera
+
+
+class SessionEvents(NamedTuple):
+    """Događaji nastali u jednom frameu borbene sesije."""
+
+    enemy_killed: list[tuple[float, float]]
+    player_hit: bool
+    boss_hit: bool
 
 MIN_VISIBLE_ENEMY_DEPTH = 150.0
 RECYCLED_ENEMY_DEPTH = 650.0
@@ -98,8 +107,9 @@ class CombatSession:
             )
         )
 
-    def _hit_enemies(self) -> None:
+    def _hit_enemies(self) -> list[tuple[float, float]]:
         """Primijeni prvi sudar svakog igračeva projektila s aktivnim protivnikom."""
+        killed_positions: list[tuple[float, float]] = []
         for projectile in self.projectiles:
             if projectile.team != "player":
                 continue
@@ -112,25 +122,30 @@ class CombatSession:
                     if destroyed:
                         self.score += enemy.score_value
                         self._create_repair(enemy.x, enemy.y)
+                        killed_positions.append((enemy.x, enemy.y))
                     break
         self.projectiles = [projectile for projectile in self.projectiles if projectile.active]
         self.enemies = [enemy for enemy in self.enemies if enemy.alive]
+        return killed_positions
 
-    def _hit_boss(self) -> None:
+    def _hit_boss(self) -> bool:
         """Primijeni pogotke igrača na bossa i zatvori borbu nakon uništenja."""
         if self.boss is None or not self.boss.alive:
-            return
+            return False
+        hit = False
         for projectile in self.projectiles:
             if projectile.team != "player":
                 continue
             if circles_overlap(projectile.collision_body, self.boss.collision_body):
                 projectile.lifetime_remaining = 0.0
                 destroyed = self.boss.take_damage(projectile.damage)
+                hit = True
                 if destroyed and not self.boss_score_awarded:
                     self.score += self.boss.score_value
                     self.boss_score_awarded = True
                     self.victory = True
         self.projectiles = [projectile for projectile in self.projectiles if projectile.active]
+        return hit
 
     def _update_enemies(self, dt: float, camera: Camera) -> None:
         for enemy in self.enemies:
@@ -179,21 +194,26 @@ class CombatSession:
                 RECYCLED_ENEMY_COOLDOWN_SECONDS,
             )
 
-    def _hit_player(self, camera: Camera) -> None:
+    def _hit_player(self, camera: Camera) -> bool:
         player_body = CircleBody(camera.x, camera.y, self.balance.player.collision_radius)
+        hit = False
         for projectile in self.projectiles:
             if projectile.team != "enemy":
                 continue
             if circles_overlap(player_body, projectile.collision_body):
                 self.player.take_damage(projectile.damage)
                 projectile.lifetime_remaining = 0.0
+                hit = True
         for enemy in self.enemies:
             if circles_overlap(player_body, enemy.collision_body):
                 self.player.take_damage(enemy.contact_damage)
+                hit = True
         if self.boss is not None and self.boss.alive:
             if circles_overlap(player_body, self.boss.collision_body):
                 self.player.take_damage(self.boss.contact_damage)
+                hit = True
         self.projectiles = [projectile for projectile in self.projectiles if projectile.active]
+        return hit
 
     def _update_terminal_state(self) -> None:
         """Zaključi borbu kada igrač ostane bez trupa."""
@@ -215,10 +235,10 @@ class CombatSession:
         camera: Camera,
         fire_primary: bool = False,
         fire_rocket: bool = False,
-    ) -> None:
+    ) -> SessionEvents:
         """Ažuriraj trenutni testni sukob protiv standardnih protivnika."""
         if self.victory or self.game_over:
-            return
+            return SessionEvents(enemy_killed=[], player_hit=False, boss_hit=False)
 
         self.player.update(dt)
         self.weapons.update(dt)
@@ -236,9 +256,9 @@ class CombatSession:
         self._keep_enemies_in_front(camera)
         self._update_boss(dt, camera)
         self._update_projectiles(dt)
-        self._hit_enemies()
-        self._hit_boss()
-        self._hit_player(camera)
+        killed = self._hit_enemies()
+        boss_hit = self._hit_boss()
+        player_hit = self._hit_player(camera)
         self._update_terminal_state()
         self.enemies.extend(
             self.wave_director.update(
@@ -250,6 +270,7 @@ class CombatSession:
         )
         self._ensure_boss_spawned(camera)
         self._update_pickups(dt, camera)
+        return SessionEvents(enemy_killed=killed, player_hit=player_hit, boss_hit=boss_hit)
 
     @property
     def enemies_remaining(self) -> int:
