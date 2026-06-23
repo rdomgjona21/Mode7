@@ -114,10 +114,13 @@ zdravlje, brzinu, radijus sudara, bodove, kontaktnu štetu, projektil i hlađenj
 Metoda `update()` ga pomiče prema igraču kroz omotani svijet, a `fire_if_ready()` vraća
 neprijateljski projektil samo kada je hlađenje završeno.
 
-`CombatSession` je središte borbene probe. Ažurira projektile, protivnike, njihove napade,
-sudare igrača i neprijatelja, nastanak popravaka, bodove i ponovno stvaranje razvojne
-skupine nakon što su svi standardni protivnici uništeni. Time glavna PyGame petlja ne
-mora sadržavati pravila štete, bodovanja i isteka objekata.
+`WaveDirector` učitava `waves.json`, prati trenutačni val, odgode spawnova, stanke između
+valova i završetak trećeg vala. Spawn položaji nisu apsolutne koordinate nego udaljenost
+ispred kamere i bočni pomak, pa se svaki val pojavljuje u odnosu na smjer kojim igrač leti.
+
+`CombatSession` je središte borbene probe. Ažurira `WaveDirector`, projektile, protivnike,
+njihove napade, sudare igrača i neprijatelja, nastanak popravaka i bodove. Time glavna
+PyGame petlja ne mora sadržavati pravila štete, bodovanja, spawnova i isteka objekata.
 
 HUD samo čita stanje sesije. Ne mijenja zdravlje, hlađenja ni bodove, pa ga je moguće
 zasebno testirati crtanjem na običnu headless površinu.
@@ -178,10 +181,11 @@ ponovljene štete tijekom neranjivosti.
 
 Testovi oružja provjeravaju broj, kutove, štetu, hlađenja i ograničenje projektila.
 Testovi protivnika provjeravaju zaključane razlike scouta, gunshipa i bombera, primanje
-štete, determinističko kretanje i hlađenje neprijateljske paljbe. Testovi sesije provjeravaju
-početnu skupinu standardnih protivnika, bodove, nastanak i prikupljanje popravka, ponovno
-stvaranje skupine, ograničenje projektila i štetu nad igračem. HUD i benchmark imaju
-zasebne headless testove.
+štete, determinističko kretanje i hlađenje neprijateljske paljbe. Testovi valova provjeravaju
+učitavanje tri vala, redoslijed spawnova, odgode, prijelaz između valova i završetak trećeg
+vala. Testovi sesije provjeravaju prvi konfigurirani val, prijelaz na drugi val, bodove,
+nastanak i prikupljanje popravka, ograničenje projektila i štetu nad igračem. HUD i
+benchmark imaju zasebne headless testove.
 
 ## 12. Validacija
 
@@ -196,7 +200,7 @@ ispod zadanog praga, primjerice 55 FPS-a. Svakih deset sekundi ispisuje napredak
 
 `scripts/package.sh` ponavlja validaciju i poziva PyInstaller za izradu ARM64 macOS
 aplikacije. Rezultat u `dist/` nije dio Git repozitorija; skripta na kraju izričito
-provjerava postoje li izvršna datoteka i `balance.json` unutar paketa.
+provjerava postoje li izvršna datoteka, `balance.json` i `waves.json` unutar paketa.
 
 Za učenje je korisno privremeno promijeniti jednu konstantu ili očekivanje u testu,
 pokrenuti `./scripts/validate.sh`, pročitati pogrešku i zatim vratiti promjenu.

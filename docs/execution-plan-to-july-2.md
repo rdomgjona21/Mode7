@@ -23,6 +23,8 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
   raspored; administrativni preduvjet je ispunjen.
 - **23.6.:** prije rasporeda implementirani su scout, gunship i bomber s kretanjem,
   zdravljem, napadima, proceduralnim oblicima, bodovima i štetom nad igračem.
+- **23.6.:** prije rasporeda implementirani su `waves.json` i `WaveDirector`; tri redovna
+  vala sada koriste postojeće standardne protivnike umjesto razvojne skupine.
 
 ## Dnevni raspored
 

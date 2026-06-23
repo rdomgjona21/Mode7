@@ -1,15 +1,17 @@
+from aetherfront.gameplay.collisions import wrapped_axis_delta
+from aetherfront.gameplay.pickups import RepairPickup
 from aetherfront.gameplay.projectiles import Projectile
 from aetherfront.gameplay.session import CombatSession
 from aetherfront.rendering.camera import Camera
 
 
-def test_session_starts_with_three_standard_enemy_types() -> None:
+def test_session_starts_with_first_configured_wave() -> None:
     camera = Camera()
     session = CombatSession.create(camera)
-    kinds = {enemy.kind.value for enemy in session.enemies}
 
-    assert kinds == {"scout", "gunship", "bomber"}
-    assert session.enemies_remaining == 4
+    assert session.wave_director.current_wave_number == 1
+    assert session.enemies_remaining == 1
+    assert session.enemies[0].kind.value == "scout"
 
 
 def test_destroyed_enemy_awards_score_and_creates_repair() -> None:
@@ -37,18 +39,39 @@ def test_destroyed_enemy_awards_score_and_creates_repair() -> None:
     assert session.score == enemy.score_value
 
 
-def test_enemy_group_respawns_after_all_enemies_are_destroyed() -> None:
+def test_session_advances_from_first_to_second_wave_after_clear() -> None:
     camera = Camera()
     session = CombatSession.create(camera)
+    session.update(3.0, camera)
     for enemy in session.enemies:
         enemy.take_damage(enemy.max_health)
 
     session.update(0, camera)
     assert session.enemies == []
-    assert session.enemy_group_respawn_remaining > 0
+    assert session.wave_director.incoming
 
     session.update(2.0, camera)
-    assert session.enemies_remaining == 4
+    assert session.wave_director.current_wave_number == 2
+    assert session.enemies_remaining == 1
+    assert session.enemies[0].kind.value == "scout"
+
+
+def test_session_can_reach_waves_complete_after_clearing_three_waves() -> None:
+    camera = Camera()
+    session = CombatSession.create(camera)
+
+    for wave_number in (1, 2, 3):
+        session.update(10.0, camera)
+        assert session.wave_director.current_wave_number == wave_number
+        for enemy in session.enemies:
+            enemy.take_damage(enemy.max_health)
+        session.update(0.0, camera)
+        if wave_number < 3:
+            assert session.wave_director.incoming
+            session.update(2.0, camera)
+
+    assert session.wave_director.waves_complete
+    assert session.enemies == []
 
 
 def test_player_collects_repair_and_receives_score() -> None:
@@ -56,7 +79,6 @@ def test_player_collects_repair_and_receives_score() -> None:
     session = CombatSession.create(camera)
     session.player.take_damage(40)
     repair = session.balance.repair
-    from aetherfront.gameplay.pickups import RepairPickup
 
     session.pickups.append(
         RepairPickup(
@@ -108,3 +130,16 @@ def test_enemy_projectile_can_damage_player() -> None:
 
     assert session.player.health == 87
     assert session.projectiles == []
+
+
+def test_enemy_behind_player_is_recycled_into_front_sector() -> None:
+    camera = Camera(heading=0)
+    session = CombatSession.create(camera)
+    enemy = session.enemies[0]
+    enemy.x = camera.x - 20
+    enemy.y = camera.y
+
+    session.update(0, camera)
+
+    assert wrapped_axis_delta(camera.x, enemy.x) > 150
+    assert session.player.health == session.player.max_health

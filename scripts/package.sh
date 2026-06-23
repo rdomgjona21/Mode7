@@ -29,4 +29,10 @@ if [[ -z "$balance_file" ]]; then
   exit 1
 fi
 
+waves_file="$(find dist/Aetherfront.app -path '*/aetherfront/data/waves.json' -print -quit)"
+if [[ -z "$waves_file" ]]; then
+  echo "Packaging failed: waves.json is missing from the application bundle" >&2
+  exit 1
+fi
+
 echo "Created dist/Aetherfront.app"

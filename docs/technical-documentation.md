@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 0.9
+**Verzija:** 1.0
 
 **Datum:** 23. lipnja 2026.
 
-**Status:** igriva Mode7 borbena proba sa standardnim protivnicima i rani macOS paket
+**Status:** igriva Mode7 borbena proba s tri konfigurirana vala i rani macOS paket
 
 ## Arhitektura
 
@@ -109,18 +109,22 @@ slab, gunship je srednji dvobojni brod, a bomber je spor i izdržljiv s težim p
 Kretanje koristi najkraći smjer kroz omotani svijet, a napadi stvaraju projektile tima
 `enemy`.
 
-`CombatSession` jednom po frameu povezuje ulaze, projektile, neprijatelje, kružne sudare,
-repair pickup, zdravlje igrača i bodove. Početna razvojna skupina sadrži dva scouta,
-jedan gunship i jedan bomber, postavljena ispred smjera kamere. Igračevi projektili
-uništavaju protivnike i odmah dodaju njihove bodove; uništeni protivnik ostavlja popravak
-koji vraća do 24 HP-a, dodaje 50 bodova i nestaje nakon 10 sekundi. Kada se probna skupina
-očisti, nakon kratke stanke ponovno se stvara nova skupina. To još nije `WaveDirector`,
-nego privremeni testni raspored standardnih protivnika.
+`WaveDirector` učitava `data/waves.json`, provjerava da postoje točno tri vala i stvara
+protivnike prema konfiguriranim odgodama, udaljenostima ispred kamere i bočnim pomacima.
+Prvi val uvodi šest scoutova, drugi kombinira scoutove i gunshipove, a treći dodaje
+bombere. Nakon što su svi spawnovi vala iskorišteni i nema živih protivnika, direktor
+pokreće kratku stanku i zatim prelazi na sljedeći val. Nakon trećeg vala postavlja stanje
+`waves_complete`, koje će sljedeći commit koristiti za ulazak u boss borbu.
+
+`CombatSession` jednom po frameu povezuje ulaze, projektile, `WaveDirector`, neprijatelje,
+kružne sudare, repair pickup, zdravlje igrača i bodove. Igračevi projektili uništavaju
+protivnike i odmah dodaju njihove bodove; uništeni protivnik ostavlja popravak koji vraća
+do 24 HP-a, dodaje 50 bodova i nestaje nakon 10 sekundi.
 
 Proceduralne slike razlikuju mjedeni cannon, cijan spread gun, crvenu raketu, neprijateljske
 projektile, tri vrste zračnih brodova i repair ćeliju. `BillboardProjector` ih zajednički
-sortira i crta. Engleski HUD prikazuje trup, odabrano oružje, hlađenje rakete, bodove,
-broj preostalih protivnika, trenutačnu prijetnju, brzinu i FPS.
+sortira i crta. Engleski HUD prikazuje trup, odabrano oružje, hlađenje rakete, val, bodove,
+broj preostalih protivnika, trenutačnu prijetnju, stanje dolaska vala, brzinu i FPS.
 
 ## Kamera i vrijeme
 
@@ -148,7 +152,7 @@ automatiziranim testovima. U normalnom pokretanju aplikacija radi do zatvaranja 
 `package.sh` prvo izvodi Ruff i Pytest, zatim gradi prozorsku aplikaciju s identifikatorom
 `hr.foi.aetherfront`. PyInstallerova konfiguracija i cache usmjereni su u ignoriranu mapu
 `tmp/`, a skripta završava pogreškom ako izvršna datoteka ili paketni `balance.json`
-unutar `.app` paketa ne postoje.
+ili `waves.json` unutar `.app` paketa ne postoje.
 Rani ARM64 paket 22. lipnja uspješno je izgrađen, ostao aktivan u headless smoke testu i
 stvarno se otvorio i zatvorio u macOS-u.
 
@@ -157,5 +161,5 @@ Prekid tipkama `Ctrl+C` vraća izlazni kod 130 i kratku poruku bez Python traceb
 
 ## Sljedeći tehnički korak
 
-Sljedeća zasebna cjelina uvodi `waves.json` i `WaveDirector` kako bi se postojeći scout,
-gunship i bomber pojavljivali kroz tri konfigurirana vala umjesto kroz razvojnu skupinu.
+Sljedeća zasebna cjelina dodaje ISS Goliath, dvije faze šefa, boss HUD i privremeni
+prijelaz iz stanja očišćenih valova prema završetku borbe.

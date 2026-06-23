@@ -124,3 +124,17 @@
   pokretanje te 12-sekundni benchmark od 157,8 FPS-a uz prag 55 FPS-a.
 - **Resursi:** svi novi prikazi generirani su PyGame kodom; nisu dodani vanjski resursi.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 23. lipnja 2026. — konfigurirani borbeni valovi
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** implementacija `waves.json`, `WaveDirector`, povezivanja valova s
+  `CombatSession`, prikaza vala u HUD-u, testova i prateće dokumentacije.
+- **Utjecaj:** protivnici se više ne stvaraju kao beskonačna razvojna skupina, nego kroz
+  tri konfigurirana redovna vala. Boss borba nije dodana u ovom koraku.
+- **Provjera:** Ruff i 102 Pytest testa kroz `./scripts/validate.sh`, 180-frame headless
+  pokretanje, 12-sekundni benchmark od 164,3 FPS-a uz prag 55 FPS-a te PyInstaller
+  package build s provjerom `balance.json` i `waves.json`.
+- **Resursi:** nije dodan vanjski sadržaj; `waves.json` je autorska konfiguracijska
+  datoteka projekta.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

@@ -24,8 +24,8 @@ def draw_hud(
     speed: float,
     fps: float,
 ) -> None:
-    """Nacrtaj zdravlje, oružje, raketu, bodove, neprijatelje, brzinu i FPS."""
-    panel = pygame.Surface((260, 118), pygame.SRCALPHA)
+    """Nacrtaj zdravlje, oružje, val, bodove, neprijatelje, brzinu i FPS."""
+    panel = pygame.Surface((286, 137), pygame.SRCALPHA)
     panel.fill((14, 22, 31, 190))
     canvas.blit(panel, (8, 8))
 
@@ -41,10 +41,19 @@ def draw_hud(
     _label(canvas, font, f"ROCKET {rocket}", (18, 68))
     _label(canvas, font, f"SCORE {session.score:05d}", (18, 87))
 
+    director = session.wave_director
+    if director.waves_complete:
+        wave = "WAVES CLEAR"
+    elif director.incoming:
+        wave = f"INCOMING {director.intermission_remaining:.1f}s"
+    else:
+        wave = f"WAVE {director.current_wave_number}/{director.total_waves}"
+    _label(canvas, font, wave, (18, 106))
+
     threat = session.lowest_health_enemy
     if threat is not None:
         enemy = f"{threat.kind.value.upper()} {threat.health:.0f}/{threat.max_health:.0f}"
     else:
-        enemy = f"ENEMIES INBOUND {session.enemy_group_respawn_remaining:.1f}s"
-    _label(canvas, font, f"ENEMIES {session.enemies_remaining}  {enemy}", (18, 106))
+        enemy = director.current_wave_name.upper()
+    _label(canvas, font, f"ENEMIES {session.enemies_remaining}  {enemy}", (18, 125))
     _label(canvas, font, f"SPEED {speed:04.1f}   FPS {fps:04.1f}", (450, 13))
