@@ -27,6 +27,9 @@ def test_default_balance_matches_locked_combat_foundation() -> None:
     assert balance.enemies["scout"].max_health == 28
     assert balance.enemies["gunship"].score_value == 240
     assert balance.enemies["bomber"].projectile_damage == 22
+    assert balance.boss.max_health == 900
+    assert balance.boss.score_value == 5000
+    assert balance.boss.phase_two_threshold == 0.5
 
 
 def test_balance_rejects_missing_section(tmp_path: Path) -> None:

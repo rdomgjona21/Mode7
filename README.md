@@ -23,13 +23,15 @@ Projekt je u fazi igrive borbene probe. Dovršeni su:
 - scout, gunship i bomber s kretanjem, zdravljem, napadima, proceduralnim oblicima i
   bodovima;
 - `waves.json` i `WaveDirector` s tri konfigurirana redovna vala;
+- ISS Goliath boss s proceduralnim prikazom, dvije faze, burst paljbom i boss HUD-om;
 - repair pickup i osnovni engleski HUD s prikazom protivnika;
 - skripta za 60-sekundno mjerenje performansi renderera;
 - skripta za izradu i provjeru macOS `.app` paketa;
 - početni automatizirani testovi i validacijska skripta.
 
-Tri oružja i vidljivi pogoci sada rade kroz tri konfigurirana redovna vala. Boss, zvuk,
-testovi cijele igre, prezentacija i završni distribucijski ZIP još nisu implementirani.
+Tri oružja i vidljivi pogoci sada rade kroz tri konfigurirana redovna vala i rani boss
+susret. Pobjeda/game-over tok, zvuk, testovi cijele igre, prezentacija i završni
+distribucijski ZIP još nisu implementirani.
 
 Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored zaprimljeno je i
 evidentirano 22. lipnja 2026.
@@ -46,8 +48,9 @@ python -m aetherfront
 Posljednja naredba otvara vizualni Mode7 prototip. `A/D` ili strelice lijevo/desno
 mijenjaju smjer, a `W/S` ili strelice gore/dolje mijenjaju brzinu. Nebo, horizont i
 proceduralni teren reagiraju na kameru, a Kestrel je vidljiv pri dnu zaslona. Borbena
-proba uključuje tri vala scoutova, gunshipova i bombera. `1/2` bira cannon ili spread gun,
-`Space` puca, a lijevi ili desni `Shift` ispaljuje raketu.
+proba uključuje tri vala scoutova, gunshipova i bombera te ISS Goliath nakon čišćenja
+valova. `1/2` bira cannon ili spread gun, `Space` puca, a lijevi ili desni `Shift`
+ispaljuje raketu.
 
 Provjera koda i testova pokreće se naredbom:
 

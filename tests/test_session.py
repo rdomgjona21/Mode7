@@ -72,6 +72,40 @@ def test_session_can_reach_waves_complete_after_clearing_three_waves() -> None:
 
     assert session.wave_director.waves_complete
     assert session.enemies == []
+    assert session.boss is not None
+    assert session.boss.alive
+
+
+def test_boss_receives_player_projectile_damage_after_waves() -> None:
+    camera = Camera()
+    session = CombatSession.create(camera)
+    for wave_number in (1, 2, 3):
+        session.update(10.0, camera)
+        for enemy in session.enemies:
+            enemy.take_damage(enemy.max_health)
+        session.update(0.0, camera)
+        if wave_number < 3:
+            session.update(2.0, camera)
+    assert session.boss is not None
+    boss = session.boss
+    session.projectiles.append(
+        Projectile(
+            x=boss.x,
+            y=boss.y,
+            heading=0,
+            speed=0,
+            damage=450,
+            radius=4,
+            lifetime_remaining=3,
+            team="player",
+            kind="rocket",
+        )
+    )
+
+    session.update(0.0, camera)
+
+    assert boss.health == 450
+    assert boss.phase_label == "PHASE 2"
 
 
 def test_player_collects_repair_and_receives_score() -> None:

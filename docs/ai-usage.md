@@ -138,3 +138,18 @@
 - **Resursi:** nije dodan vanjski sadržaj; `waves.json` je autorska konfiguracijska
   datoteka projekta.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 23. lipnja 2026. — prvi dio boss borbe
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** implementacija ISS Goliath boss modela, boss balansa, proceduralnog prikaza,
+  spawnanja nakon trećeg vala, dvije faze, burst paljbe, boss HUD-a, testova i prateće
+  dokumentacije.
+- **Utjecaj:** nakon čišćenja tri vala pojavljuje se rani boss susret. Boss prima štetu i
+  prelazi u drugu fazu, ali score za uništenje, victory i game-over tok ostaju za sljedeći
+  commit.
+- **Provjera:** Ruff i 108 Pytest testova kroz `./scripts/validate.sh`, 180-frame headless
+  pokretanje, 12-sekundni benchmark od 163,6 FPS-a uz prag 55 FPS-a te PyInstaller
+  package build.
+- **Resursi:** boss prikaz generiran je PyGame kodom; nisu dodani vanjski resursi.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

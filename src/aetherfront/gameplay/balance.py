@@ -65,6 +65,23 @@ class EnemyBalance:
 
 
 @dataclass(frozen=True, slots=True)
+class BossBalance:
+    """Vrijednosti dreadnought šefa i njegovih projektila."""
+
+    max_health: float
+    collision_radius: float
+    score_value: int
+    contact_damage: float
+    phase_two_threshold: float
+    phase_one_cooldown_seconds: float
+    phase_two_cooldown_seconds: float
+    projectile_damage: float
+    projectile_speed: float
+    projectile_radius: float
+    projectile_lifetime_seconds: float
+
+
+@dataclass(frozen=True, slots=True)
 class CombatBalance:
     """Provjerena borbena konfiguracija dostupna ostatku igre."""
 
@@ -75,6 +92,7 @@ class CombatBalance:
     rocket: WeaponBalance
     repair: RepairBalance
     enemies: dict[str, EnemyBalance]
+    boss: BossBalance
 
 
 def _positive_number(section: dict[str, Any], key: str, section_name: str) -> float:
@@ -160,6 +178,43 @@ def _enemy(section: dict[str, Any], name: str) -> EnemyBalance:
     )
 
 
+def _ratio(section: dict[str, Any], key: str, section_name: str) -> float:
+    """Dohvati omjer strogo unutar intervala 0-1."""
+    value = _positive_number(section, key, section_name)
+    if value >= 1:
+        raise ValueError(f"{section_name}.{key} must be less than 1")
+    return value
+
+
+def _boss(section: dict[str, Any]) -> BossBalance:
+    """Pretvori JSON sekciju šefa u provjerenu konfiguraciju."""
+    return BossBalance(
+        max_health=_positive_number(section, "max_health", "boss"),
+        collision_radius=_positive_number(section, "collision_radius", "boss"),
+        score_value=_positive_integer(section, "score_value", "boss"),
+        contact_damage=_positive_number(section, "contact_damage", "boss"),
+        phase_two_threshold=_ratio(section, "phase_two_threshold", "boss"),
+        phase_one_cooldown_seconds=_positive_number(
+            section,
+            "phase_one_cooldown_seconds",
+            "boss",
+        ),
+        phase_two_cooldown_seconds=_positive_number(
+            section,
+            "phase_two_cooldown_seconds",
+            "boss",
+        ),
+        projectile_damage=_positive_number(section, "projectile_damage", "boss"),
+        projectile_speed=_positive_number(section, "projectile_speed", "boss"),
+        projectile_radius=_positive_number(section, "projectile_radius", "boss"),
+        projectile_lifetime_seconds=_positive_number(
+            section,
+            "projectile_lifetime_seconds",
+            "boss",
+        ),
+    )
+
+
 def load_combat_balance(path: Path | None = None) -> CombatBalance:
     """Učitaj zadanu paketnu konfiguraciju ili datoteku poslanu iz testa."""
     if path is None:
@@ -184,6 +239,7 @@ def load_combat_balance(path: Path | None = None) -> CombatBalance:
     scout = _section(enemies, "scout")
     gunship = _section(enemies, "gunship")
     bomber = _section(enemies, "bomber")
+    boss = _section(raw, "boss")
     return CombatBalance(
         player=PlayerBalance(
             max_health=_positive_number(player, "max_health", "player"),
@@ -221,4 +277,5 @@ def load_combat_balance(path: Path | None = None) -> CombatBalance:
             "gunship": _enemy(gunship, "enemies.gunship"),
             "bomber": _enemy(bomber, "enemies.bomber"),
         },
+        boss=_boss(boss),
     )

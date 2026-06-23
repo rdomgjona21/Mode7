@@ -25,7 +25,7 @@ def draw_hud(
     fps: float,
 ) -> None:
     """Nacrtaj zdravlje, oružje, val, bodove, neprijatelje, brzinu i FPS."""
-    panel = pygame.Surface((286, 137), pygame.SRCALPHA)
+    panel = pygame.Surface((286, 181), pygame.SRCALPHA)
     panel.fill((14, 22, 31, 190))
     canvas.blit(panel, (8, 8))
 
@@ -56,4 +56,12 @@ def draw_hud(
     else:
         enemy = director.current_wave_name.upper()
     _label(canvas, font, f"ENEMIES {session.enemies_remaining}  {enemy}", (18, 125))
+
+    if session.boss is not None:
+        boss = session.boss
+        boss_ratio = 0.0 if boss.health is None else boss.health / boss.max_health
+        _label(canvas, font, f"BOSS GOLIATH {boss.phase_label}", (18, 144))
+        pygame.draw.rect(canvas, (79, 45, 43), (18, 168, 224, 8))
+        pygame.draw.rect(canvas, (193, 63, 57), (18, 168, round(224 * boss_ratio), 8))
+        pygame.draw.rect(canvas, (222, 205, 158), (18, 168, 224, 8), 1)
     _label(canvas, font, f"SPEED {speed:04.1f}   FPS {fps:04.1f}", (450, 13))

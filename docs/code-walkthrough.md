@@ -118,9 +118,15 @@ neprijateljski projektil samo kada je hlađenje završeno.
 valova i završetak trećeg vala. Spawn položaji nisu apsolutne koordinate nego udaljenost
 ispred kamere i bočni pomak, pa se svaki val pojavljuje u odnosu na smjer kojim igrač leti.
 
+`DreadnoughtBoss` opisuje ISS Goliath nakon završetka valova. Boss ima vlastito zdravlje,
+radijus sudara, dvije faze, cooldown i burst paljbu. Faza se ne sprema ručno, nego se
+računa iz preostalog zdravlja: iznad 50 % je prva faza, a na 50 % ili manje počinje druga
+faza s pet projektila i kraćim hlađenjem.
+
 `CombatSession` je središte borbene probe. Ažurira `WaveDirector`, projektile, protivnike,
-njihove napade, sudare igrača i neprijatelja, nastanak popravaka i bodove. Time glavna
-PyGame petlja ne mora sadržavati pravila štete, bodovanja, spawnova i isteka objekata.
+njihove napade, boss susret, sudare igrača i neprijatelja, nastanak popravaka i bodove.
+Nakon `waves_complete` stvara Goliath ispred kamere. Time glavna PyGame petlja ne mora
+sadržavati pravila štete, bodovanja, spawnova i isteka objekata.
 
 HUD samo čita stanje sesije. Ne mijenja zdravlje, hlađenja ni bodove, pa ga je moguće
 zasebno testirati crtanjem na običnu headless površinu.
@@ -183,9 +189,10 @@ Testovi oružja provjeravaju broj, kutove, štetu, hlađenja i ograničenje proj
 Testovi protivnika provjeravaju zaključane razlike scouta, gunshipa i bombera, primanje
 štete, determinističko kretanje i hlađenje neprijateljske paljbe. Testovi valova provjeravaju
 učitavanje tri vala, redoslijed spawnova, odgode, prijelaz između valova i završetak trećeg
-vala. Testovi sesije provjeravaju prvi konfigurirani val, prijelaz na drugi val, bodove,
-nastanak i prikupljanje popravka, ograničenje projektila i štetu nad igračem. HUD i
-benchmark imaju zasebne headless testove.
+vala. Testovi bossa provjeravaju početno zdravlje, prijelaz u drugu fazu, širi burst i
+uništenje. Testovi sesije provjeravaju prvi konfigurirani val, prijelaz na drugi val,
+stvaranje bossa nakon trećeg vala, boss damage, bodove, nastanak i prikupljanje popravka,
+ograničenje projektila i štetu nad igračem. HUD i benchmark imaju zasebne headless testove.
 
 ## 12. Validacija
 

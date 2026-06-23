@@ -78,5 +78,18 @@
       "projectile_radius": 6.0,
       "projectile_lifetime_seconds": 3.6
     }
+  },
+  "boss": {
+    "max_health": 900,
+    "collision_radius": 72.0,
+    "score_value": 5000,
+    "contact_damage": 35,
+    "phase_two_threshold": 0.5,
+    "phase_one_cooldown_seconds": 0.78,
+    "phase_two_cooldown_seconds": 0.42,
+    "projectile_damage": 18,
+    "projectile_speed": 175,
+    "projectile_radius": 5.0,
+    "projectile_lifetime_seconds": 4.0
   }
 }

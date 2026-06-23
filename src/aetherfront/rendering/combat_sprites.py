@@ -64,6 +64,25 @@ def create_enemy_surfaces() -> dict[EnemyKind, pygame.Surface]:
     }
 
 
+def create_boss_surface() -> pygame.Surface:
+    """Stvori veliki proceduralni sprite za ISS Goliath."""
+    surface = pygame.Surface((150, 72), pygame.SRCALPHA)
+    pygame.draw.ellipse(surface, (42, 44, 50), (15, 4, 108, 24))
+    pygame.draw.ellipse(surface, (83, 65, 50), (10, 2, 118, 26), 3)
+    pygame.draw.rect(surface, (55, 49, 47), (20, 30, 104, 18))
+    pygame.draw.rect(surface, (138, 99, 53), (27, 35, 90, 8))
+    pygame.draw.polygon(surface, (38, 40, 47), ((120, 28), (149, 39), (120, 52)))
+    pygame.draw.polygon(surface, (38, 40, 47), ((22, 28), (0, 39), (22, 52)))
+    pygame.draw.circle(surface, (193, 63, 57), (43, 39), 5)
+    pygame.draw.circle(surface, (193, 63, 57), (73, 39), 5)
+    pygame.draw.circle(surface, (193, 63, 57), (103, 39), 5)
+    pygame.draw.line(surface, (224, 190, 103), (28, 30), (116, 30), 3)
+    pygame.draw.line(surface, (224, 190, 103), (32, 49), (110, 49), 2)
+    pygame.draw.circle(surface, (65, 211, 202), (75, 56), 6)
+    pygame.draw.circle(surface, (232, 220, 181), (75, 56), 2)
+    return surface
+
+
 def create_repair_surface() -> pygame.Surface:
     """Stvori cijan ćeliju s križem koja označava popravak."""
     surface = pygame.Surface((32, 32), pygame.SRCALPHA)

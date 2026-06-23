@@ -25,6 +25,8 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
   zdravljem, napadima, proceduralnim oblicima, bodovima i štetom nad igračem.
 - **23.6.:** prije rasporeda implementirani su `waves.json` i `WaveDirector`; tri redovna
   vala sada koriste postojeće standardne protivnike umjesto razvojne skupine.
+- **23.6.:** implementiran je prvi dio boss borbe: ISS Goliath model, proceduralni prikaz,
+  spawn nakon trećeg vala, dvije faze, burst paljba i boss HUD.
 
 ## Dnevni raspored
 

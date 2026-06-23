@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 1.0
+**Verzija:** 1.1
 
 **Datum:** 23. lipnja 2026.
 
-**Status:** igriva Mode7 borbena proba s tri konfigurirana vala i rani macOS paket
+**Status:** igriva Mode7 borbena proba s tri vala, ranim boss susretom i macOS paketom
 
 ## Arhitektura
 
@@ -114,17 +114,26 @@ protivnike prema konfiguriranim odgodama, udaljenostima ispred kamere i bočnim 
 Prvi val uvodi šest scoutova, drugi kombinira scoutove i gunshipove, a treći dodaje
 bombere. Nakon što su svi spawnovi vala iskorišteni i nema živih protivnika, direktor
 pokreće kratku stanku i zatim prelazi na sljedeći val. Nakon trećeg vala postavlja stanje
-`waves_complete`, koje će sljedeći commit koristiti za ulazak u boss borbu.
+`waves_complete`, koje trenutačna borbena sesija koristi za stvaranje bossa.
+
+`DreadnoughtBoss` predstavlja ISS Goliath. Stvara se ispred kamere nakon završetka trećeg
+vala, ima 900 HP, velik radijus sudara i dvije faze. Prva faza koristi burst od tri
+projektila i sporije hlađenje, a druga počinje na 50 % zdravlja, koristi burst od pet
+projektila i kraće hlađenje. Boss se održava u prednjem sektoru kako ga igrač ne bi
+nenamjerno prošao i izgubio iz vidljivog borbenog prostora.
 
 `CombatSession` jednom po frameu povezuje ulaze, projektile, `WaveDirector`, neprijatelje,
-kružne sudare, repair pickup, zdravlje igrača i bodove. Igračevi projektili uništavaju
-protivnike i odmah dodaju njihove bodove; uništeni protivnik ostavlja popravak koji vraća
-do 24 HP-a, dodaje 50 bodova i nestaje nakon 10 sekundi.
+kružne sudare, boss susret, repair pickup, zdravlje igrača i bodove. Igračevi projektili
+uništavaju protivnike i odmah dodaju njihove bodove; uništeni protivnik ostavlja popravak
+koji vraća do 24 HP-a, dodaje 50 bodova i nestaje nakon 10 sekundi. U ovoj međufazi boss
+prima štetu i mijenja fazu, ali konačni score, pobjeda i game-over tok ostaju za sljedeći
+commit.
 
 Proceduralne slike razlikuju mjedeni cannon, cijan spread gun, crvenu raketu, neprijateljske
-projektile, tri vrste zračnih brodova i repair ćeliju. `BillboardProjector` ih zajednički
-sortira i crta. Engleski HUD prikazuje trup, odabrano oružje, hlađenje rakete, val, bodove,
-broj preostalih protivnika, trenutačnu prijetnju, stanje dolaska vala, brzinu i FPS.
+projektile, tri vrste zračnih brodova, ISS Goliath i repair ćeliju. `BillboardProjector`
+ih zajednički sortira i crta. Engleski HUD prikazuje trup, odabrano oružje, hlađenje
+rakete, val, bodove, broj preostalih protivnika, trenutačnu prijetnju, stanje dolaska vala,
+boss health bar, boss fazu, brzinu i FPS.
 
 ## Kamera i vrijeme
 
@@ -161,5 +170,5 @@ Prekid tipkama `Ctrl+C` vraća izlazni kod 130 i kratku poruku bez Python traceb
 
 ## Sljedeći tehnički korak
 
-Sljedeća zasebna cjelina dodaje ISS Goliath, dvije faze šefa, boss HUD i privremeni
-prijelaz iz stanja očišćenih valova prema završetku borbe.
+Sljedeća zasebna cjelina povezuje uništenje bossa sa scoreom, pobjedom, game-over stanjem
+i jasnim završetkom borbenog toka.

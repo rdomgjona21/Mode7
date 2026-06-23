@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 
 from aetherfront.config import WORLD_SIZE
 from aetherfront.gameplay.balance import CombatBalance, load_combat_balance
+from aetherfront.gameplay.boss import DreadnoughtBoss
 from aetherfront.gameplay.collisions import CircleBody, circles_overlap, wrapped_axis_delta
 from aetherfront.gameplay.enemies import Enemy
 from aetherfront.gameplay.pickups import RepairPickup
@@ -29,6 +30,7 @@ class CombatSession:
     weapons: WeaponController
     wave_director: WaveDirector
     enemies: list[Enemy]
+    boss: DreadnoughtBoss | None = None
     projectiles: list[Projectile] = field(default_factory=list)
     pickups: list[RepairPickup] = field(default_factory=list)
     score: int = 0
@@ -111,6 +113,18 @@ class CombatSession:
         self.projectiles = [projectile for projectile in self.projectiles if projectile.active]
         self.enemies = [enemy for enemy in self.enemies if enemy.alive]
 
+    def _hit_boss(self) -> None:
+        """Primijeni pogotke igrača na aktivnog bossa bez zatvaranja borbe."""
+        if self.boss is None or not self.boss.alive:
+            return
+        for projectile in self.projectiles:
+            if projectile.team != "player":
+                continue
+            if circles_overlap(projectile.collision_body, self.boss.collision_body):
+                projectile.lifetime_remaining = 0.0
+                self.boss.take_damage(projectile.damage)
+        self.projectiles = [projectile for projectile in self.projectiles if projectile.active]
+
     def _update_enemies(self, dt: float, camera: Camera) -> None:
         for enemy in self.enemies:
             enemy.update(dt, camera.x, camera.y)
@@ -119,6 +133,22 @@ class CombatSession:
             projectile = enemy.fire_if_ready(camera.x, camera.y)
             if projectile is not None:
                 self.projectiles.append(projectile)
+
+    def _update_boss(self, dt: float, camera: Camera) -> None:
+        """Ažuriraj boss položaj i dodaj njegov burst ako je hlađenje spremno."""
+        if self.boss is None or not self.boss.alive:
+            return
+        self.boss.update(dt, camera)
+        available_slots = self._available_projectile_slots()
+        if available_slots <= 0:
+            return
+        self.projectiles.extend(self.boss.fire_if_ready(camera.x, camera.y)[:available_slots])
+
+    def _ensure_boss_spawned(self, camera: Camera) -> None:
+        """Stvori ISS Goliath nakon završetka trećeg vala."""
+        if not self.wave_director.waves_complete or self.boss is not None:
+            return
+        self.boss = DreadnoughtBoss.spawn_ahead(camera, self.balance.boss)
 
     def _keep_enemies_in_front(self, camera: Camera) -> None:
         """Vrati prebliske ili iza-kamere protivnike u vidljivi prednji sektor."""
@@ -153,6 +183,9 @@ class CombatSession:
         for enemy in self.enemies:
             if circles_overlap(player_body, enemy.collision_body):
                 self.player.take_damage(enemy.contact_damage)
+        if self.boss is not None and self.boss.alive:
+            if circles_overlap(player_body, self.boss.collision_body):
+                self.player.take_damage(self.boss.contact_damage)
         self.projectiles = [projectile for projectile in self.projectiles if projectile.active]
 
     def _update_pickups(self, dt: float, camera: Camera) -> None:
@@ -182,11 +215,14 @@ class CombatSession:
                 living_enemy_count=self.enemies_remaining,
             )
         )
+        self._ensure_boss_spawned(camera)
         self._fire(camera, fire_primary, fire_rocket)
         self._update_enemies(dt, camera)
         self._keep_enemies_in_front(camera)
+        self._update_boss(dt, camera)
         self._update_projectiles(dt)
         self._hit_enemies()
+        self._hit_boss()
         self._hit_player(camera)
         self.enemies.extend(
             self.wave_director.update(
@@ -196,6 +232,7 @@ class CombatSession:
                 living_enemy_count=self.enemies_remaining,
             )
         )
+        self._ensure_boss_spawned(camera)
         self._update_pickups(dt, camera)
 
     @property

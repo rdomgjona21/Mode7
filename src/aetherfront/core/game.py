@@ -17,6 +17,7 @@ from aetherfront.gameplay.weapons import PrimaryWeapon
 from aetherfront.rendering.billboards import BillboardProjector, WorldBillboard
 from aetherfront.rendering.camera import Camera
 from aetherfront.rendering.combat_sprites import (
+    create_boss_surface,
     create_enemy_surfaces,
     create_projectile_surfaces,
     create_repair_surface,
@@ -44,6 +45,7 @@ class Game:
         session: CombatSession,
         projectile_surfaces: dict[str, pygame.Surface],
         enemy_surfaces: dict[EnemyKind, pygame.Surface],
+        boss_surface: pygame.Surface,
         repair_surface: pygame.Surface,
         player_surface: pygame.Surface,
         fps: float,
@@ -58,6 +60,15 @@ class Game:
                     enemy.x,
                     enemy.y,
                     enemy.radius * 2,
+                )
+            )
+        if session.boss is not None and session.boss.alive:
+            billboards.append(
+                WorldBillboard(
+                    boss_surface,
+                    session.boss.x,
+                    session.boss.y,
+                    session.boss.radius * 2,
                 )
             )
         billboards.extend(
@@ -116,6 +127,7 @@ class Game:
             session = CombatSession.create(camera)
             projectile_surfaces = create_projectile_surfaces()
             enemy_surfaces = create_enemy_surfaces()
+            boss_surface = create_boss_surface()
             repair_surface = create_repair_surface()
             player_surface = create_kestrel_surface()
 
@@ -161,6 +173,7 @@ class Game:
                     session,
                     projectile_surfaces,
                     enemy_surfaces,
+                    boss_surface,
                     repair_surface,
                     player_surface,
                     clock.get_fps(),
