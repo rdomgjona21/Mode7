@@ -6,8 +6,8 @@ from dataclasses import dataclass, field
 
 import pygame
 
-from aetherfront.config import INTERNAL_SIZE
-from aetherfront.rendering.billboards import BillboardProjector, WorldBillboard
+from aetherfront.config import CAMERA_HEIGHT, HORIZON_Y, INTERNAL_SIZE, WORLD_SIZE
+from aetherfront.rendering.billboards import BillboardProjector
 
 
 @dataclass(slots=True)
@@ -66,24 +66,25 @@ def draw_particles(
     projector: BillboardProjector,
     particles: list[ExplosionParticle],
 ) -> None:
-    """Projiciraj čestice kao billboarde i nacrtaj ih kao obojene krugove."""
+    """Projiciraj čestice i nacrtaj ih kao obojene krugove u ekranskim koordinatama."""
     if not particles:
         return
-    billboards = [
-        WorldBillboard(surface=None, world_x=p.x, world_y=p.y, world_diameter=p.size * 2)  # type: ignore[arg-type]
-        for p in particles
-    ]
-    projected = projector.project_all(
-        type("_Cam", (), {"x": camera_x, "y": camera_y, "heading": 0.0})(),  # type: ignore[arg-type]
-        billboards,
-    )
-    for proj, particle in zip(projected, particles, strict=False):
-        if proj is None:
+    half = WORLD_SIZE / 2
+    forward_x = math.cos(0.0)
+    forward_y = math.sin(0.0)
+    for particle in particles:
+        dx = (particle.x - camera_x + half) % WORLD_SIZE - half
+        dy = (particle.y - camera_y + half) % WORLD_SIZE - half
+        depth = dx * forward_x + dy * forward_y
+        if depth <= projector.near_clip or depth > projector.far_clip:
             continue
+        lateral = dx * -forward_y + dy * forward_x
+        screen_x = projector.width / 2 + lateral * projector.focal_length / depth
+        screen_y = HORIZON_Y + CAMERA_HEIGHT * projector.focal_length / depth
+        radius = max(1, int(particle.size * projector.focal_length / depth))
         alpha_ratio = particle.lifetime_remaining / particle.lifetime
         color = (255, int(180 * alpha_ratio), int(40 * alpha_ratio))
-        radius = max(1, int(proj.screen_rect.width / 2))
-        pygame.draw.circle(canvas, color, proj.screen_rect.center, radius)
+        pygame.draw.circle(canvas, color, (int(screen_x), int(screen_y)), radius)
 
 
 @dataclass(slots=True)
