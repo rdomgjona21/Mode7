@@ -125,8 +125,10 @@ faza s pet projektila i kraćim hlađenjem.
 
 `CombatSession` je središte borbene probe. Ažurira `WaveDirector`, projektile, protivnike,
 njihove napade, boss susret, sudare igrača i neprijatelja, nastanak popravaka i bodove.
-Nakon `waves_complete` stvara Goliath ispred kamere. Time glavna PyGame petlja ne mora
-sadržavati pravila štete, bodovanja, spawnova i isteka objekata.
+Nakon `waves_complete` stvara Goliath ispred kamere. Kada je boss uništen, dodaje se
+boss score i postavlja `victory`; kada igrač ostane bez trupa, postavlja se `game_over`.
+Time glavna PyGame petlja ne mora sadržavati pravila štete, bodovanja, spawnova i isteka
+objekata.
 
 HUD samo čita stanje sesije. Ne mijenja zdravlje, hlađenja ni bodove, pa ga je moguće
 zasebno testirati crtanjem na običnu headless površinu.
@@ -148,7 +150,7 @@ Petlja `while running` čini jedan frame u svakom prolazu:
 2. prekida rad nakon događaja `QUIT`;
 3. pretvara pritisnute tipke u osi rotacije i gasa;
 4. obrađuje odabir oružja, paljbu i raketu;
-5. ažurira kameru i borbenu sesiju pomoću `dt`;
+5. ažurira kameru i borbenu sesiju pomoću `dt` dok nema pobjede ili poraza;
 6. crta Mode7 teren i dubinski sortirane borbene objekte;
 7. crta Kestrel, HUD i kontrole;
 8. povećava internu površinu na prozor;
@@ -192,7 +194,8 @@ učitavanje tri vala, redoslijed spawnova, odgode, prijelaz između valova i zav
 vala. Testovi bossa provjeravaju početno zdravlje, prijelaz u drugu fazu, širi burst i
 uništenje. Testovi sesije provjeravaju prvi konfigurirani val, prijelaz na drugi val,
 stvaranje bossa nakon trećeg vala, boss damage, bodove, nastanak i prikupljanje popravka,
-ograničenje projektila i štetu nad igračem. HUD i benchmark imaju zasebne headless testove.
+victory, game-over stanje, terminalno zaustavljanje simulacije, ograničenje projektila i
+štetu nad igračem. HUD i benchmark imaju zasebne headless testove.
 
 ## 12. Validacija
 
@@ -211,3 +214,25 @@ provjerava postoje li izvršna datoteka, `balance.json` i `waves.json` unutar pa
 
 Za učenje je korisno privremeno promijeniti jednu konstantu ili očekivanje u testu,
 pokrenuti `./scripts/validate.sh`, pročitati pogrešku i zatim vratiti promjenu.
+
+## 13. Sažetak trenutačnog sustava
+
+Aplikacija se pokreće naredbom `python -m aetherfront`. `main.py` stvara `Game`, a
+`Game.run()` upravlja PyGame prozorom, eventima, kamerom, borbenom sesijom i crtanjem.
+
+Prikaz koristi internu sliku 640×360 skaliranu na 1280×720. `Mode7Projection` računa
+omotane koordinate tla, `Mode7Renderer` ih NumPyjem uzorkuje iz proceduralne teksture, a
+`BillboardProjector` crta svjetske objekte kao 2D spriteove skalirane po udaljenosti.
+
+Kestrel je vezan uz donji dio ekrana, dok kamera predstavlja položaj i smjer igrača u
+svijetu. `balance.json` sadrži vrijednosti zdravlja, oružja, protivnika, popravka i bossa.
+`waves.json` sadrži tri vala i njihove spawn odgode.
+
+Borbena petlja povezuje kretanje kamere, oružja, neprijatelje, valove, sudare, pickupove,
+boss borbu, bodove, pobjedu i poraz. `CombatSession` drži većinu gameplay stanja, pa
+renderer i HUD uglavnom samo čitaju podatke i prikazuju ih.
+
+Trenutačno rade tri oružja, tri standardna protivnika, tri vala, repair pickup, score, ISS
+Goliath s dvije faze, boss health bar, `VICTORY` i `GAME OVER`. Još nedostaju glavni
+izbornik, ekran s uputama, pauza, restart flow, zvuk, čestice, screen shake, završno
+balansiranje, završni dokumenti, prezentacija i release ZIP.

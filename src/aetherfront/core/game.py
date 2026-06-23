@@ -155,13 +155,14 @@ class Game:
                     keys[pygame.K_w] or keys[pygame.K_UP],
                     keys[pygame.K_s] or keys[pygame.K_DOWN],
                 )
-                camera.update(dt, turn, throttle)
-                session.update(
-                    dt,
-                    camera,
-                    fire_primary=keys[pygame.K_SPACE],
-                    fire_rocket=keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT],
-                )
+                if not session.victory and not session.game_over:
+                    camera.update(dt, turn, throttle)
+                    session.update(
+                        dt,
+                        camera,
+                        fire_primary=keys[pygame.K_SPACE],
+                        fire_rocket=keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT],
+                    )
 
                 # Mode7 renderer pretvara položaj i smjer kamere u perspektivnu ravninu.
                 self._draw_scene(

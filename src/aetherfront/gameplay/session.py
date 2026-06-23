@@ -34,6 +34,9 @@ class CombatSession:
     projectiles: list[Projectile] = field(default_factory=list)
     pickups: list[RepairPickup] = field(default_factory=list)
     score: int = 0
+    victory: bool = False
+    game_over: bool = False
+    boss_score_awarded: bool = False
 
     @classmethod
     def create(cls, camera: Camera) -> "CombatSession":
@@ -114,7 +117,7 @@ class CombatSession:
         self.enemies = [enemy for enemy in self.enemies if enemy.alive]
 
     def _hit_boss(self) -> None:
-        """Primijeni pogotke igrača na aktivnog bossa bez zatvaranja borbe."""
+        """Primijeni pogotke igrača na bossa i zatvori borbu nakon uništenja."""
         if self.boss is None or not self.boss.alive:
             return
         for projectile in self.projectiles:
@@ -122,7 +125,11 @@ class CombatSession:
                 continue
             if circles_overlap(projectile.collision_body, self.boss.collision_body):
                 projectile.lifetime_remaining = 0.0
-                self.boss.take_damage(projectile.damage)
+                destroyed = self.boss.take_damage(projectile.damage)
+                if destroyed and not self.boss_score_awarded:
+                    self.score += self.boss.score_value
+                    self.boss_score_awarded = True
+                    self.victory = True
         self.projectiles = [projectile for projectile in self.projectiles if projectile.active]
 
     def _update_enemies(self, dt: float, camera: Camera) -> None:
@@ -188,6 +195,11 @@ class CombatSession:
                 self.player.take_damage(self.boss.contact_damage)
         self.projectiles = [projectile for projectile in self.projectiles if projectile.active]
 
+    def _update_terminal_state(self) -> None:
+        """Zaključi borbu kada igrač ostane bez trupa."""
+        if not self.player.alive and not self.victory:
+            self.game_over = True
+
     def _update_pickups(self, dt: float, camera: Camera) -> None:
         player_body = CircleBody(camera.x, camera.y, self.balance.player.collision_radius)
         for pickup in self.pickups:
@@ -205,6 +217,9 @@ class CombatSession:
         fire_rocket: bool = False,
     ) -> None:
         """Ažuriraj trenutni testni sukob protiv standardnih protivnika."""
+        if self.victory or self.game_over:
+            return
+
         self.player.update(dt)
         self.weapons.update(dt)
         self.enemies.extend(
@@ -224,6 +239,7 @@ class CombatSession:
         self._hit_enemies()
         self._hit_boss()
         self._hit_player(camera)
+        self._update_terminal_state()
         self.enemies.extend(
             self.wave_director.update(
                 0.0,

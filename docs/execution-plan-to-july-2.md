@@ -27,6 +27,8 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
   vala sada koriste postojeće standardne protivnike umjesto razvojne skupine.
 - **23.6.:** implementiran je prvi dio boss borbe: ISS Goliath model, proceduralni prikaz,
   spawn nakon trećeg vala, dvije faze, burst paljba i boss HUD.
+- **23.6.:** povezan je završetak borbe: uništenje bossa dodaje score i prikazuje pobjedu,
+  a gubitak trupa prikazuje game-over stanje.
 
 ## Dnevni raspored
 

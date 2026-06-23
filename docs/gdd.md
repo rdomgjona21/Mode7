@@ -3,7 +3,7 @@
 **Verzija:** 1.0  
 **Autor:** Robert Domgjonaj  
 **Datum:** 18. lipnja 2026.  
-**Status:** početni nacrt; Mode7 prototip, oružja, standardni protivnici, tri vala i rani boss implementirani
+**Status:** početni nacrt; borbeni tok od tri vala do pobjede ili poraza implementiran
 
 ## Sadržaj
 
@@ -121,7 +121,7 @@ Arhitektura koristi Python 3.12 i PyGame petlju, a kasnije će dobiti zasebna ap
 
 Brodovi, efekti, popravci i projektili projiciraju se iz svijeta na zaslon, sortiraju po dubini i zatim crtaju. Sudari koriste determinističke kružnice i najkraću udaljenost unutar svijeta opsega 2.048 jedinica. `WaveDirector` čita `data/waves.json`, a `data/balance.json` bilježi vrijednosti balansa. Podrijetlo budućih resursa vodit će se u `assets/manifest.csv`.
 
-Trenutačna naredba `python -m aetherfront` pokreće PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja, kamera, vektorizirana Mode7 projekcija, deterministički generator terena i vizualno NumPy uzorkovanje su implementirani. Proceduralni Kestrel prikazan je pri dnu zaslona, a billboard sustav crta scoutove, gunshipove, bombere, ISS Goliath, igračeve i neprijateljske projektile te repair pickup. Cannon, spread gun i raketa koriste vrijednosti štete i hlađenja iz `data/balance.json`. `waves.json` definira tri redovna vala, odgode spawnova, relativne položaje i stanke između valova. Nakon trećeg vala pojavljuje se rani boss susret: Goliath ima 900 HP, dvije faze i burst paljbu, a HUD prikazuje health bar i fazu. Pogoci smanjuju zdravlje protivnika i bossa, uništenje redovnih protivnika dodaje bodove i stvara pickup. PyInstaller uspješno uključuje konfiguraciju i izrađuje ARM64 macOS `.app`; završni ZIP izradit će se nakon dovršetka igre.
+Trenutačna naredba `python -m aetherfront` pokreće PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja, kamera, vektorizirana Mode7 projekcija, deterministički generator terena i vizualno NumPy uzorkovanje su implementirani. Proceduralni Kestrel prikazan je pri dnu zaslona, a billboard sustav crta scoutove, gunshipove, bombere, ISS Goliath, igračeve i neprijateljske projektile te repair pickup. Cannon, spread gun i raketa koriste vrijednosti štete i hlađenja iz `data/balance.json`. `waves.json` definira tri redovna vala, odgode spawnova, relativne položaje i stanke između valova. Nakon trećeg vala pojavljuje se boss susret: Goliath ima 900 HP, dvije faze i burst paljbu, a HUD prikazuje health bar i fazu. Pogoci smanjuju zdravlje protivnika i bossa, uništenje redovnih protivnika dodaje bodove i stvara pickup, uništenje bossa dodaje 5.000 bodova i prikazuje pobjedu, a smrt igrača prikazuje game-over stanje. PyInstaller uspješno uključuje konfiguraciju i izrađuje ARM64 macOS `.app`; završni ZIP izradit će se nakon dovršetka igre.
 
 ### Sistemski zahtjevi
 
@@ -188,3 +188,4 @@ Generativni AI trenutačno se koristi prema FOI razini 4 za planiranje, struktur
 | 1.2 | 23. 6. 2026. | Robert Domgjonaj | Evidentirani scout, gunship i bomber kao standardni protivnici |
 | 1.3 | 23. 6. 2026. | Robert Domgjonaj | Evidentirana tri konfigurirana redovna vala |
 | 1.4 | 23. 6. 2026. | Robert Domgjonaj | Evidentiran ISS Goliath boss model, prikaz, HUD i dvije faze |
+| 1.5 | 23. 6. 2026. | Robert Domgjonaj | Evidentiran završetak borbenog toka pobjedom ili porazom |

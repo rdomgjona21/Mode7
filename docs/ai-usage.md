@@ -153,3 +153,17 @@
   package build.
 - **Resursi:** boss prikaz generiran je PyGame kodom; nisu dodani vanjski resursi.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 23. lipnja 2026. — završetak borbenog toka
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** povezivanje uništenja bossa sa scoreom i pobjedom, povezivanje smrti igrača
+  s game-over stanjem, zaustavljanje simulacije nakon terminalnog stanja, testovi i sažetak
+  trenutačnog koda.
+- **Utjecaj:** borbeni tok sada može završiti pobjedom nakon ISS Goliatha ili porazom nakon
+  gubitka trupa. Glavni izbornik, restart i pauza nisu dodani u ovom koraku.
+- **Provjera:** Ruff i 111 Pytest testova kroz `./scripts/validate.sh`, 180-frame headless
+  pokretanje, 12-sekundni benchmark od 162,1 FPS-a uz prag 55 FPS-a te PyInstaller
+  package build.
+- **Resursi:** nisu dodani vanjski resursi.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

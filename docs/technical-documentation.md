@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 1.1
+**Verzija:** 1.2
 
 **Datum:** 23. lipnja 2026.
 
-**Status:** igriva Mode7 borbena proba s tri vala, ranim boss susretom i macOS paketom
+**Status:** igrivi borbeni tok od tri vala do pobjede ili poraza i macOS paket
 
 ## Arhitektura
 
@@ -125,15 +125,16 @@ nenamjerno prošao i izgubio iz vidljivog borbenog prostora.
 `CombatSession` jednom po frameu povezuje ulaze, projektile, `WaveDirector`, neprijatelje,
 kružne sudare, boss susret, repair pickup, zdravlje igrača i bodove. Igračevi projektili
 uništavaju protivnike i odmah dodaju njihove bodove; uništeni protivnik ostavlja popravak
-koji vraća do 24 HP-a, dodaje 50 bodova i nestaje nakon 10 sekundi. U ovoj međufazi boss
-prima štetu i mijenja fazu, ali konačni score, pobjeda i game-over tok ostaju za sljedeći
-commit.
+koji vraća do 24 HP-a, dodaje 50 bodova i nestaje nakon 10 sekundi. Uništenje bossa dodaje
+5.000 bodova i postavlja `victory`, dok zdravlje igrača na nuli postavlja `game_over`.
+Nakon terminalnog stanja borbena simulacija i kamera se zaustavljaju, a prozor se i dalje
+može zatvoriti.
 
 Proceduralne slike razlikuju mjedeni cannon, cijan spread gun, crvenu raketu, neprijateljske
 projektile, tri vrste zračnih brodova, ISS Goliath i repair ćeliju. `BillboardProjector`
 ih zajednički sortira i crta. Engleski HUD prikazuje trup, odabrano oružje, hlađenje
 rakete, val, bodove, broj preostalih protivnika, trenutačnu prijetnju, stanje dolaska vala,
-boss health bar, boss fazu, brzinu i FPS.
+boss health bar, boss fazu, poruku pobjede ili poraza, brzinu i FPS.
 
 ## Kamera i vrijeme
 
@@ -170,5 +171,5 @@ Prekid tipkama `Ctrl+C` vraća izlazni kod 130 i kratku poruku bez Python traceb
 
 ## Sljedeći tehnički korak
 
-Sljedeća zasebna cjelina povezuje uništenje bossa sa scoreom, pobjedom, game-over stanjem
-i jasnim završetkom borbenog toka.
+Sljedeća zasebna cjelina uvodi aplikacijska stanja za glavni izbornik, upute, pauzu,
+restart nakon pobjede ili poraza i povratak u izbornik.

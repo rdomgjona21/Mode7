@@ -29,9 +29,9 @@ Projekt je u fazi igrive borbene probe. Dovršeni su:
 - skripta za izradu i provjeru macOS `.app` paketa;
 - početni automatizirani testovi i validacijska skripta.
 
-Tri oružja i vidljivi pogoci sada rade kroz tri konfigurirana redovna vala i rani boss
-susret. Pobjeda/game-over tok, zvuk, testovi cijele igre, prezentacija i završni
-distribucijski ZIP još nisu implementirani.
+Tri oružja i vidljivi pogoci sada rade kroz tri konfigurirana redovna vala, boss susret,
+pobjedu i game-over stanje. Glavni izbornik, pauza, zvuk, testovi cijele igre,
+prezentacija i završni distribucijski ZIP još nisu implementirani.
 
 Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored zaprimljeno je i
 evidentirano 22. lipnja 2026.

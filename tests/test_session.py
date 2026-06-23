@@ -108,6 +108,75 @@ def test_boss_receives_player_projectile_damage_after_waves() -> None:
     assert boss.phase_label == "PHASE 2"
 
 
+def test_destroyed_boss_awards_score_and_sets_victory() -> None:
+    camera = Camera()
+    session = CombatSession.create(camera)
+    for wave_number in (1, 2, 3):
+        session.update(10.0, camera)
+        for enemy in session.enemies:
+            enemy.take_damage(enemy.max_health)
+        session.update(0.0, camera)
+        if wave_number < 3:
+            session.update(2.0, camera)
+    assert session.boss is not None
+    boss = session.boss
+    previous_score = session.score
+    session.projectiles.append(
+        Projectile(
+            x=boss.x,
+            y=boss.y,
+            heading=0,
+            speed=0,
+            damage=boss.max_health,
+            radius=4,
+            lifetime_remaining=3,
+            team="player",
+            kind="rocket",
+        )
+    )
+
+    session.update(0.0, camera)
+
+    assert session.victory
+    assert not session.game_over
+    assert session.score == previous_score + boss.score_value
+
+
+def test_player_death_sets_game_over() -> None:
+    camera = Camera()
+    session = CombatSession.create(camera)
+    session.projectiles.append(
+        Projectile(
+            x=camera.x,
+            y=camera.y,
+            heading=0,
+            speed=0,
+            damage=session.player.max_health,
+            radius=4,
+            lifetime_remaining=3,
+            team="enemy",
+            kind="enemy_heavy",
+        )
+    )
+
+    session.update(0.0, camera)
+
+    assert session.game_over
+    assert not session.victory
+
+
+def test_terminal_session_stops_updating_projectiles() -> None:
+    camera = Camera()
+    session = CombatSession.create(camera)
+    session.victory = True
+    session.projectiles.append(Projectile(100, 100, 0, 50, 1, 2, 3, "player"))
+
+    session.update(1.0, camera)
+
+    assert session.projectiles[0].x == 100
+    assert session.projectiles[0].lifetime_remaining == 3
+
+
 def test_player_collects_repair_and_receives_score() -> None:
     camera = Camera()
     session = CombatSession.create(camera)

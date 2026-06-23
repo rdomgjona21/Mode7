@@ -64,4 +64,8 @@ def draw_hud(
         pygame.draw.rect(canvas, (79, 45, 43), (18, 168, 224, 8))
         pygame.draw.rect(canvas, (193, 63, 57), (18, 168, round(224 * boss_ratio), 8))
         pygame.draw.rect(canvas, (222, 205, 158), (18, 168, 224, 8), 1)
+    if session.victory:
+        _label(canvas, font, "VICTORY - BRASSHAVEN HOLDS", (182, 172))
+    elif session.game_over:
+        _label(canvas, font, "GAME OVER - KESTREL LOST", (182, 172))
     _label(canvas, font, f"SPEED {speed:04.1f}   FPS {fps:04.1f}", (450, 13))
