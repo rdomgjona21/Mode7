@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 1.2
+**Verzija:** 1.3
 
 **Datum:** 23. lipnja 2026.
 
-**Status:** igrivi borbeni tok od tri vala do pobjede ili poraza i macOS paket
+**Status:** igrivi tok od izbornika do završetka pokušaja i macOS paket
 
 ## Arhitektura
 
@@ -15,7 +15,8 @@ crtanjem i sigurnim gašenjem.
 Prikaz se crta na internu površinu veličine 640×360 i skalira na prozor veličine
 1280×720. Petlja je ograničena na 60 slika u sekundi. Trenutačna verzija prikazuje
 vizualni Mode7 prototip s osnovnim borbenim gameplayem, protivnicima, projektilima,
-pickupima, HUD-om i dijagnostičkim FPS-om.
+pickupima, HUD-om, dijagnostičkim FPS-om, glavnim izbornikom, uputama, pauzom i
+restartom pokušaja.
 
 ## Mode7 projekcija
 
@@ -136,6 +137,23 @@ ih zajednički sortira i crta. Engleski HUD prikazuje trup, odabrano oružje, hl
 rakete, val, bodove, broj preostalih protivnika, trenutačnu prijetnju, stanje dolaska vala,
 boss health bar, boss fazu, poruku pobjede ili poraza, brzinu i FPS.
 
+## Aplikacijska stanja
+
+`AppState` odvaja aplikacijski tok od borbene simulacije. Početno stanje je `MAIN_MENU`,
+zbog čega se borba više ne pokreće odmah pri otvaranju prozora. `Enter` ili `Space`
+stvaraju novu kameru i novu `CombatSession` te prelaze u `PLAYING`, dok `I` otvara
+`INSTRUCTIONS`. U uputama se `Enter` ili `Space` koriste za početak misije, a `M` ili
+`Esc` vraćaju glavni izbornik.
+
+Tijekom `PLAYING` stanja `Esc` prelazi u `PAUSED`. Dok je igra pauzirana, kamera,
+projektili, protivnici, boss i cooldowni se ne ažuriraju; crta se posljednji zamrznuti
+frame s pauznim panelom. Iz pauze `Esc` nastavlja igru, `R` stvara novi pokušaj, a `M`
+vraća izbornik.
+
+Pobjeda i poraz ostaju terminalna stanja unutar `CombatSession`, jer ovise o pravilima
+borbe. Kada su `victory` ili `game_over` aktivni, `PLAYING` crta završni panel s konačnim
+scoreom. `R` tada resetira misiju, a `M` resetira stanje i vraća glavni izbornik.
+
 ## Kamera i vrijeme
 
 `Camera` čuva položaj `(x, y)`, smjer u radijanima i brzinu. Svaki frame prima proteklo
@@ -166,10 +184,11 @@ ili `waves.json` unutar `.app` paketa ne postoje.
 Rani ARM64 paket 22. lipnja uspješno je izgrađen, ostao aktivan u headless smoke testu i
 stvarno se otvorio i zatvorio u macOS-u.
 
-Mode7 benchmark sada tijekom 60-sekundnog izvođenja ispisuje napredak svakih 10 sekundi.
-Prekid tipkama `Ctrl+C` vraća izlazni kod 130 i kratku poruku bez Python tracebacka.
+Mode7 benchmark sada tijekom 60-sekundnog izvođenja ispisuje napredak svakih 10 sekundi i
+uvijek šalje završni progress signal. Prekid tipkama `Ctrl+C` vraća izlazni kod 130 i
+kratku poruku bez Python tracebacka.
 
 ## Sljedeći tehnički korak
 
-Sljedeća zasebna cjelina uvodi aplikacijska stanja za glavni izbornik, upute, pauzu,
-restart nakon pobjede ili poraza i povratak u izbornik.
+Sljedeća zasebna cjelina dodaje sintetizirani zvuk, glazbenu podlogu, čestice, eksplozije,
+bljeskove i screen shake bez uvođenja vanjskih resursa.

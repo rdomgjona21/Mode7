@@ -28,14 +28,21 @@ def benchmark(
     frame_count = 0
     started = time.perf_counter()
     next_progress = min(progress_interval, duration)
+    last_reported_progress = 0.0
 
     while (elapsed := time.perf_counter() - started) < duration:
         camera.update(1 / 60, turn=0.35, throttle=0.2)
         renderer.draw(canvas, camera)
         frame_count += 1
         if on_progress is not None and elapsed >= next_progress:
-            on_progress(elapsed)
+            reported_progress = min(elapsed, duration)
+            on_progress(reported_progress)
+            last_reported_progress = reported_progress
             next_progress += progress_interval
+
+    final_progress = min(elapsed, duration)
+    if on_progress is not None and final_progress > last_reported_progress:
+        on_progress(final_progress)
 
     return frame_count / elapsed
 

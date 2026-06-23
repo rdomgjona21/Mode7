@@ -29,6 +29,8 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
   spawn nakon trećeg vala, dvije faze, burst paljba i boss HUD.
 - **23.6.:** povezan je završetak borbe: uništenje bossa dodaje score i prikazuje pobjedu,
   a gubitak trupa prikazuje game-over stanje.
+- **23.6.:** implementiran je aplikacijski tok: glavni izbornik, upute, pauza, restart
+  nakon pobjede ili poraza i povratak u izbornik.
 
 ## Dnevni raspored
 

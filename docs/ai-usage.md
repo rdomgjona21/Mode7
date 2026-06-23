@@ -167,3 +167,18 @@
   package build.
 - **Resursi:** nisu dodani vanjski resursi.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 23. lipnja 2026. — aplikacijska stanja i izbornici
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** implementacija glavnog izbornika, uputa, pauze, restartanja pokušaja,
+  povratka u izbornik nakon terminalnog stanja, testova i prateće dokumentacije.
+- **Utjecaj:** aplikacija više ne ulazi odmah u borbu, nego ima cjelovit tok od izbornika
+  do pobjede ili poraza i novog pokušaja. Benchmark progress callback stabiliziran je kako
+  kratki automatizirani test ne bi ovisio o brzini stroja.
+- **Provjera:** Ruff i 117 Pytest testova kroz `./scripts/validate.sh`, 180-frame
+  headless pokretanje, 12-sekundni benchmark od 153,4 FPS-a uz prag 55 FPS-a te
+  PyInstaller package build.
+- **Resursi:** nisu dodani vanjski resursi; novi ekrani crtaju se PyGame tekstom i
+  poluprozirnim panelima.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

@@ -148,13 +148,24 @@ Petlja `while running` čini jedan frame u svakom prolazu:
 
 1. čita događaje operacijskog sustava;
 2. prekida rad nakon događaja `QUIT`;
-3. pretvara pritisnute tipke u osi rotacije i gasa;
-4. obrađuje odabir oružja, paljbu i raketu;
-5. ažurira kameru i borbenu sesiju pomoću `dt` dok nema pobjede ili poraza;
-6. crta Mode7 teren i dubinski sortirane borbene objekte;
-7. crta Kestrel, HUD i kontrole;
-8. povećava internu površinu na prozor;
-9. prikazuje dovršenu sliku pozivom `pygame.display.flip()`.
+3. mijenja `AppState` za izbornik, upute, igranje i pauzu;
+4. resetira kameru i `CombatSession` kada se pokreće nova misija;
+5. pretvara pritisnute tipke u osi rotacije i gasa;
+6. obrađuje odabir oružja, paljbu i raketu samo tijekom igranja;
+7. ažurira kameru i borbenu sesiju pomoću `dt` samo u aktivnom `PLAYING` stanju;
+8. crta Mode7 teren i dubinski sortirane borbene objekte;
+9. crta Kestrel, HUD, kontrole i eventualni panel izbornika;
+10. povećava internu površinu na prozor;
+11. prikazuje dovršenu sliku pozivom `pygame.display.flip()`.
+
+`AppState` se nalazi u `core/states.py`. To je mali `StrEnum` s vrijednostima
+`MAIN_MENU`, `INSTRUCTIONS`, `PLAYING` i `PAUSED`. Terminalni ishod nije posebno
+aplikacijsko stanje, nego ostaje u `CombatSession` kroz `victory` i `game_over`, jer je
+izravno posljedica borbenih pravila.
+
+`ui/menus.py` crta engleske panele preko scene. Glavni izbornik objašnjava cilj i tipke
+za start, upute prikazuju kontrole, pauza nudi nastavak/restart/izbornik, a završni panel
+prikazuje pobjedu ili poraz, konačni score i sljedeće akcije.
 
 `max_frames` se koristi samo u testovima kako bi se petlja sama zaustavila. U normalnom
 pokretanju vrijednost je `None`, pa aplikacija radi dok korisnik ne zatvori prozor.
@@ -187,6 +198,9 @@ Testovi borbene osnove provjeravaju JSON vrijednosti i pogreške, obične i omot
 dodir kružnica, kretanje i istek projektila, zdravlje, smrt, liječenje te blokiranje
 ponovljene štete tijekom neranjivosti.
 
+Testovi stanja i izbornika provjeravaju stabilne vrijednosti `AppState`, reset novog
+pokušaja te da se svaki panel može nacrtati na headless površinu.
+
 Testovi oružja provjeravaju broj, kutove, štetu, hlađenja i ograničenje projektila.
 Testovi protivnika provjeravaju zaključane razlike scouta, gunshipa i bombera, primanje
 štete, determinističko kretanje i hlađenje neprijateljske paljbe. Testovi valova provjeravaju
@@ -205,8 +219,8 @@ pogreške. Pytest izvršava sve funkcije čiji naziv počinje s `test_`. Postavk
 
 `scripts/benchmark_mode7.py` tijekom zadanog vremena neprekidno pomiče kameru i crta
 Mode7 frameove bez ograničenja prozora. Izlazni kod je različit od nule ako prosjek padne
-ispod zadanog praga, primjerice 55 FPS-a. Svakih deset sekundi ispisuje napredak, a
-`Ctrl+C` završava kratkom porukom bez tracebacka.
+ispod zadanog praga, primjerice 55 FPS-a. Svakih deset sekundi ispisuje napredak, uvijek
+šalje završni progress signal, a `Ctrl+C` završava kratkom porukom bez tracebacka.
 
 `scripts/package.sh` ponavlja validaciju i poziva PyInstaller za izradu ARM64 macOS
 aplikacije. Rezultat u `dist/` nije dio Git repozitorija; skripta na kraju izričito
@@ -229,10 +243,11 @@ svijetu. `balance.json` sadrži vrijednosti zdravlja, oružja, protivnika, popra
 `waves.json` sadrži tri vala i njihove spawn odgode.
 
 Borbena petlja povezuje kretanje kamere, oružja, neprijatelje, valove, sudare, pickupove,
-boss borbu, bodove, pobjedu i poraz. `CombatSession` drži većinu gameplay stanja, pa
-renderer i HUD uglavnom samo čitaju podatke i prikazuju ih.
+boss borbu, bodove, pobjedu i poraz. `CombatSession` drži većinu gameplay stanja, dok
+`AppState` drži tok izbornika, uputa, igranja i pauze. Renderer, HUD i menu paneli uglavnom
+samo čitaju podatke i prikazuju ih.
 
 Trenutačno rade tri oružja, tri standardna protivnika, tri vala, repair pickup, score, ISS
-Goliath s dvije faze, boss health bar, `VICTORY` i `GAME OVER`. Još nedostaju glavni
-izbornik, ekran s uputama, pauza, restart flow, zvuk, čestice, screen shake, završno
-balansiranje, završni dokumenti, prezentacija i release ZIP.
+Goliath s dvije faze, boss health bar, glavni izbornik, upute, pauza, restart flow,
+`VICTORY` i `GAME OVER`. Još nedostaju zvuk, čestice, screen shake, završno balansiranje,
+završni dokumenti, prezentacija i release ZIP.

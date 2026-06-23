@@ -11,6 +11,7 @@ from aetherfront.config import (
     WINDOW_SIZE,
     WINDOW_TITLE,
 )
+from aetherfront.core.states import AppState
 from aetherfront.gameplay.enemies import EnemyKind
 from aetherfront.gameplay.session import CombatSession
 from aetherfront.gameplay.weapons import PrimaryWeapon
@@ -25,6 +26,12 @@ from aetherfront.rendering.combat_sprites import (
 from aetherfront.rendering.renderer import Mode7Renderer
 from aetherfront.rendering.ships import create_kestrel_surface
 from aetherfront.ui.hud import draw_hud
+from aetherfront.ui.menus import (
+    draw_instructions,
+    draw_main_menu,
+    draw_pause_menu,
+    draw_terminal_menu,
+)
 
 
 class Game:
@@ -34,6 +41,29 @@ class Game:
     def _axis(positive: bool, negative: bool) -> float:
         """Pretvori par tipki u os od -1 do 1; suprotne tipke međusobno se poništavaju."""
         return float(positive) - float(negative)
+
+    @staticmethod
+    def _new_attempt() -> tuple[Camera, CombatSession]:
+        """Stvori svježu kameru i borbenu sesiju za novi pokušaj misije."""
+        camera = Camera()
+        return camera, CombatSession.create(camera)
+
+    @staticmethod
+    def _draw_overlay(
+        canvas: pygame.Surface,
+        font: pygame.font.Font,
+        app_state: AppState,
+        session: CombatSession,
+    ) -> None:
+        """Nacrtaj odgovarajući ekran iznad scene."""
+        if app_state == AppState.MAIN_MENU:
+            draw_main_menu(canvas, font)
+        elif app_state == AppState.INSTRUCTIONS:
+            draw_instructions(canvas, font)
+        elif app_state == AppState.PAUSED:
+            draw_pause_menu(canvas, font)
+        elif app_state == AppState.PLAYING:
+            draw_terminal_menu(canvas, font, session)
 
     @staticmethod
     def _draw_scene(
@@ -124,7 +154,8 @@ class Game:
             camera = Camera()
             renderer = Mode7Renderer()
             billboard_projector = BillboardProjector()
-            session = CombatSession.create(camera)
+            app_state = AppState.MAIN_MENU
+            camera, session = self._new_attempt()
             projectile_surfaces = create_projectile_surfaces()
             enemy_surfaces = create_enemy_surfaces()
             boss_surface = create_boss_surface()
@@ -141,10 +172,43 @@ class Game:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         running = False
-                    elif event.type == pygame.KEYDOWN and event.key == pygame.K_1:
-                        session.select_primary(PrimaryWeapon.CANNON)
-                    elif event.type == pygame.KEYDOWN and event.key == pygame.K_2:
-                        session.select_primary(PrimaryWeapon.SPREAD)
+                    elif event.type == pygame.KEYDOWN:
+                        if app_state == AppState.MAIN_MENU:
+                            if event.key in (pygame.K_RETURN, pygame.K_SPACE):
+                                camera, session = self._new_attempt()
+                                app_state = AppState.PLAYING
+                            elif event.key == pygame.K_i:
+                                app_state = AppState.INSTRUCTIONS
+                            elif event.key == pygame.K_ESCAPE:
+                                running = False
+                        elif app_state == AppState.INSTRUCTIONS:
+                            if event.key in (pygame.K_RETURN, pygame.K_SPACE):
+                                camera, session = self._new_attempt()
+                                app_state = AppState.PLAYING
+                            elif event.key in (pygame.K_m, pygame.K_ESCAPE):
+                                app_state = AppState.MAIN_MENU
+                        elif app_state == AppState.PAUSED:
+                            if event.key == pygame.K_ESCAPE:
+                                app_state = AppState.PLAYING
+                            elif event.key == pygame.K_r:
+                                camera, session = self._new_attempt()
+                                app_state = AppState.PLAYING
+                            elif event.key == pygame.K_m:
+                                camera, session = self._new_attempt()
+                                app_state = AppState.MAIN_MENU
+                        elif app_state == AppState.PLAYING:
+                            if session.victory or session.game_over:
+                                if event.key == pygame.K_r:
+                                    camera, session = self._new_attempt()
+                                elif event.key == pygame.K_m:
+                                    camera, session = self._new_attempt()
+                                    app_state = AppState.MAIN_MENU
+                            elif event.key == pygame.K_ESCAPE:
+                                app_state = AppState.PAUSED
+                            elif event.key == pygame.K_1:
+                                session.select_primary(PrimaryWeapon.CANNON)
+                            elif event.key == pygame.K_2:
+                                session.select_primary(PrimaryWeapon.SPREAD)
 
                 keys = pygame.key.get_pressed()
                 turn = self._axis(
@@ -155,7 +219,7 @@ class Game:
                     keys[pygame.K_w] or keys[pygame.K_UP],
                     keys[pygame.K_s] or keys[pygame.K_DOWN],
                 )
-                if not session.victory and not session.game_over:
+                if app_state == AppState.PLAYING and not session.victory and not session.game_over:
                     camera.update(dt, turn, throttle)
                     session.update(
                         dt,
@@ -179,6 +243,7 @@ class Game:
                     player_surface,
                     clock.get_fps(),
                 )
+                self._draw_overlay(canvas, font, app_state, session)
 
                 # Interna slika povećava se na prozor, a flip prikazuje dovršeni frame.
                 pygame.transform.scale(canvas, WINDOW_SIZE, window)
