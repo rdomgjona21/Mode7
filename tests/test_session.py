@@ -37,6 +37,7 @@ def test_destroyed_enemy_awards_score_and_creates_repair() -> None:
     assert enemy not in session.enemies
     assert len(session.pickups) == 1
     assert session.score == enemy.score_value
+    assert session.feedback.destroyed_positions == [(enemy.x, enemy.y)]
 
 
 def test_session_advances_from_first_to_second_wave_after_clear() -> None:
@@ -106,6 +107,7 @@ def test_boss_receives_player_projectile_damage_after_waves() -> None:
 
     assert boss.health == 450
     assert boss.phase_label == "PHASE 2"
+    assert session.feedback.boss_was_hit
 
 
 def test_destroyed_boss_awards_score_and_sets_victory() -> None:
@@ -163,18 +165,21 @@ def test_player_death_sets_game_over() -> None:
 
     assert session.game_over
     assert not session.victory
+    assert session.feedback.player_was_damaged
 
 
 def test_terminal_session_stops_updating_projectiles() -> None:
     camera = Camera()
     session = CombatSession.create(camera)
     session.victory = True
+    session.feedback.player_fired = True
     session.projectiles.append(Projectile(100, 100, 0, 50, 1, 2, 3, "player"))
 
     session.update(1.0, camera)
 
     assert session.projectiles[0].x == 100
     assert session.projectiles[0].lifetime_remaining == 3
+    assert not session.feedback.player_fired
 
 
 def test_player_collects_repair_and_receives_score() -> None:
@@ -210,6 +215,18 @@ def test_session_enforces_projectile_limit() -> None:
     session.update(0, camera, fire_primary=True, fire_rocket=True)
 
     assert len(session.projectiles) == session.balance.projectile.limit
+    assert not session.feedback.player_fired
+
+
+def test_session_reports_player_fired_only_when_weapon_creates_projectile() -> None:
+    camera = Camera()
+    session = CombatSession.create(camera)
+
+    session.update(0, camera, fire_primary=True)
+    assert session.feedback.player_fired
+
+    session.update(0, camera, fire_primary=True)
+    assert not session.feedback.player_fired
 
 
 def test_enemy_projectile_can_damage_player() -> None:

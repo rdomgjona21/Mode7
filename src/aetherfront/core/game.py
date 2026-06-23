@@ -23,6 +23,7 @@ from aetherfront.rendering.combat_sprites import (
     create_projectile_surfaces,
     create_repair_surface,
 )
+from aetherfront.rendering.effects import EffectsState
 from aetherfront.rendering.renderer import Mode7Renderer
 from aetherfront.rendering.ships import create_kestrel_surface
 from aetherfront.ui.hud import draw_hud
@@ -79,6 +80,7 @@ class Game:
         repair_surface: pygame.Surface,
         player_surface: pygame.Surface,
         fps: float,
+        effects: EffectsState,
     ) -> None:
         """Nacrtaj teren, borbene objekte, igrača i HUD."""
         renderer.draw(canvas, camera)
@@ -126,6 +128,7 @@ class Game:
             bottom=PLAYER_SCREEN_BOTTOM,
         )
         canvas.blit(player_surface, player_rect)
+        effects.draw(canvas, camera, billboard_projector)
         draw_hud(canvas, font, session, camera.speed, fps)
         controls = font.render(CONTROLS_LABEL, True, (232, 220, 181))
         controls_rect = controls.get_rect(center=(INTERNAL_SIZE[0] // 2, 349))
@@ -161,6 +164,7 @@ class Game:
             boss_surface = create_boss_surface()
             repair_surface = create_repair_surface()
             player_surface = create_kestrel_surface()
+            effects = EffectsState()
 
             running = True
             frame_count = 0
@@ -227,6 +231,15 @@ class Game:
                         fire_primary=keys[pygame.K_SPACE],
                         fire_rocket=keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT],
                     )
+                    for x, y in session.feedback.destroyed_positions:
+                        effects.add_explosion(x, y)
+                    if session.feedback.boss_was_hit and session.boss is not None:
+                        effects.add_boss_spark(session.boss.x, session.boss.y)
+                    if session.feedback.player_was_damaged:
+                        effects.trigger_player_hit()
+                    if session.feedback.player_fired:
+                        effects.trigger_muzzle_flash()
+                    effects.update(dt)
 
                 # Mode7 renderer pretvara položaj i smjer kamere u perspektivnu ravninu.
                 self._draw_scene(
@@ -242,6 +255,7 @@ class Game:
                     repair_surface,
                     player_surface,
                     clock.get_fps(),
+                    effects,
                 )
                 self._draw_overlay(canvas, font, app_state, session)
 

@@ -31,6 +31,8 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
   a gubitak trupa prikazuje game-over stanje.
 - **23.6.:** implementiran je aplikacijski tok: glavni izbornik, upute, pauza, restart
   nakon pobjede ili poraza i povratak u izbornik.
+- **23.6.:** dodan je suptilni proceduralni vizualni feedback: eksplozije, boss spark,
+  muzzle flash i lokalni damage marker bez screen shakea.
 
 ## Dnevni raspored
 

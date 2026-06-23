@@ -195,3 +195,17 @@
   headless pokretanje te 12-sekundni benchmark od 150,8 FPS-a uz prag 55 FPS-a.
 - **Resursi:** nisu dodani vanjski resursi.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 23. lipnja 2026. — suptilni proceduralni vizualni feedback
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** implementacija kontroliranih vizualnih efekata za uništenje protivnika,
+  boss pogodak, stvarno primljenu štetu i stvarno pucanje bez screen shakea i bez
+  agresivnog full-screen bljeska.
+- **Utjecaj:** dodan je mali `CombatFeedback` zadnjeg framea i `EffectsState` koji crta
+  proceduralne eksplozije, boss spark, muzzle flash i lokalni damage marker prije HUD-a.
+  Kamera, Mode7 renderer, balans, valovi, boss i kontrole nisu mijenjani.
+- **Provjera:** Ruff i 124 Pytest testa kroz `./scripts/validate.sh`, 180-frame headless
+  pokretanje te 12-sekundni benchmark od 164,9 FPS-a uz prag 55 FPS-a.
+- **Resursi:** svi efekti crtaju se PyGame primitivima; nisu dodani vanjski resursi.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

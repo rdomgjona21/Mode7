@@ -26,14 +26,15 @@ Projekt je u fazi igrive borbene probe. Dovršeni su:
 - ISS Goliath boss s proceduralnim prikazom, dvije faze, burst paljbom i boss HUD-om;
 - repair pickup i osnovni engleski HUD s prikazom protivnika;
 - glavni izbornik, ekran uputa, pauza te restart ili povratak u izbornik nakon završetka;
+- suptilni proceduralni visual feedback za pucanje, pogotke, štetu i uništenje protivnika;
 - skripta za 60-sekundno mjerenje performansi renderera;
 - skripta za izradu i provjeru macOS `.app` paketa;
 - početni automatizirani testovi i validacijska skripta.
 
-Tri oružja i vidljivi pogoci sada rade kroz tri konfigurirana redovna vala, boss susret,
-pobjedu i game-over stanje. Aplikacija ima tok od glavnog izbornika do završetka pokušaja.
-Zvuk, završno balansiranje, testovi cijele igre, prezentacija i završni distribucijski ZIP
-još nisu implementirani.
+Tri oružja, vidljivi pogoci i suptilni proceduralni efekti sada rade kroz tri konfigurirana
+redovna vala, boss susret, pobjedu i game-over stanje. Aplikacija ima tok od glavnog
+izbornika do završetka pokušaja. Zvuk, završno balansiranje, testovi cijele igre,
+prezentacija i završni distribucijski ZIP još nisu implementirani.
 
 Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored zaprimljeno je i
 evidentirano 22. lipnja 2026.

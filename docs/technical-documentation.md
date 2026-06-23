@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 1.3
+**Verzija:** 1.4
 
 **Datum:** 23. lipnja 2026.
 
-**Status:** igrivi tok od izbornika do završetka pokušaja i macOS paket
+**Status:** igrivi tok s izbornicima, suptilnim vizualnim feedbackom i macOS paketom
 
 ## Arhitektura
 
@@ -17,6 +17,8 @@ Prikaz se crta na internu površinu veličine 640×360 i skalira na prozor veli�
 vizualni Mode7 prototip s osnovnim borbenim gameplayem, protivnicima, projektilima,
 pickupima, HUD-om, dijagnostičkim FPS-om, glavnim izbornikom, uputama, pauzom i
 restartom pokušaja.
+Dodani su i suptilni proceduralni efekti za pucanje, štetu, boss pogotke i uništenje
+protivnika.
 
 ## Mode7 projekcija
 
@@ -137,6 +139,20 @@ ih zajednički sortira i crta. Engleski HUD prikazuje trup, odabrano oružje, hl
 rakete, val, bodove, broj preostalih protivnika, trenutačnu prijetnju, stanje dolaska vala,
 boss health bar, boss fazu, poruku pobjede ili poraza, brzinu i FPS.
 
+## Vizualni feedback
+
+`CombatFeedback` u `CombatSession` bilježi samo događaje zadnjeg framea: uništene položaje,
+boss pogodak, stvarnu štetu nad igračem i stvarno ispaljeno oružje. Ti se podaci brišu na
+početku svakog `update()` poziva i ne stvaraju zaseban sloj pravila igre.
+
+`EffectsState` u renderer sloju čuva kratkotrajne svjetske i lokalne efekte. Uništenje
+standardnog protivnika dodaje malu narančasto-mjedenu eksploziju u svjetskim koordinatama,
+boss pogodak dodaje crveno-cijan spark, stvarno pucanje dodaje muzzle flash ispred
+Kestrela, a stvarno primljena šteta dodaje lokalni crveni marker pri rubu ekrana. Svjetski
+efekti koriste postojeći `BillboardProjector`, pa poštuju rotaciju kamere i omatanje
+svijeta. Efekti se crtaju prije HUD-a, bez screen shakea i bez promjene `Mode7Renderer` ili
+stanja kamere.
+
 ## Aplikacijska stanja
 
 `AppState` odvaja aplikacijski tok od borbene simulacije. Početno stanje je `MAIN_MENU`,
@@ -190,5 +206,5 @@ kratku poruku bez Python tracebacka.
 
 ## Sljedeći tehnički korak
 
-Sljedeća zasebna cjelina dodaje sintetizirani zvuk, glazbenu podlogu, čestice, eksplozije,
-bljeskove i screen shake bez uvođenja vanjskih resursa.
+Sljedeća zasebna cjelina dodaje sintetizirani zvuk i glazbenu podlogu bez uvođenja vanjskih
+resursa.

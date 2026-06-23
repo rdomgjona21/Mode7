@@ -201,6 +201,9 @@ ponovljene štete tijekom neranjivosti.
 Testovi stanja i izbornika provjeravaju stabilne vrijednosti `AppState`, reset novog
 pokušaja te da se svaki panel može nacrtati na headless površinu.
 
+Testovi efekata provjeravaju lifetime, pauzirano ažuriranje, projekciju ovisnu o smjeru
+kamere, headless crtanje damage markera, muzzle flasha i kombiniranog feedbacka.
+
 Testovi oružja provjeravaju broj, kutove, štetu, hlađenja i ograničenje projektila.
 Testovi protivnika provjeravaju zaključane razlike scouta, gunshipa i bombera, primanje
 štete, determinističko kretanje i hlađenje neprijateljske paljbe. Testovi valova provjeravaju
@@ -243,11 +246,11 @@ svijetu. `balance.json` sadrži vrijednosti zdravlja, oružja, protivnika, popra
 `waves.json` sadrži tri vala i njihove spawn odgode.
 
 Borbena petlja povezuje kretanje kamere, oružja, neprijatelje, valove, sudare, pickupove,
-boss borbu, bodove, pobjedu i poraz. `CombatSession` drži većinu gameplay stanja, dok
-`AppState` drži tok izbornika, uputa, igranja i pauze. Renderer, HUD i menu paneli uglavnom
-samo čitaju podatke i prikazuju ih.
+boss borbu, bodove, pobjedu i poraz. `CombatSession` drži većinu gameplay stanja i kratki
+`CombatFeedback` zadnjeg framea, dok `AppState` drži tok izbornika, uputa, igranja i pauze.
+Renderer, HUD, efekti i menu paneli uglavnom samo čitaju podatke i prikazuju ih.
 
 Trenutačno rade tri oružja, tri standardna protivnika, tri vala, repair pickup, score, ISS
 Goliath s dvije faze, boss health bar, glavni izbornik, upute, pauza, restart flow,
-`VICTORY` i `GAME OVER`. Još nedostaju zvuk, čestice, screen shake, završno balansiranje,
-završni dokumenti, prezentacija i release ZIP.
+suptilne eksplozije, boss spark, muzzle flash, damage marker, `VICTORY` i `GAME OVER`.
+Još nedostaju zvuk, završno balansiranje, završni dokumenti, prezentacija i release ZIP.
