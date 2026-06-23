@@ -1,8 +1,7 @@
 """Položaj i kretanje kamere kroz omotani svijet."""
 
 import math
-import random
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from aetherfront.config import (
     MAX_SPEED,
@@ -26,14 +25,6 @@ class Camera:
     y: float = WORLD_SIZE / 2
     heading: float = 0.0
     speed: float = MIN_SPEED
-    shake_remaining: float = 0.0
-    shake_magnitude: float = 0.0
-    shake_offset: tuple[float, float] = field(default_factory=lambda: (0.0, 0.0))
-
-    def apply_shake(self, magnitude: float, duration: float) -> None:
-        """Pokreni screen shake određenog intenziteta i trajanja."""
-        self.shake_magnitude = max(self.shake_magnitude, magnitude)
-        self.shake_remaining = max(self.shake_remaining, duration)
 
     def update(self, dt: float, turn: float = 0.0, throttle: float = 0.0) -> None:
         """Ažuriraj kameru za proteklo vrijeme i normalizirane ulaze od -1 do 1."""
@@ -54,15 +45,3 @@ class Camera:
         # Kosinus daje pomak po osi x, a sinus pomak po osi y.
         self.x = (self.x + math.cos(self.heading) * self.speed * dt) % WORLD_SIZE
         self.y = (self.y + math.sin(self.heading) * self.speed * dt) % WORLD_SIZE
-
-        if self.shake_remaining > 0.0:
-            self.shake_remaining = max(0.0, self.shake_remaining - dt)
-            t = self.shake_remaining / max(self.shake_magnitude, 0.001)
-            intensity = self.shake_magnitude * min(t, 1.0)
-            self.shake_offset = (
-                random.uniform(-intensity, intensity),
-                random.uniform(-intensity, intensity),
-            )
-        else:
-            self.shake_offset = (0.0, 0.0)
-            self.shake_magnitude = 0.0

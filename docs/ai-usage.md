@@ -182,3 +182,16 @@
 - **Resursi:** nisu dodani vanjski resursi; novi ekrani crtaju se PyGame tekstom i
   poluprozirnim panelima.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 23. lipnja 2026. — uklanjanje neprihvaćenih vizualnih efekata
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** pregled i uklanjanje prethodno dodanih screen shake, flash overlay i
+  explosion particle promjena koje nisu zadovoljavale očekivani vizualni rezultat.
+- **Utjecaj:** uklonjeni su efekti, dodatni event sloj sesije i testovi efekata. Zadržani
+  su glavni izbornik, upute, pauza, restart tok te povećani balans igrača na 500 HP i
+  1,5 sekundi neranjivosti prema uputi autora.
+- **Provjera:** Ruff i 117 Pytest testova kroz `./scripts/validate.sh`, 180-frame
+  headless pokretanje te 12-sekundni benchmark od 150,8 FPS-a uz prag 55 FPS-a.
+- **Resursi:** nisu dodani vanjski resursi.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

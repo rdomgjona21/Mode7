@@ -82,8 +82,8 @@ Prikaz je generiran kodom, pa nije dodan vanjski resurs ni zapis u licencne mani
 
 ## Borbena osnova
 
-`data/balance.json` trenutačno određuje 100 bodova zdravlja igrača, radijus sudara 18,
-neranjivost od 0,75 sekundi te zadani radijus 4 i trajanje 3 sekunde za projektile.
+`data/balance.json` trenutačno određuje 500 bodova zdravlja igrača, radijus sudara 18,
+neranjivost od 1,5 sekundi te zadani radijus 4 i trajanje 3 sekunde za projektile.
 `load_combat_balance()` učitava podatke paketnim putem i odbija nedostajuće objekte,
 nebrojčane, beskonačne ili nepozitivne vrijednosti.
 

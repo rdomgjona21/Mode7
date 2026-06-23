@@ -59,12 +59,7 @@ class Mode7Renderer:
         texture_y %= self._texture_height
         return np.ascontiguousarray(self.texture[texture_y, texture_x])
 
-    def draw(
-        self,
-        canvas: pygame.Surface,
-        camera: Camera,
-        shake_offset: tuple[float, float] = (0.0, 0.0),
-    ) -> None:
+    def draw(self, canvas: pygame.Surface, camera: Camera) -> None:
         """Nacrtaj jedan Mode7 frame na internu PyGame površinu."""
         if canvas.get_size() != INTERNAL_SIZE:
             raise ValueError("canvas dimensions must match the internal display")
@@ -72,13 +67,7 @@ class Mode7Renderer:
         sky_surface = canvas.subsurface((0, 0, INTERNAL_SIZE[0], HORIZON_Y + 1))
         pygame.surfarray.blit_array(sky_surface, np.swapaxes(self._sky, 0, 1))
 
-        # Privremeno pomakni kameru za shake offset pri uzorkovanju terena.
-        original_x, original_y = camera.x, camera.y
-        camera.x = (camera.x + shake_offset[0]) % WORLD_SIZE
-        camera.y = (camera.y + shake_offset[1]) % WORLD_SIZE
         ground = self.sample_ground(camera)
-        camera.x, camera.y = original_x, original_y
-
         ground_surface = canvas.subsurface(
             (0, HORIZON_Y + 1, INTERNAL_SIZE[0], INTERNAL_SIZE[1] - HORIZON_Y - 1)
         )

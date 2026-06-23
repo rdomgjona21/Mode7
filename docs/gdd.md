@@ -73,7 +73,7 @@ Izazov raste kroz izdržljivost protivnika, miješane formacije, preklapanje pal
 | Raketa | lijevi/desni Shift | Neovisno vrijeme hlađenja |
 | Pauza | Esc | Zaustavlja simulaciju i prikazuje izbornik |
 
-Kestrel počinje sa 100 bodova trupa i kratkom neranjivošću nakon pogotka. Brod je vizualno pri dnu zaslona, dok kamera prati njegov položaj i smjer u svijetu.
+Kestrel počinje s 500 bodova trupa i 1,5 sekundi neranjivosti nakon pogotka. Brod je vizualno pri dnu zaslona, dok kamera prati njegov položaj i smjer u svijetu.
 
 ## 6. Oružja i nagrade
 

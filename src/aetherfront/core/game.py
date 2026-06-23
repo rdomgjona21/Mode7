@@ -23,7 +23,6 @@ from aetherfront.rendering.combat_sprites import (
     create_projectile_surfaces,
     create_repair_surface,
 )
-from aetherfront.rendering.effects import EffectsState
 from aetherfront.rendering.renderer import Mode7Renderer
 from aetherfront.rendering.ships import create_kestrel_surface
 from aetherfront.ui.hud import draw_hud
@@ -80,10 +79,9 @@ class Game:
         repair_surface: pygame.Surface,
         player_surface: pygame.Surface,
         fps: float,
-        effects: EffectsState,
     ) -> None:
         """Nacrtaj teren, borbene objekte, igrača i HUD."""
-        renderer.draw(canvas, camera, shake_offset=camera.shake_offset)
+        renderer.draw(canvas, camera)
         billboards: list[WorldBillboard] = []
         for enemy in session.enemies:
             billboards.append(
@@ -132,7 +130,6 @@ class Game:
         controls = font.render(CONTROLS_LABEL, True, (232, 220, 181))
         controls_rect = controls.get_rect(center=(INTERNAL_SIZE[0] // 2, 349))
         canvas.blit(controls, controls_rect)
-        effects.draw(canvas, camera.x, camera.y, billboard_projector)
 
     def run(self, max_frames: int | None = None) -> int:
         """Izvodi aplikaciju do zatvaranja prozora ili testnog ograničenja frameova.
@@ -165,7 +162,6 @@ class Game:
             repair_surface = create_repair_surface()
             player_surface = create_kestrel_surface()
 
-            effects = EffectsState()
             running = True
             frame_count = 0
             while running:
@@ -225,20 +221,12 @@ class Game:
                 )
                 if app_state == AppState.PLAYING and not session.victory and not session.game_over:
                     camera.update(dt, turn, throttle)
-                    events = session.update(
+                    session.update(
                         dt,
                         camera,
                         fire_primary=keys[pygame.K_SPACE],
                         fire_rocket=keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT],
                     )
-                    if events.player_hit:
-                        camera.apply_shake(5.0, 0.3)
-                        effects.trigger_flash(80.0, 0.2)
-                    if events.boss_hit:
-                        camera.apply_shake(3.0, 0.15)
-                    for x, y in events.enemy_killed:
-                        effects.add_explosion(x, y)
-                effects.update(dt)
 
                 # Mode7 renderer pretvara položaj i smjer kamere u perspektivnu ravninu.
                 self._draw_scene(
@@ -254,7 +242,6 @@ class Game:
                     repair_surface,
                     player_surface,
                     clock.get_fps(),
-                    effects,
                 )
                 self._draw_overlay(canvas, font, app_state, session)
 
