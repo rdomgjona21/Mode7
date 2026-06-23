@@ -33,6 +33,8 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
   nakon pobjede ili poraza i povratak u izbornik.
 - **23.6.:** dodan je suptilni proceduralni vizualni feedback: eksplozije, boss spark,
   muzzle flash i lokalni damage marker bez screen shakea.
+- **23.6.:** pripremljena su tri proceduralna parallax sky sloja za buduću integraciju
+  iznad horizonta.
 
 ## Dnevni raspored
 

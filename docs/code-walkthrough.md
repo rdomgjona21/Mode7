@@ -187,6 +187,10 @@ središnji smjer, rotaciju za 90°, omatanje i odbijanje neispravnih postavki.
 Testovi generatora terena provjeravaju oblik, RGB raspon, determinističnost, promjenu
 seeda, broj različitih boja i odbijanje neispravnih argumenata.
 
+Testovi parallax pripreme provjeravaju da slojevi odgovaraju području neba iznad horizonta,
+da postoje tri imenovana sloja, da su deterministički za isti seed, da se mijenjaju s
+drugim seedom, da imaju vidljive alfa piksele i različite faktore budućeg pomaka.
+
 Testovi renderera provjeravaju oblik uzorkovanog tla, promjenu slike pri kretanju kamere,
 popunjavanje neba, horizonta i tla te odbijanje pogrešnog formata teksture ili površine.
 
@@ -240,6 +244,8 @@ Aplikacija se pokreće naredbom `python -m aetherfront`. `main.py` stvara `Game`
 Prikaz koristi internu sliku 640×360 skaliranu na 1280×720. `Mode7Projection` računa
 omotane koordinate tla, `Mode7Renderer` ih NumPyjem uzorkuje iz proceduralne teksture, a
 `BillboardProjector` crta svjetske objekte kao 2D spriteove skalirane po udaljenosti.
+`parallax.py` trenutačno priprema proceduralne slojeve neba za sljedeći commit, ali ih
+renderer još ne prikazuje.
 
 Kestrel je vezan uz donji dio ekrana, dok kamera predstavlja položaj i smjer igrača u
 svijetu. `balance.json` sadrži vrijednosti zdravlja, oružja, protivnika, popravka i bossa.

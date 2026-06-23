@@ -209,3 +209,16 @@
   pokretanje te 12-sekundni benchmark od 164,9 FPS-a uz prag 55 FPS-a.
 - **Resursi:** svi efekti crtaju se PyGame primitivima; nisu dodani vanjski resursi.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 23. lipnja 2026. — priprema proceduralnih parallax sky slojeva
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** priprema tri proceduralna sloja neba za kasniji parallax efekt dubine bez
+  mijenjanja postojećeg renderera u istom koraku.
+- **Utjecaj:** dodan je modul za `far_clouds`, `industrial_haze` i `near_streaks` slojeve s
+  determinističkim generiranjem, alfa pikselima, veličinom područja neba i budućim
+  faktorima sporijeg pomaka. Vidljivi renderer još nije promijenjen.
+- **Provjera:** Ruff i 134 Pytest testa kroz `./scripts/validate.sh`, 180-frame headless
+  pokretanje te 12-sekundni benchmark od 164,0 FPS-a uz prag 55 FPS-a.
+- **Resursi:** svi slojevi generirani su kodom; nisu dodani vanjski resursi.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

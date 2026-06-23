@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 1.4
+**Verzija:** 1.5
 
 **Datum:** 23. lipnja 2026.
 
-**Status:** igrivi tok s izbornicima, suptilnim vizualnim feedbackom i macOS paketom
+**Status:** igrivi tok s izbornicima, suptilnim vizualnim feedbackom, pripremljenim parallax slojevima i macOS paketom
 
 ## Arhitektura
 
@@ -19,6 +19,8 @@ pickupima, HUD-om, dijagnostičkim FPS-om, glavnim izbornikom, uputama, pauzom i
 restartom pokušaja.
 Dodani su i suptilni proceduralni efekti za pucanje, štetu, boss pogotke i uništenje
 protivnika.
+Proceduralni parallax sky slojevi postoje kao priprema za sljedeći rendering commit, ali
+trenutačni `Mode7Renderer` još koristi postojeću statičnu gradaciju neba.
 
 ## Mode7 projekcija
 
@@ -60,6 +62,18 @@ sprječava tiho rastezanje ili rezanje projekcije.
 Na ciljanom M1 MacBook Airu izolirani 60-sekundni benchmark 20. lipnja 2026. izmjerio je
 159,3 FPS-a, čime je tehnički prag od najmanje 55 FPS-a ostvaren za trenutačni renderer.
 Mjerenje će se ponoviti pri najvećem planiranom borbenom opterećenju.
+
+## Parallax sky priprema
+
+`create_parallax_sky_layers()` stvara tri deterministička PyGame RGBA sloja dimenzija
+640×136, što odgovara području iznad horizonta. Slojevi su `far_clouds`,
+`industrial_haze` i `near_streaks`, a svaki ima vlastiti `scroll_factor` i `opacity` za
+kasniji sporiji pomak u odnosu na kameru. Modul ne koristi vanjske slike; oblici oblaka,
+silueta i linija nastaju NumPyjem i PyGame površinama.
+
+Ovaj korak još ne mijenja vidljivi renderer. Namjerno je odvojen kako bi se prije
+integracije provjerili determinističnost, dimenzije, vidljivi pikseli i različiti faktori
+pomaka.
 
 ## Billboard projekcija
 

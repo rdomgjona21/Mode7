@@ -16,6 +16,7 @@ Projekt je u fazi igrive borbene probe. Dovršeni su:
 - vektorizirana Mode7 projekcijska matematika;
 - proceduralni NumPy generator teksture terena;
 - vizualni Mode7 renderer s nebom, horizontom i vektoriziranim uzorkovanjem terena;
+- proceduralni parallax sky slojevi pripremljeni za kasniju integraciju u renderer;
 - projekcija, skaliranje i dubinsko sortiranje budućih 2D objekata u svijetu;
 - proceduralni prikaz igračevog broda Kestrel;
 - konfiguracijska i testirana osnova projektila, kružnih sudara, zdravlja i neranjivosti;
@@ -33,7 +34,8 @@ Projekt je u fazi igrive borbene probe. Dovršeni su:
 
 Tri oružja, vidljivi pogoci i suptilni proceduralni efekti sada rade kroz tri konfigurirana
 redovna vala, boss susret, pobjedu i game-over stanje. Aplikacija ima tok od glavnog
-izbornika do završetka pokušaja. Zvuk, završno balansiranje, testovi cijele igre,
+izbornika do završetka pokušaja. Parallax sky slojevi postoje kao testirana priprema, ali
+još nisu spojeni na vidljivi renderer. Zvuk, završno balansiranje, testovi cijele igre,
 prezentacija i završni distribucijski ZIP još nisu implementirani.
 
 Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored zaprimljeno je i
