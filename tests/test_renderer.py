@@ -35,6 +35,36 @@ def test_draw_fills_sky_horizon_and_ground() -> None:
     assert np.unique(pixels[:, HORIZON_Y + 1 :].reshape(-1, 3), axis=0).shape[0] > 8
 
 
+def test_parallax_sky_changes_with_camera_motion() -> None:
+    renderer = Mode7Renderer()
+    first = pygame.Surface(INTERNAL_SIZE)
+    second = pygame.Surface(INTERNAL_SIZE)
+
+    renderer.draw(first, Camera(x=100, y=100, heading=0))
+    renderer.draw(second, Camera(x=900, y=500, heading=0.8))
+
+    first_sky = pygame.surfarray.array3d(first)[:, :HORIZON_Y]
+    second_sky = pygame.surfarray.array3d(second)[:, :HORIZON_Y]
+    assert not np.array_equal(first_sky, second_sky)
+
+
+def test_parallax_offsets_respect_layer_scroll_factor() -> None:
+    renderer = Mode7Renderer()
+    still = Camera(x=100, y=100, heading=0)
+    moved = Camera(x=900, y=100, heading=0)
+
+    deltas = [
+        (
+            renderer._parallax_offset(moved, layer)
+            - renderer._parallax_offset(still, layer)
+        )
+        % layer.surface.get_width()
+        for layer in renderer._parallax_layers
+    ]
+
+    assert deltas == sorted(deltas)
+
+
 @pytest.mark.parametrize(
     "texture, message",
     [

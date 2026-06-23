@@ -222,3 +222,18 @@
   pokretanje te 12-sekundni benchmark od 164,0 FPS-a uz prag 55 FPS-a.
 - **Resursi:** svi slojevi generirani su kodom; nisu dodani vanjski resursi.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 23. lipnja 2026. — integracija parallax sky slojeva
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** povezivanje prethodno pripremljenih sky slojeva u `Mode7Renderer` radi
+  stvaranja dojma dubine iznad horizonta.
+- **Utjecaj:** osnovna gradacija neba ostaje, a preko nje se crtaju oblaci, industrijska
+  izmaglica i bliže linije s različitim sporijim pomacima ovisnima o položaju i smjeru
+  kamere. Nakon ručne provjere smanjeni su intenzitet i pomak parallaxa te je borbeni HUD
+  prebačen na manji font i kompaktniji panel. Gameplay, balans, kontrole, tlo i billboardi
+  nisu mijenjani.
+- **Provjera:** Ruff i 138 Pytest testova kroz `./scripts/validate.sh`, 180-frame
+  headless pokretanje te 12-sekundni benchmark od 135,0 FPS-a uz prag 55 FPS-a.
+- **Resursi:** nisu dodani vanjski resursi.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

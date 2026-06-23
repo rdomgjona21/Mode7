@@ -44,9 +44,9 @@ def create_parallax_sky_layers(seed: int = 17) -> tuple[ParallaxSkyLayer, ...]:
         _near_streak_pixels(width, height, seed + 23),
     )
     return (
-        ParallaxSkyLayer("far_clouds", far_clouds, scroll_factor=0.10, opacity=90),
-        ParallaxSkyLayer("industrial_haze", industrial_haze, scroll_factor=0.22, opacity=120),
-        ParallaxSkyLayer("near_streaks", near_streaks, scroll_factor=0.38, opacity=150),
+        ParallaxSkyLayer("far_clouds", far_clouds, scroll_factor=0.05, opacity=52),
+        ParallaxSkyLayer("industrial_haze", industrial_haze, scroll_factor=0.11, opacity=64),
+        ParallaxSkyLayer("near_streaks", near_streaks, scroll_factor=0.18, opacity=78),
     )
 
 
@@ -66,7 +66,7 @@ def _far_cloud_pixels(width: int, height: int, seed: int) -> np.ndarray:
     noise = rng.normal(0.0, 0.10, size=(height, width))
     mask = wave + noise > 0.58
     pixels = np.zeros((height, width, 4), dtype=np.uint8)
-    pixels[mask] = (122, 142, 151, 72)
+    pixels[mask] = (122, 142, 151, 42)
     return pixels
 
 
@@ -79,9 +79,9 @@ def _industrial_haze_pixels(width: int, height: int, seed: int) -> np.ndarray:
         building_height = int(rng.integers(10, 42))
         top = max(8, base_y - building_height)
         right = min(width, column + building_width)
-        pixels[top:base_y, column:right] = (24, 35, 42, 96)
+        pixels[top:base_y, column:right] = (24, 35, 42, 58)
         if rng.random() > 0.45:
-            pixels[top : min(base_y, top + 2), column:right] = (173, 130, 62, 105)
+            pixels[top : min(base_y, top + 2), column:right] = (173, 130, 62, 62)
     return pixels
 
 
@@ -93,7 +93,7 @@ def _near_streak_pixels(width: int, height: int, seed: int) -> np.ndarray:
         x = int(rng.integers(0, width))
         length = int(rng.integers(18, 72))
         thickness = int(rng.integers(1, 3))
-        color = (183, 153, 91, int(rng.integers(82, 145)))
+        color = (183, 153, 91, int(rng.integers(38, 76)))
         end = min(width, x + length)
         pixels[y : y + thickness, x:end] = color
     return pixels

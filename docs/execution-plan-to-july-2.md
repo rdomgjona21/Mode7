@@ -35,6 +35,9 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
   muzzle flash i lokalni damage marker bez screen shakea.
 - **23.6.:** pripremljena su tri proceduralna parallax sky sloja za buduću integraciju
   iznad horizonta.
+- **23.6.:** parallax sky slojevi integrirani su u renderer iznad Mode7 horizonta.
+- **23.6.:** nakon ručne provjere stišani su parallax intenzitet i pomak te smanjen
+  borbeni HUD.
 
 ## Dnevni raspored
 

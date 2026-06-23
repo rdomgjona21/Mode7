@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 1.5
+**Verzija:** 1.6
 
 **Datum:** 23. lipnja 2026.
 
-**Status:** igrivi tok s izbornicima, suptilnim vizualnim feedbackom, pripremljenim parallax slojevima i macOS paketom
+**Status:** igrivi tok s izbornicima, suptilnim vizualnim feedbackom, stišanim parallax sky slojevima i macOS paketom
 
 ## Arhitektura
 
@@ -19,8 +19,8 @@ pickupima, HUD-om, dijagnostičkim FPS-om, glavnim izbornikom, uputama, pauzom i
 restartom pokušaja.
 Dodani su i suptilni proceduralni efekti za pucanje, štetu, boss pogotke i uništenje
 protivnika.
-Proceduralni parallax sky slojevi postoje kao priprema za sljedeći rendering commit, ali
-trenutačni `Mode7Renderer` još koristi postojeću statičnu gradaciju neba.
+Proceduralni parallax sky slojevi crtaju se iznad horizonta sa smanjenim intenzitetom i
+pomiču se sporije od kamere.
 
 ## Mode7 projekcija
 
@@ -53,7 +53,8 @@ licence. Zbog toga nije potreban novi zapis u registru vanjskih resursa.
 `Mode7Renderer` pretvara omotane koordinate svijeta u indekse proceduralne teksture.
 Napredno NumPy indeksiranje uzorkuje sva 143.360 piksela tla odjednom, a
 `pygame.surfarray.blit_array()` prenosi rezultat na internu površinu. Iznad tla crta se
-unaprijed izračunata olujno-plava gradacija, a mjedena linija odvaja horizont.
+unaprijed izračunata olujno-plava gradacija s parallax slojevima, a mjedena linija odvaja
+horizont.
 
 Metoda `sample_ground()` odvojena je od crtanja kako bi se rezultat uzorkovanja mogao
 automatizirano provjeriti. `draw()` prihvaća samo internu površinu 640×360, čime se
@@ -63,7 +64,7 @@ Na ciljanom M1 MacBook Airu izolirani 60-sekundni benchmark 20. lipnja 2026. izm
 159,3 FPS-a, čime je tehnički prag od najmanje 55 FPS-a ostvaren za trenutačni renderer.
 Mjerenje će se ponoviti pri najvećem planiranom borbenom opterećenju.
 
-## Parallax sky priprema
+## Parallax sky
 
 `create_parallax_sky_layers()` stvara tri deterministička PyGame RGBA sloja dimenzija
 640×136, što odgovara području iznad horizonta. Slojevi su `far_clouds`,
@@ -71,9 +72,12 @@ Mjerenje će se ponoviti pri najvećem planiranom borbenom opterećenju.
 kasniji sporiji pomak u odnosu na kameru. Modul ne koristi vanjske slike; oblici oblaka,
 silueta i linija nastaju NumPyjem i PyGame površinama.
 
-Ovaj korak još ne mijenja vidljivi renderer. Namjerno je odvojen kako bi se prije
-integracije provjerili determinističnost, dimenzije, vidljivi pikseli i različiti faktori
-pomaka.
+`Mode7Renderer._draw_parallax_sky()` prvo crta osnovnu gradaciju, zatim svaki sloj blita
+uz horizontalno omatanje. Pomak sloja računa se iz položaja kamere i smjera kamere, ali se
+množi s `scroll_factor`, pa udaljeni oblaci, industrijska izmaglica i bliže linije klize
+različitim brzinama. Faktori pomaka i alfa vrijednosti namjerno su niski kako bi efekt
+ostao pozadinski i ne bi odvlačio pozornost od borbe. Parallax ne mijenja tlo, billboarde,
+gameplay, kameru ni HUD.
 
 ## Billboard projekcija
 
@@ -149,7 +153,7 @@ može zatvoriti.
 
 Proceduralne slike razlikuju mjedeni cannon, cijan spread gun, crvenu raketu, neprijateljske
 projektile, tri vrste zračnih brodova, ISS Goliath i repair ćeliju. `BillboardProjector`
-ih zajednički sortira i crta. Engleski HUD prikazuje trup, odabrano oružje, hlađenje
+ih zajednički sortira i crta. Kompaktni engleski HUD prikazuje trup, odabrano oružje, hlađenje
 rakete, val, bodove, broj preostalih protivnika, trenutačnu prijetnju, stanje dolaska vala,
 boss health bar, boss fazu, poruku pobjede ili poraza, brzinu i FPS.
 

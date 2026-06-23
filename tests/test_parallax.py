@@ -63,6 +63,12 @@ def test_parallax_layers_use_distinct_scroll_factors() -> None:
 
     assert scroll_factors == sorted(scroll_factors)
     assert len(set(scroll_factors)) == 3
+    assert max(scroll_factors) <= 0.20
+
+
+def test_parallax_layers_stay_visually_subtle() -> None:
+    for layer in create_parallax_sky_layers():
+        assert pygame.surfarray.array_alpha(layer.surface).max() <= layer.opacity
 
 
 def test_parallax_layer_rejects_wrong_surface_size() -> None:

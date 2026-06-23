@@ -1,11 +1,14 @@
 """Vizualni Mode7 renderer koji NumPy koordinatama uzorkuje teksturu terena."""
 
+import math
+
 import numpy as np
 import pygame
 
 from aetherfront.config import HORIZON_Y, INTERNAL_SIZE, WORLD_SIZE
 from aetherfront.rendering.camera import Camera
 from aetherfront.rendering.mode7 import Mode7Projection
+from aetherfront.rendering.parallax import ParallaxSkyLayer, create_parallax_sky_layers
 from aetherfront.rendering.terrain import generate_terrain_texture
 
 
@@ -29,6 +32,7 @@ class Mode7Renderer:
         self._texture_scale_x = self._texture_width / WORLD_SIZE
         self._texture_scale_y = self._texture_height / WORLD_SIZE
         self._sky = self._create_sky()
+        self._parallax_layers = create_parallax_sky_layers()
 
     @staticmethod
     def _validate_texture(texture: np.ndarray) -> None:
@@ -50,6 +54,23 @@ class Mode7Renderer:
         sky = np.broadcast_to(rows[:, np.newaxis, :], (HORIZON_Y + 1, INTERNAL_SIZE[0], 3))
         return np.ascontiguousarray(sky, dtype=np.uint8)
 
+    @staticmethod
+    def _parallax_offset(camera: Camera, layer: ParallaxSkyLayer) -> int:
+        """Izračunaj omotani horizontalni pomak sky sloja sporiji od tla."""
+        width = layer.surface.get_width()
+        position_component = camera.x * 0.10 + camera.y * 0.04
+        heading_component = camera.heading / math.tau * width * 0.65
+        return round((position_component + heading_component) * layer.scroll_factor) % width
+
+    def _draw_parallax_sky(self, sky_surface: pygame.Surface, camera: Camera) -> None:
+        """Nacrtaj statičnu gradaciju i preko nje omotane parallax slojeve."""
+        pygame.surfarray.blit_array(sky_surface, np.swapaxes(self._sky, 0, 1))
+        for layer in self._parallax_layers:
+            offset = self._parallax_offset(camera, layer)
+            sky_surface.blit(layer.surface, (-offset, 0))
+            if offset > 0:
+                sky_surface.blit(layer.surface, (layer.surface.get_width() - offset, 0))
+
     def sample_ground(self, camera: Camera) -> np.ndarray:
         """Vrati RGB piksele tla dobivene vektoriziranim uzorkovanjem teksture."""
         grid = self.projection.project(camera)
@@ -65,7 +86,7 @@ class Mode7Renderer:
             raise ValueError("canvas dimensions must match the internal display")
 
         sky_surface = canvas.subsurface((0, 0, INTERNAL_SIZE[0], HORIZON_Y + 1))
-        pygame.surfarray.blit_array(sky_surface, np.swapaxes(self._sky, 0, 1))
+        self._draw_parallax_sky(sky_surface, camera)
 
         ground = self.sample_ground(camera)
         ground_surface = canvas.subsurface(

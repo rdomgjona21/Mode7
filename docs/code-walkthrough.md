@@ -130,8 +130,9 @@ boss score i postavlja `victory`; kada igrač ostane bez trupa, postavlja se `ga
 Time glavna PyGame petlja ne mora sadržavati pravila štete, bodovanja, spawnova i isteka
 objekata.
 
-HUD samo čita stanje sesije. Ne mijenja zdravlje, hlađenja ni bodove, pa ga je moguće
-zasebno testirati crtanjem na običnu headless površinu.
+HUD samo čita stanje sesije. Ne mijenja zdravlje, hlađenja ni bodove, koristi manji
+borbeni font od izbornika i moguće ga je zasebno testirati crtanjem na običnu headless
+površinu.
 
 ## 10. Glavna petlja
 
@@ -189,10 +190,12 @@ seeda, broj različitih boja i odbijanje neispravnih argumenata.
 
 Testovi parallax pripreme provjeravaju da slojevi odgovaraju području neba iznad horizonta,
 da postoje tri imenovana sloja, da su deterministički za isti seed, da se mijenjaju s
-drugim seedom, da imaju vidljive alfa piksele i različite faktore budućeg pomaka.
+drugim seedom, da imaju vidljive alfa piksele, suptilne alfa vrijednosti i različite
+faktore budućeg pomaka.
 
 Testovi renderera provjeravaju oblik uzorkovanog tla, promjenu slike pri kretanju kamere,
-popunjavanje neba, horizonta i tla te odbijanje pogrešnog formata teksture ili površine.
+popunjavanje neba, horizonta i tla, promjenu parallax neba pri kretanju kamere, redoslijed
+parallax offseta prema faktoru pomaka te odbijanje pogrešnog formata teksture ili površine.
 
 Testovi billboardskog sustava provjeravaju omatanje, odbacivanje objekata iza kamere,
 skaliranje prema udaljenosti, rotaciju, dubinski redoslijed i crtanje. Testovi Kestrela
@@ -216,7 +219,8 @@ vala. Testovi bossa provjeravaju početno zdravlje, prijelaz u drugu fazu, širi
 uništenje. Testovi sesije provjeravaju prvi konfigurirani val, prijelaz na drugi val,
 stvaranje bossa nakon trećeg vala, boss damage, bodove, nastanak i prikupljanje popravka,
 victory, game-over stanje, terminalno zaustavljanje simulacije, ograničenje projektila i
-štetu nad igračem. HUD i benchmark imaju zasebne headless testove.
+štetu nad igračem. HUD i benchmark imaju zasebne headless testove, uključujući provjeru
+da borbeni HUD ostaje u kompaktnom lijevom panelu.
 
 ## 12. Validacija
 
@@ -244,8 +248,8 @@ Aplikacija se pokreće naredbom `python -m aetherfront`. `main.py` stvara `Game`
 Prikaz koristi internu sliku 640×360 skaliranu na 1280×720. `Mode7Projection` računa
 omotane koordinate tla, `Mode7Renderer` ih NumPyjem uzorkuje iz proceduralne teksture, a
 `BillboardProjector` crta svjetske objekte kao 2D spriteove skalirane po udaljenosti.
-`parallax.py` trenutačno priprema proceduralne slojeve neba za sljedeći commit, ali ih
-renderer još ne prikazuje.
+`parallax.py` stvara proceduralne slojeve neba, a `Mode7Renderer` ih blita iznad horizonta
+sa stišanim alfa vrijednostima i sporijim horizontalnim pomakom od kretanja tla.
 
 Kestrel je vezan uz donji dio ekrana, dok kamera predstavlja položaj i smjer igrača u
 svijetu. `balance.json` sadrži vrijednosti zdravlja, oružja, protivnika, popravka i bossa.
