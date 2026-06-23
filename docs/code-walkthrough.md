@@ -90,7 +90,7 @@ nakon terena i prije dijagnostičkog teksta.
 ## 8. Borbena osnova
 
 `balance.json` odvaja brojčane vrijednosti od programskog koda. Učitavač pretvara njegove
-dvije sekcije u nepromjenjive objekte `PlayerBalance` i `ProjectileBalance`. Time buduće
+sekcije u nepromjenjive objekte za igrača, projektile, oružja, popravke i protivnike. Time
 balansiranje ne zahtijeva traženje brojeva kroz više Python datoteka.
 
 `Projectile.update()` računa pomak iz smjera, brzine i `dt`, omata položaj i smanjuje
@@ -102,17 +102,22 @@ izračuna korijena.
 Nakon toga `update()` odbrojava zaštitu. `heal()` vraća stvarno obnovljenu količinu, što
 će kasnije omogućiti točan prikaz popravaka i spriječiti prelazak preko maksimuma.
 
-## 9. Oružja i borbena sesija
+## 9. Oružja, protivnici i borbena sesija
 
 `WeaponController` nakon svakog framea smanjuje tri neovisna hlađenja. Primarna paljba
 čita trenutačni odabir, dok raketa ima zasebnu metodu. Obje metode najprije provjeravaju
 hlađenje i slobodna mjesta, pa tek zatim stvaraju konfigurirane projektile malo ispred
 kamere.
 
-`CombatSession` je središte trening-borbe. Ažurira projektile, traži njihove sudare s
-ciljem, stvara pickup nakon uništenja, ponovno postavlja cilj i provjerava je li kamera
-ušla u radijus popravka. Time glavna PyGame petlja ne mora sadržavati pravila štete,
-bodovanja i isteka objekata.
+`Enemy` opisuje scouta, gunship i bombera. Svaki protivnik ima vrstu, položaj, smjer,
+zdravlje, brzinu, radijus sudara, bodove, kontaktnu štetu, projektil i hlađenje napada.
+Metoda `update()` ga pomiče prema igraču kroz omotani svijet, a `fire_if_ready()` vraća
+neprijateljski projektil samo kada je hlađenje završeno.
+
+`CombatSession` je središte borbene probe. Ažurira projektile, protivnike, njihove napade,
+sudare igrača i neprijatelja, nastanak popravaka, bodove i ponovno stvaranje razvojne
+skupine nakon što su svi standardni protivnici uništeni. Time glavna PyGame petlja ne
+mora sadržavati pravila štete, bodovanja i isteka objekata.
 
 HUD samo čita stanje sesije. Ne mijenja zdravlje, hlađenja ni bodove, pa ga je moguće
 zasebno testirati crtanjem na običnu headless površinu.
@@ -172,8 +177,11 @@ dodir kružnica, kretanje i istek projektila, zdravlje, smrt, liječenje te blok
 ponovljene štete tijekom neranjivosti.
 
 Testovi oružja provjeravaju broj, kutove, štetu, hlađenja i ograničenje projektila.
-Testovi sesije provjeravaju uništenje i ponovno stvaranje cilja, nastanak i prikupljanje
-popravka te bodove. HUD i benchmark imaju zasebne headless testove.
+Testovi protivnika provjeravaju zaključane razlike scouta, gunshipa i bombera, primanje
+štete, determinističko kretanje i hlađenje neprijateljske paljbe. Testovi sesije provjeravaju
+početnu skupinu standardnih protivnika, bodove, nastanak i prikupljanje popravka, ponovno
+stvaranje skupine, ograničenje projektila i štetu nad igračem. HUD i benchmark imaju
+zasebne headless testove.
 
 ## 12. Validacija
 

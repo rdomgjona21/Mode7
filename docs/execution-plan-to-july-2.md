@@ -21,6 +21,8 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
   osnovni HUD; benchmark sada prikazuje napredak i uredno obrađuje prekid.
 - **22.6.:** zaprimljeno je odobrenje nastavnika za temu P5 i izmijenjeni individualni
   raspored; administrativni preduvjet je ispunjen.
+- **23.6.:** prije rasporeda implementirani su scout, gunship i bomber s kretanjem,
+  zdravljem, napadima, proceduralnim oblicima, bodovima i štetom nad igračem.
 
 ## Dnevni raspored
 

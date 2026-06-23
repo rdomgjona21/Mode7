@@ -11,14 +11,15 @@ from aetherfront.config import (
     WINDOW_SIZE,
     WINDOW_TITLE,
 )
+from aetherfront.gameplay.enemies import EnemyKind
 from aetherfront.gameplay.session import CombatSession
 from aetherfront.gameplay.weapons import PrimaryWeapon
 from aetherfront.rendering.billboards import BillboardProjector, WorldBillboard
 from aetherfront.rendering.camera import Camera
 from aetherfront.rendering.combat_sprites import (
+    create_enemy_surfaces,
     create_projectile_surfaces,
     create_repair_surface,
-    create_training_target_surface,
 )
 from aetherfront.rendering.renderer import Mode7Renderer
 from aetherfront.rendering.ships import create_kestrel_surface
@@ -42,7 +43,7 @@ class Game:
         billboard_projector: BillboardProjector,
         session: CombatSession,
         projectile_surfaces: dict[str, pygame.Surface],
-        target_surface: pygame.Surface,
+        enemy_surfaces: dict[EnemyKind, pygame.Surface],
         repair_surface: pygame.Surface,
         player_surface: pygame.Surface,
         fps: float,
@@ -50,13 +51,13 @@ class Game:
         """Nacrtaj teren, borbene objekte, igrača i HUD."""
         renderer.draw(canvas, camera)
         billboards: list[WorldBillboard] = []
-        if session.target.alive:
+        for enemy in session.enemies:
             billboards.append(
                 WorldBillboard(
-                    target_surface,
-                    session.target.x,
-                    session.target.y,
-                    session.target.radius * 2,
+                    enemy_surfaces[enemy.kind],
+                    enemy.x,
+                    enemy.y,
+                    enemy.radius * 2,
                 )
             )
         billboards.extend(
@@ -114,7 +115,7 @@ class Game:
             billboard_projector = BillboardProjector()
             session = CombatSession.create(camera)
             projectile_surfaces = create_projectile_surfaces()
-            target_surface = create_training_target_surface()
+            enemy_surfaces = create_enemy_surfaces()
             repair_surface = create_repair_surface()
             player_surface = create_kestrel_surface()
 
@@ -159,7 +160,7 @@ class Game:
                     billboard_projector,
                     session,
                     projectile_surfaces,
-                    target_surface,
+                    enemy_surfaces,
                     repair_surface,
                     player_surface,
                     clock.get_fps(),

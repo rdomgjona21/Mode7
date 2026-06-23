@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 0.8
+**Verzija:** 0.9
 
-**Datum:** 22. lipnja 2026.
+**Datum:** 23. lipnja 2026.
 
-**Status:** igriva Mode7 borbena proba i rani macOS paket
+**Status:** igriva Mode7 borbena proba sa standardnim protivnicima i rani macOS paket
 
 ## Arhitektura
 
@@ -14,8 +14,8 @@ crtanjem i sigurnim gašenjem.
 
 Prikaz se crta na internu površinu veličine 640×360 i skalira na prozor veličine
 1280×720. Petlja je ograničena na 60 slika u sekundi. Trenutačna verzija prikazuje
-vizualni Mode7 prototip s dijagnostičkim podacima kamere i FPS-om; gameplay još nije
-implementiran.
+vizualni Mode7 prototip s osnovnim borbenim gameplayem, protivnicima, projektilima,
+pickupima, HUD-om i dijagnostičkim FPS-om.
 
 ## Mode7 projekcija
 
@@ -95,22 +95,32 @@ preko granice svijeta.
 i nakon prihvaćene štete aktivira kratku neranjivost. Ponovljeni pogodak tijekom zaštite
 se odbija, a liječenje vraća samo zdravlje koje nedostaje.
 
-## Oružja, trening-cilj i pickup
+## Oružja, protivnici i pickup
 
 `WeaponController` čuva odabrano primarno oružje te zasebna hlađenja za cannon, spread
 gun i raketu. Cannon stvara jedan projektil, spread gun tri projektila pod kutovima
 −0,16, 0 i +0,16 radijana, a raketa koristi neovisnu tipku i hlađenje. Aktivni broj
 projektila ograničen je na 64.
 
-`CombatSession` jednom po frameu povezuje ulaze, projektile, kružne sudare, zdravlje
-trening-cilja, ponovno pojavljivanje, repair pickup i bodove. Cilj ima 100 HP i pojavljuje
-se 400 jedinica ispred igrača. Nakon uništenja stvara popravak koji vraća do 24 HP-a,
-dodaje 50 bodova i nestaje nakon 10 sekundi. Trening-cilj je razvojna pomoć, a ne četvrta
-vrsta protivnika.
+`EnemyKind` i `Enemy` definiraju tri zaključane standardne vrste protivnika: scout,
+gunship i bomber. Svaki protivnik ima vlastiti trup, brzinu, radijus sudara, vrijednost
+bodova, kontaktnu štetu, projektil, hlađenje napada i proceduralni oblik. Scout je brz i
+slab, gunship je srednji dvobojni brod, a bomber je spor i izdržljiv s težim projektilom.
+Kretanje koristi najkraći smjer kroz omotani svijet, a napadi stvaraju projektile tima
+`enemy`.
 
-Proceduralne slike razlikuju mjedeni cannon, cijan spread gun, crvenu raketu, kružni cilj
-i repair ćeliju. `BillboardProjector` ih zajednički sortira i crta. Engleski HUD prikazuje
-trup, odabrano oružje, hlađenje rakete, bodove, cilj, brzinu i FPS.
+`CombatSession` jednom po frameu povezuje ulaze, projektile, neprijatelje, kružne sudare,
+repair pickup, zdravlje igrača i bodove. Početna razvojna skupina sadrži dva scouta,
+jedan gunship i jedan bomber, postavljena ispred smjera kamere. Igračevi projektili
+uništavaju protivnike i odmah dodaju njihove bodove; uništeni protivnik ostavlja popravak
+koji vraća do 24 HP-a, dodaje 50 bodova i nestaje nakon 10 sekundi. Kada se probna skupina
+očisti, nakon kratke stanke ponovno se stvara nova skupina. To još nije `WaveDirector`,
+nego privremeni testni raspored standardnih protivnika.
+
+Proceduralne slike razlikuju mjedeni cannon, cijan spread gun, crvenu raketu, neprijateljske
+projektile, tri vrste zračnih brodova i repair ćeliju. `BillboardProjector` ih zajednički
+sortira i crta. Engleski HUD prikazuje trup, odabrano oružje, hlađenje rakete, bodove,
+broj preostalih protivnika, trenutačnu prijetnju, brzinu i FPS.
 
 ## Kamera i vrijeme
 
@@ -147,5 +157,5 @@ Prekid tipkama `Ctrl+C` vraća izlazni kod 130 i kratku poruku bez Python traceb
 
 ## Sljedeći tehnički korak
 
-Sljedeća zasebna cjelina zamjenjuje trening-cilj scoutom, gunshipom i bomberom te dodaje
-njihovo kretanje, zdravlje, napade, proceduralne oblike i bodove.
+Sljedeća zasebna cjelina uvodi `waves.json` i `WaveDirector` kako bi se postojeći scout,
+gunship i bomber pojavljivali kroz tri konfigurirana vala umjesto kroz razvojnu skupinu.

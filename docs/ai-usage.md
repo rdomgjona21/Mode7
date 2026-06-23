@@ -111,3 +111,16 @@
   borbenog framea, kratki benchmark i PyInstaller smoke build.
 - **Resursi:** svi novi prikazi generirani su PyGame kodom; nisu dodani vanjski resursi.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 23. lipnja 2026. — standardni protivnici
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** implementacija scouta, gunshipa i bombera, njihovih vrijednosti balansa,
+  kretanja, napada, proceduralnih prikaza, bodovanja, štete nad igračem, HUD izmjena,
+  testova i prateće dokumentacije.
+- **Utjecaj:** privremeni trening-cilj uklonjen je iz aktivnog gameplay toka; prototip
+  sada koristi samo tri standardne vrste protivnika iz zaključanog opsega.
+- **Provjera:** Ruff i 95 Pytest testova kroz `./scripts/validate.sh`, 120-frame headless
+  pokretanje te 12-sekundni benchmark od 157,8 FPS-a uz prag 55 FPS-a.
+- **Resursi:** svi novi prikazi generirani su PyGame kodom; nisu dodani vanjski resursi.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

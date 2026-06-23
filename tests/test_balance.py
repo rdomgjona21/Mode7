@@ -23,6 +23,10 @@ def test_default_balance_matches_locked_combat_foundation() -> None:
     assert balance.rocket.cooldown_seconds == 1.15
     assert balance.repair.heal_amount == 24
     assert balance.repair.score_value == 50
+    assert set(balance.enemies) == {"scout", "gunship", "bomber"}
+    assert balance.enemies["scout"].max_health == 28
+    assert balance.enemies["gunship"].score_value == 240
+    assert balance.enemies["bomber"].projectile_damage == 22
 
 
 def test_balance_rejects_missing_section(tmp_path: Path) -> None:

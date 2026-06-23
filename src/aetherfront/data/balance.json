@@ -40,5 +40,43 @@
     "score_value": 50,
     "collision_radius": 14.0,
     "lifetime_seconds": 10.0
+  },
+  "enemies": {
+    "scout": {
+      "max_health": 28,
+      "speed": 62,
+      "collision_radius": 13.0,
+      "score_value": 120,
+      "contact_damage": 12,
+      "projectile_damage": 8,
+      "attack_cooldown_seconds": 1.35,
+      "projectile_speed": 170,
+      "projectile_radius": 3.0,
+      "projectile_lifetime_seconds": 2.8
+    },
+    "gunship": {
+      "max_health": 62,
+      "speed": 40,
+      "collision_radius": 18.0,
+      "score_value": 240,
+      "contact_damage": 18,
+      "projectile_damage": 13,
+      "attack_cooldown_seconds": 1.05,
+      "projectile_speed": 190,
+      "projectile_radius": 4.0,
+      "projectile_lifetime_seconds": 3.1
+    },
+    "bomber": {
+      "max_health": 96,
+      "speed": 27,
+      "collision_radius": 24.0,
+      "score_value": 420,
+      "contact_damage": 25,
+      "projectile_damage": 22,
+      "attack_cooldown_seconds": 1.65,
+      "projectile_speed": 145,
+      "projectile_radius": 6.0,
+      "projectile_lifetime_seconds": 3.6
+    }
   }
 }

@@ -49,6 +49,22 @@ class RepairBalance:
 
 
 @dataclass(frozen=True, slots=True)
+class EnemyBalance:
+    """Vrijednosti jedne standardne vrste protivnika."""
+
+    max_health: float
+    speed: float
+    collision_radius: float
+    score_value: int
+    contact_damage: float
+    projectile_damage: float
+    attack_cooldown_seconds: float
+    projectile_speed: float
+    projectile_radius: float
+    projectile_lifetime_seconds: float
+
+
+@dataclass(frozen=True, slots=True)
 class CombatBalance:
     """Provjerena borbena konfiguracija dostupna ostatku igre."""
 
@@ -58,6 +74,7 @@ class CombatBalance:
     spread: WeaponBalance
     rocket: WeaponBalance
     repair: RepairBalance
+    enemies: dict[str, EnemyBalance]
 
 
 def _positive_number(section: dict[str, Any], key: str, section_name: str) -> float:
@@ -119,6 +136,30 @@ def _weapon(section: dict[str, Any], name: str) -> WeaponBalance:
     )
 
 
+def _enemy(section: dict[str, Any], name: str) -> EnemyBalance:
+    """Pretvori jednu JSON sekciju protivnika u provjerenu konfiguraciju."""
+    return EnemyBalance(
+        max_health=_positive_number(section, "max_health", name),
+        speed=_positive_number(section, "speed", name),
+        collision_radius=_positive_number(section, "collision_radius", name),
+        score_value=_positive_integer(section, "score_value", name),
+        contact_damage=_positive_number(section, "contact_damage", name),
+        projectile_damage=_positive_number(section, "projectile_damage", name),
+        attack_cooldown_seconds=_positive_number(
+            section,
+            "attack_cooldown_seconds",
+            name,
+        ),
+        projectile_speed=_positive_number(section, "projectile_speed", name),
+        projectile_radius=_positive_number(section, "projectile_radius", name),
+        projectile_lifetime_seconds=_positive_number(
+            section,
+            "projectile_lifetime_seconds",
+            name,
+        ),
+    )
+
+
 def load_combat_balance(path: Path | None = None) -> CombatBalance:
     """Učitaj zadanu paketnu konfiguraciju ili datoteku poslanu iz testa."""
     if path is None:
@@ -139,6 +180,10 @@ def load_combat_balance(path: Path | None = None) -> CombatBalance:
     spread = _section(weapons, "spread")
     rocket = _section(weapons, "rocket")
     repair = _section(raw, "repair")
+    enemies = _section(raw, "enemies")
+    scout = _section(enemies, "scout")
+    gunship = _section(enemies, "gunship")
+    bomber = _section(enemies, "bomber")
     return CombatBalance(
         player=PlayerBalance(
             max_health=_positive_number(player, "max_health", "player"),
@@ -171,4 +216,9 @@ def load_combat_balance(path: Path | None = None) -> CombatBalance:
             collision_radius=_positive_number(repair, "collision_radius", "repair"),
             lifetime_seconds=_positive_number(repair, "lifetime_seconds", "repair"),
         ),
+        enemies={
+            "scout": _enemy(scout, "enemies.scout"),
+            "gunship": _enemy(gunship, "enemies.gunship"),
+            "bomber": _enemy(bomber, "enemies.bomber"),
+        },
     )

@@ -3,7 +3,7 @@
 **Verzija:** 1.0  
 **Autor:** Robert Domgjonaj  
 **Datum:** 18. lipnja 2026.  
-**Status:** početni nacrt; Mode7 prototip i igriva oružja implementirani
+**Status:** početni nacrt; Mode7 prototip, oružja i standardni protivnici implementirani
 
 ## Sadržaj
 
@@ -121,7 +121,7 @@ Arhitektura koristi Python 3.12 i PyGame petlju, a kasnije će dobiti zasebna ap
 
 Brodovi, efekti, popravci i projektili projicirat će se iz svijeta na zaslon, sortirati po dubini i zatim crtati. Sudari će koristiti determinističke kružnice i najkraću udaljenost unutar svijeta opsega 2.048 jedinica. Planirani `WaveDirector` čitat će `data/waves.json`, a `data/balance.json` bilježit će vrijednosti balansa. Podrijetlo budućih resursa vodit će se u `assets/manifest.csv`.
 
-Trenutačna naredba `python -m aetherfront` pokreće PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja, kamera, vektorizirana Mode7 projekcija, deterministički generator terena i vizualno NumPy uzorkovanje su implementirani. Proceduralni Kestrel prikazan je pri dnu zaslona, a billboard sustav crta trening-cilj, tri vrste projektila i repair pickup. Cannon, spread gun i raketa koriste vrijednosti štete i hlađenja iz `data/balance.json`. Pogoci smanjuju zdravlje cilja, uništenje stvara pickup, a osnovni engleski HUD prikazuje trup, oružje, raketu, bodove, cilj, brzinu i FPS. Trening-cilj je razvojna pomoć koja će biti zamijenjena standardnim protivnicima. PyInstaller uspješno uključuje konfiguraciju i izrađuje ARM64 macOS `.app`; završni ZIP izradit će se nakon dovršetka igre.
+Trenutačna naredba `python -m aetherfront` pokreće PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja, kamera, vektorizirana Mode7 projekcija, deterministički generator terena i vizualno NumPy uzorkovanje su implementirani. Proceduralni Kestrel prikazan je pri dnu zaslona, a billboard sustav crta scoutove, gunship, bomber, igračeve i neprijateljske projektile te repair pickup. Cannon, spread gun i raketa koriste vrijednosti štete i hlađenja iz `data/balance.json`. Pogoci smanjuju zdravlje protivnika, uništenje dodaje bodove i stvara pickup, a osnovni engleski HUD prikazuje trup, oružje, raketu, bodove, preostale protivnike, prijetnju, brzinu i FPS. Trenutačni raspored protivnika razvojna je skupina, a ne konačni sustav valova. PyInstaller uspješno uključuje konfiguraciju i izrađuje ARM64 macOS `.app`; završni ZIP izradit će se nakon dovršetka igre.
 
 ### Sistemski zahtjevi
 
@@ -185,3 +185,4 @@ Generativni AI trenutačno se koristi prema FOI razini 4 za planiranje, struktur
 | 0.9 | 22. 6. 2026. | Robert Domgjonaj | Evidentirani projektili, sudari, zdravlje i konfiguracija balansa |
 | 1.0 | 22. 6. 2026. | Robert Domgjonaj | Evidentirano odobrenje teme P5 i izmijenjenog rasporeda |
 | 1.1 | 22. 6. 2026. | Robert Domgjonaj | Evidentirana tri oružja, trening-cilj, repair pickup i HUD |
+| 1.2 | 23. 6. 2026. | Robert Domgjonaj | Evidentirani scout, gunship i bomber kao standardni protivnici |
