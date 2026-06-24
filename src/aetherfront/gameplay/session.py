@@ -19,6 +19,7 @@ MIN_VISIBLE_ENEMY_DEPTH = 150.0
 RECYCLED_ENEMY_DEPTH = 650.0
 RECYCLED_ENEMY_SIDE_STEP = 115.0
 RECYCLED_ENEMY_COOLDOWN_SECONDS = 0.8
+REPAIR_COLLECTION_RADIUS_MULTIPLIER = 4.0
 
 
 @dataclass(slots=True)
@@ -26,6 +27,7 @@ class CombatFeedback:
     """Kratkotrajni događaji zadnjeg framea za vizualne povratne informacije."""
 
     destroyed_positions: list[tuple[float, float]] = field(default_factory=list)
+    repair_collected_positions: list[tuple[float, float]] = field(default_factory=list)
     boss_was_hit: bool = False
     player_was_damaged: bool = False
     player_fired: bool = False
@@ -33,6 +35,7 @@ class CombatFeedback:
     def reset(self) -> None:
         """Očisti događaje prije izračuna novog framea."""
         self.destroyed_positions.clear()
+        self.repair_collected_positions.clear()
         self.boss_was_hit = False
         self.player_was_damaged = False
         self.player_fired = False
@@ -51,6 +54,10 @@ class CombatSession:
     projectiles: list[Projectile] = field(default_factory=list)
     pickups: list[RepairPickup] = field(default_factory=list)
     score: int = 0
+    elapsed_time: float = 0.0
+    enemies_destroyed: int = 0
+    repairs_collected: int = 0
+    damage_taken: float = 0.0
     victory: bool = False
     game_over: bool = False
     boss_score_awarded: bool = False
@@ -132,6 +139,7 @@ class CombatSession:
                     destroyed = enemy.take_damage(projectile.damage)
                     if destroyed:
                         self.score += enemy.score_value
+                        self.enemies_destroyed += 1
                         self._create_repair(enemy.x, enemy.y)
                         destroyed_positions.append((enemy.x, enemy.y))
                     break
@@ -212,14 +220,26 @@ class CombatSession:
             if projectile.team != "enemy":
                 continue
             if circles_overlap(player_body, projectile.collision_body):
-                damaged = self.player.take_damage(projectile.damage) or damaged
+                health_before = self.player.health
+                accepted = self.player.take_damage(projectile.damage)
+                if accepted:
+                    self.damage_taken += health_before - self.player.health
+                damaged = accepted or damaged
                 projectile.lifetime_remaining = 0.0
         for enemy in self.enemies:
             if circles_overlap(player_body, enemy.collision_body):
-                damaged = self.player.take_damage(enemy.contact_damage) or damaged
+                health_before = self.player.health
+                accepted = self.player.take_damage(enemy.contact_damage)
+                if accepted:
+                    self.damage_taken += health_before - self.player.health
+                damaged = accepted or damaged
         if self.boss is not None and self.boss.alive:
             if circles_overlap(player_body, self.boss.collision_body):
-                damaged = self.player.take_damage(self.boss.contact_damage) or damaged
+                health_before = self.player.health
+                accepted = self.player.take_damage(self.boss.contact_damage)
+                if accepted:
+                    self.damage_taken += health_before - self.player.health
+                damaged = accepted or damaged
         self.projectiles = [projectile for projectile in self.projectiles if projectile.active]
         return damaged
 
@@ -232,9 +252,16 @@ class CombatSession:
         player_body = CircleBody(camera.x, camera.y, self.balance.player.collision_radius)
         for pickup in self.pickups:
             pickup.update(dt)
-            if pickup.active and circles_overlap(player_body, pickup.collision_body):
+            collection_body = CircleBody(
+                pickup.x,
+                pickup.y,
+                pickup.radius * REPAIR_COLLECTION_RADIUS_MULTIPLIER,
+            )
+            if pickup.active and circles_overlap(player_body, collection_body):
                 _, awarded_score = pickup.collect(self.player)
                 self.score += awarded_score
+                self.repairs_collected += 1
+                self.feedback.repair_collected_positions.append((pickup.x, pickup.y))
         self.pickups = [pickup for pickup in self.pickups if pickup.active]
 
     def update(
@@ -245,10 +272,13 @@ class CombatSession:
         fire_rocket: bool = False,
     ) -> None:
         """Ažuriraj trenutni testni sukob protiv standardnih protivnika."""
+        if not math.isfinite(dt) or dt < 0:
+            raise ValueError("delta time must be finite and non-negative")
         self.feedback.reset()
         if self.victory or self.game_over:
             return
 
+        self.elapsed_time += dt
         self.player.update(dt)
         self.weapons.update(dt)
         self.enemies.extend(

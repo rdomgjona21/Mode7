@@ -8,6 +8,7 @@ from aetherfront.rendering.effects import (
     EXPLOSION_LIFETIME,
     MUZZLE_FLASH_LIFETIME,
     PLAYER_HIT_LIFETIME,
+    REPAIR_LIFETIME,
     EffectKind,
     EffectsState,
     WorldEffect,
@@ -22,6 +23,15 @@ def test_explosion_effect_expires_after_lifetime() -> None:
     effects.add_explosion(100, 200)
 
     effects.update(EXPLOSION_LIFETIME + 0.01)
+
+    assert effects.world_effects == []
+
+
+def test_repair_flash_effect_expires_after_lifetime() -> None:
+    effects = EffectsState()
+    effects.add_repair_flash(100, 200)
+
+    effects.update(REPAIR_LIFETIME + 0.01)
 
     assert effects.world_effects == []
 
@@ -68,6 +78,15 @@ def test_muzzle_flash_draws_visible_pixels_headless() -> None:
     draw_muzzle_flash(canvas, intensity=1.0)
 
     assert np.any(pygame.surfarray.array3d(canvas) != 0)
+
+
+def test_repair_flash_draws_green_pixels_headless() -> None:
+    effect = WorldEffect(EffectKind.REPAIR, 300, 100, 1, 1, 38)
+    surface = create_world_effect_surface(effect)
+    pixels = pygame.surfarray.array3d(surface)
+
+    assert np.any(pixels[:, :, 1] > pixels[:, :, 0])
+    assert np.any(pygame.surfarray.array_alpha(surface) != 0)
 
 
 def test_effects_draw_world_and_local_feedback_headless() -> None:

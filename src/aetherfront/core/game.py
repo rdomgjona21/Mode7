@@ -236,6 +236,8 @@ class Game:
                     )
                     for x, y in session.feedback.destroyed_positions:
                         effects.add_explosion(x, y)
+                    for x, y in session.feedback.repair_collected_positions:
+                        effects.add_repair_flash(x, y)
                     if session.feedback.boss_was_hit and session.boss is not None:
                         effects.add_boss_spark(session.boss.x, session.boss.y)
                     if session.feedback.player_was_damaged:

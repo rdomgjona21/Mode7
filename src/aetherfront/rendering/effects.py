@@ -16,6 +16,7 @@ from aetherfront.rendering.camera import Camera
 
 EXPLOSION_LIFETIME = 0.34
 SPARK_LIFETIME = 0.18
+REPAIR_LIFETIME = 0.45
 MUZZLE_FLASH_LIFETIME = 0.08
 PLAYER_HIT_LIFETIME = 0.16
 
@@ -25,6 +26,7 @@ class EffectKind(StrEnum):
 
     EXPLOSION = "explosion"
     BOSS_SPARK = "boss_spark"
+    REPAIR = "repair"
 
 
 @dataclass(slots=True)
@@ -82,6 +84,18 @@ class EffectsState:
             )
         )
 
+    def add_repair_flash(self, x: float, y: float) -> None:
+        self.world_effects.append(
+            WorldEffect(
+                kind=EffectKind.REPAIR,
+                x=x,
+                y=y,
+                lifetime=REPAIR_LIFETIME,
+                remaining=REPAIR_LIFETIME,
+                world_width=58.0,
+            )
+        )
+
     def trigger_muzzle_flash(self) -> None:
         self.muzzle_flash_remaining = MUZZLE_FLASH_LIFETIME
 
@@ -121,6 +135,8 @@ def create_world_effect_surface(effect: WorldEffect) -> pygame.Surface:
     """Stvori mali proceduralni sprite za trenutačni frame svjetskog efekta."""
     if effect.kind == EffectKind.EXPLOSION:
         return _create_explosion_surface(effect.age_ratio)
+    if effect.kind == EffectKind.REPAIR:
+        return _create_repair_flash_surface(effect.age_ratio)
     return _create_boss_spark_surface(effect.age_ratio)
 
 
@@ -149,6 +165,19 @@ def _create_boss_spark_surface(age_ratio: float) -> pygame.Surface:
     pygame.draw.circle(surface, (65, 211, 202, alpha), center, radius, 2)
     pygame.draw.line(surface, (240, 92, 74, alpha), (8, 17), (26, 17), 2)
     pygame.draw.line(surface, (240, 92, 74, alpha), (17, 8), (17, 26), 2)
+    return surface
+
+
+def _create_repair_flash_surface(age_ratio: float) -> pygame.Surface:
+    surface = pygame.Surface((48, 48), pygame.SRCALPHA)
+    alpha = round(235 * (1.0 - age_ratio))
+    radius = max(8, round(12 + age_ratio * 13))
+    center = (24, 24)
+    pygame.draw.circle(surface, (84, 255, 128, alpha), center, radius, 3)
+    pygame.draw.circle(surface, (35, 210, 98, alpha // 2), center, max(5, radius - 6))
+    pygame.draw.line(surface, (225, 255, 186, alpha), (24, 10), (24, 38), 5)
+    pygame.draw.line(surface, (225, 255, 186, alpha), (10, 24), (38, 24), 5)
+    pygame.draw.circle(surface, (232, 255, 205, alpha // 2), center, max(4, radius - 10), 2)
     return surface
 
 

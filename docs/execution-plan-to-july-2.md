@@ -38,6 +38,10 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
 - **23.6.:** parallax sky slojevi integrirani su u renderer iznad Mode7 horizonta.
 - **23.6.:** nakon ručne provjere stišani su parallax intenzitet i pomak te smanjen
   borbeni HUD.
+- **24.6.:** dodana je balance telemetry osnova i hrvatski obrasci za playtest i izvještaj
+  o testiranju, bez promjene vrijednosti balansa.
+- **24.6.:** dodan je kratki zeleni/cijan vizualni feedback za skupljanje repair pickupa,
+  bez promjene balansa ili toka igre.
 
 ## Dnevni raspored
 

@@ -130,9 +130,14 @@ boss score i postavlja `victory`; kada igrač ostane bez trupa, postavlja se `ga
 Time glavna PyGame petlja ne mora sadržavati pravila štete, bodovanja, spawnova i isteka
 objekata.
 
+Za balansiranje sesija dodatno bilježi `elapsed_time`, `enemies_destroyed`,
+`repairs_collected` i `damage_taken`. Ti brojači ne utječu na pravila igre, nego daju
+konkretne podatke za ručni playtest: koliko je pokušaj trajao, koliko je protivnika
+uništeno, koliko je popravaka skupljeno i koliko je štete igrač stvarno primio.
+
 HUD samo čita stanje sesije. Ne mijenja zdravlje, hlađenja ni bodove, koristi manji
-borbeni font od izbornika i moguće ga je zasebno testirati crtanjem na običnu headless
-površinu.
+borbeni font od izbornika, prikazuje vrijeme pokušaja i moguće ga je zasebno testirati
+crtanjem na običnu headless površinu.
 
 ## 10. Glavna petlja
 
@@ -219,8 +224,9 @@ vala. Testovi bossa provjeravaju početno zdravlje, prijelaz u drugu fazu, širi
 uništenje. Testovi sesije provjeravaju prvi konfigurirani val, prijelaz na drugi val,
 stvaranje bossa nakon trećeg vala, boss damage, bodove, nastanak i prikupljanje popravka,
 victory, game-over stanje, terminalno zaustavljanje simulacije, ograničenje projektila i
-štetu nad igračem. HUD i benchmark imaju zasebne headless testove, uključujući provjeru
-da borbeni HUD ostaje u kompaktnom lijevom panelu.
+štetu nad igračem, telemetry vrijeme, broj uništenih protivnika, broj skupljenih popravaka
+i ukupno primljenu štetu. HUD i benchmark imaju zasebne headless testove, uključujući
+provjeru da borbeni HUD ostaje u kompaktnom lijevom panelu.
 
 ## 12. Validacija
 
@@ -257,10 +263,15 @@ svijetu. `balance.json` sadrži vrijednosti zdravlja, oružja, protivnika, popra
 
 Borbena petlja povezuje kretanje kamere, oružja, neprijatelje, valove, sudare, pickupove,
 boss borbu, bodove, pobjedu i poraz. `CombatSession` drži većinu gameplay stanja i kratki
-`CombatFeedback` zadnjeg framea, dok `AppState` drži tok izbornika, uputa, igranja i pauze.
+`CombatFeedback` zadnjeg framea te osnovni telemetry za balansiranje, dok `AppState` drži
+tok izbornika, uputa, igranja i pauze. Kada se repair pickup stvarno pokupi, feedback nosi
+njegovu svjetsku poziciju do `EffectsState`, koji crta kratki zeleni/cijan plus efekt.
+Zona skupljanja je namjerno znatno veća od osnovnog sidrišnog radijusa pickupa kako bi se
+collect i zeleni feedback aktivirali čim igrač uđe u područje velikog perspektivnog plusa.
 Renderer, HUD, efekti i menu paneli uglavnom samo čitaju podatke i prikazuju ih.
 
 Trenutačno rade tri oružja, tri standardna protivnika, tri vala, repair pickup, score, ISS
 Goliath s dvije faze, boss health bar, glavni izbornik, upute, pauza, restart flow,
-suptilne eksplozije, boss spark, muzzle flash, damage marker, `VICTORY` i `GAME OVER`.
+suptilne eksplozije, repair flash, boss spark, muzzle flash, damage marker, `VICTORY` i
+`GAME OVER`.
 Još nedostaju zvuk, završno balansiranje, završni dokumenti, prezentacija i release ZIP.

@@ -5,6 +5,13 @@ import pygame
 from aetherfront.gameplay.session import CombatSession
 
 
+def format_elapsed_time(seconds: float) -> str:
+    """Vrati vrijeme sesije u engleskom HUD formatu MM:SS."""
+    total_seconds = max(0, int(seconds))
+    minutes, seconds_remainder = divmod(total_seconds, 60)
+    return f"{minutes:02d}:{seconds_remainder:02d}"
+
+
 def _label(
     canvas: pygame.Surface,
     font: pygame.font.Font,
@@ -25,7 +32,7 @@ def draw_hud(
     fps: float,
 ) -> None:
     """Nacrtaj zdravlje, oružje, val, bodove, neprijatelje, brzinu i FPS."""
-    panel = pygame.Surface((252, 150), pygame.SRCALPHA)
+    panel = pygame.Surface((252, 164), pygame.SRCALPHA)
     panel.fill((14, 22, 31, 174))
     canvas.blit(panel, (8, 8))
 
@@ -56,14 +63,15 @@ def draw_hud(
     else:
         enemy = director.current_wave_name.upper()
     _label(canvas, font, f"ENEMIES {session.enemies_remaining}  {enemy}", (18, 108))
+    _label(canvas, font, f"TIME {format_elapsed_time(session.elapsed_time)}", (18, 124))
 
     if session.boss is not None:
         boss = session.boss
         boss_ratio = 0.0 if boss.health is None else boss.health / boss.max_health
-        _label(canvas, font, f"BOSS GOLIATH {boss.phase_label}", (18, 124))
-        pygame.draw.rect(canvas, (79, 45, 43), (18, 143, 210, 6))
-        pygame.draw.rect(canvas, (193, 63, 57), (18, 143, round(210 * boss_ratio), 6))
-        pygame.draw.rect(canvas, (222, 205, 158), (18, 143, 210, 6), 1)
+        _label(canvas, font, f"BOSS GOLIATH {boss.phase_label}", (18, 140))
+        pygame.draw.rect(canvas, (79, 45, 43), (18, 158, 210, 5))
+        pygame.draw.rect(canvas, (193, 63, 57), (18, 158, round(210 * boss_ratio), 5))
+        pygame.draw.rect(canvas, (222, 205, 158), (18, 158, 210, 5), 1)
     if session.victory:
         _label(canvas, font, "VICTORY - BRASSHAVEN HOLDS", (182, 172))
     elif session.game_over:

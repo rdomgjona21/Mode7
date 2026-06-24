@@ -27,10 +27,13 @@ Projekt je u fazi igrive borbene probe. Dovršeni su:
 - ISS Goliath boss s proceduralnim prikazom, dvije faze, burst paljbom i boss HUD-om;
 - repair pickup i kompaktni engleski HUD s prikazom protivnika;
 - glavni izbornik, ekran uputa, pauza te restart ili povratak u izbornik nakon završetka;
-- suptilni proceduralni visual feedback za pucanje, pogotke, štetu i uništenje protivnika;
+- suptilni proceduralni visual feedback za pucanje, pogotke, štetu, skupljanje popravka i
+  uništenje protivnika;
+- osnovna balance telemetry mjerenja: vrijeme pokušaja, uništeni protivnici, skupljeni
+  popravci i primljena šteta;
 - skripta za 60-sekundno mjerenje performansi renderera;
 - skripta za izradu i provjeru macOS `.app` paketa;
-- početni automatizirani testovi i validacijska skripta.
+- početni automatizirani testovi, validacijska skripta i obrazac ručnog playtesta.
 
 Tri oružja, vidljivi pogoci i suptilni proceduralni efekti sada rade kroz tri konfigurirana
 redovna vala, boss susret, pobjedu i game-over stanje. Aplikacija ima tok od glavnog
@@ -82,6 +85,7 @@ open dist/Aetherfront.app
 - [Početni dokument dizajna igre](docs/gdd.md)
 - [Tehnička dokumentacija](docs/technical-documentation.md)
 - [Vodič kroz trenutačni kod](docs/code-walkthrough.md)
+- [Izvještaj o testiranju](docs/testing-report.md)
 - [Evidencija uporabe AI-ja](docs/ai-usage.md)
 
 Dokumentacija je na hrvatskom. Planirani tekst unutar igre i završna prezentacija bit će na engleskom.

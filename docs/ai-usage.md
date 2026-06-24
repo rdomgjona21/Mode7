@@ -237,3 +237,32 @@
   headless pokretanje te 12-sekundni benchmark od 135,0 FPS-a uz prag 55 FPS-a.
 - **Resursi:** nisu dodani vanjski resursi.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 24. lipnja 2026. — balance telemetry i playtest dokumenti
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** priprema prvog koraka završnog balansiranja bez mijenjanja gameplay
+  vrijednosti: mjerenje trajanja pokušaja, uništenih protivnika, skupljenih popravaka i
+  ukupno primljene štete.
+- **Utjecaj:** `CombatSession` sada čuva osnovne telemetry podatke, HUD prikazuje vrijeme
+  pokušaja, a dodani su hrvatski obrasci `tests/playtest-notes.md` i
+  `docs/testing-report.md` za ručno testiranje.
+- **Provjera:** Ruff i 141 Pytest test kroz `./scripts/validate.sh`, 180-frame headless
+  pokretanje te 12-sekundni benchmark od 98,1 FPS-a uz prag 55 FPS-a.
+- **Resursi:** nisu dodani vanjski resursi.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 24. lipnja 2026. — zeleni feedback za repair pickup
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** dodavanje čitljivog, ali kratkog vizualnog signala kada igrač stvarno skupi
+  repair pickup koji nastaje nakon uništenja standardnog protivnika.
+- **Utjecaj:** `CombatFeedback` sada bilježi pozicije skupljenih popravaka za zadnji frame,
+  `CombatSession` koristi širi krug skupljanja koji bolje odgovara vidljivom velikom plusu,
+  a `EffectsState` crta jasniji proceduralni zeleni/cijan plus efekt u svjetskom prostoru.
+  Nakon ručnih primjedbi autora prag skupljanja dodatno je pomaknut ranije kako efekt ne bi
+  kasnio nakon prolaska pokraj pickupa. Heal, score, valovi, oružja, boss, kontrole i tok
+  izbornika nisu mijenjani.
+- **Provjera:** Ruff i 144 Pytest testa kroz `./scripts/validate.sh`.
+- **Resursi:** efekt se crta PyGame primitivima; nisu dodani vanjski resursi.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

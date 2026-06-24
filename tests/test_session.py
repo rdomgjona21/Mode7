@@ -1,7 +1,9 @@
+import pytest
+
 from aetherfront.gameplay.collisions import wrapped_axis_delta
 from aetherfront.gameplay.pickups import RepairPickup
 from aetherfront.gameplay.projectiles import Projectile
-from aetherfront.gameplay.session import CombatSession
+from aetherfront.gameplay.session import REPAIR_COLLECTION_RADIUS_MULTIPLIER, CombatSession
 from aetherfront.rendering.camera import Camera
 
 
@@ -37,7 +39,30 @@ def test_destroyed_enemy_awards_score_and_creates_repair() -> None:
     assert enemy not in session.enemies
     assert len(session.pickups) == 1
     assert session.score == enemy.score_value
+    assert session.enemies_destroyed == 1
     assert session.feedback.destroyed_positions == [(enemy.x, enemy.y)]
+
+
+def test_session_tracks_elapsed_time_only_while_active() -> None:
+    camera = Camera()
+    session = CombatSession.create(camera)
+
+    session.update(1.25, camera)
+    session.update(0.75, camera)
+    session.victory = True
+    session.update(5.0, camera)
+
+    assert session.elapsed_time == pytest.approx(2.0)
+
+
+def test_session_rejects_invalid_delta_time_before_telemetry_changes() -> None:
+    camera = Camera()
+    session = CombatSession.create(camera)
+
+    with pytest.raises(ValueError, match="delta time"):
+        session.update(-0.1, camera)
+
+    assert session.elapsed_time == 0.0
 
 
 def test_session_advances_from_first_to_second_wave_after_clear() -> None:
@@ -166,6 +191,7 @@ def test_player_death_sets_game_over() -> None:
     assert session.game_over
     assert not session.victory
     assert session.feedback.player_was_damaged
+    assert session.damage_taken == session.player.max_health
 
 
 def test_terminal_session_stops_updating_projectiles() -> None:
@@ -204,6 +230,33 @@ def test_player_collects_repair_and_receives_score() -> None:
     assert session.player.health == 484
     assert session.score == 50
     assert session.pickups == []
+    assert session.repairs_collected == 1
+    assert session.feedback.repair_collected_positions == [(camera.x, camera.y)]
+
+
+def test_player_collects_repair_when_touching_visible_pickup_edge() -> None:
+    camera = Camera()
+    session = CombatSession.create(camera)
+    repair = session.balance.repair
+    player_radius = session.balance.player.collision_radius
+    x_offset = player_radius + repair.collision_radius * REPAIR_COLLECTION_RADIUS_MULTIPLIER - 1
+
+    session.pickups.append(
+        RepairPickup(
+            x=camera.x + x_offset,
+            y=camera.y,
+            heal_amount=repair.heal_amount,
+            score_value=repair.score_value,
+            radius=repair.collision_radius,
+            lifetime_remaining=repair.lifetime_seconds,
+        )
+    )
+
+    session.update(0, camera)
+
+    assert session.pickups == []
+    assert session.repairs_collected == 1
+    assert session.feedback.repair_collected_positions == [(camera.x + x_offset, camera.y)]
 
 
 def test_session_enforces_projectile_limit() -> None:
@@ -250,6 +303,7 @@ def test_enemy_projectile_can_damage_player() -> None:
 
     assert session.player.health == 487
     assert session.projectiles == []
+    assert session.damage_taken == 13
 
 
 def test_enemy_behind_player_is_recycled_into_front_sector() -> None:
