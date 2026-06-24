@@ -82,6 +82,14 @@ def _industrial_haze_pixels(width: int, height: int, seed: int) -> np.ndarray:
         pixels[top:base_y, column:right] = (24, 35, 42, 58)
         if rng.random() > 0.45:
             pixels[top : min(base_y, top + 2), column:right] = (173, 130, 62, 62)
+        if rng.random() > 0.70:
+            stack_x = min(width - 2, column + building_width // 2)
+            stack_top = max(6, top - int(rng.integers(4, 11)))
+            pixels[stack_top:top, stack_x : stack_x + 2] = (33, 31, 29, 58)
+            for puff in range(3):
+                puff_y = max(2, stack_top - 4 - puff * 5)
+                puff_x = max(0, min(width - 7, stack_x - 2 + puff * 2))
+                pixels[puff_y : puff_y + 4, puff_x : puff_x + 7] = (106, 122, 121, 34)
     return pixels
 
 

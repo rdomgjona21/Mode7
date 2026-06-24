@@ -4,6 +4,20 @@ import pygame
 
 from aetherfront.gameplay.enemies import EnemyKind
 
+BRASS = (204, 158, 72)
+BRIGHT_BRASS = (235, 202, 120)
+DARK_WOOD = (73, 50, 37)
+WARM_WOOD = (143, 95, 51)
+CANVAS = (117, 129, 121)
+CANVAS_LIGHT = (168, 177, 157)
+IRON = (40, 44, 50)
+AETHER = (62, 211, 202)
+
+
+def _rivet_row(surface: pygame.Surface, y: int, xs: tuple[int, ...]) -> None:
+    for x in xs:
+        pygame.draw.circle(surface, BRIGHT_BRASS, (x, y), 1)
+
 
 def create_projectile_surfaces() -> dict[str, pygame.Surface]:
     """Stvori prepoznatljive slike za igračeve i neprijateljske projektile."""
@@ -36,27 +50,48 @@ def create_projectile_surfaces() -> dict[str, pygame.Surface]:
 
 
 def create_enemy_surfaces() -> dict[EnemyKind, pygame.Surface]:
-    """Stvori tri proceduralna zračna broda bez vanjskih asseta."""
+    """Stvori tri viktorijanska proceduralna zračna broda bez vanjskih asseta."""
     scout = pygame.Surface((42, 28), pygame.SRCALPHA)
-    pygame.draw.ellipse(scout, (93, 70, 52), (5, 4, 30, 12))
-    pygame.draw.polygon(scout, (209, 154, 68), ((5, 17), (31, 17), (38, 22), (11, 24)))
-    pygame.draw.polygon(scout, (62, 211, 202), ((32, 8), (41, 14), (32, 20)))
-    pygame.draw.line(scout, (232, 220, 181), (12, 17), (30, 17), 2)
+    pygame.draw.ellipse(scout, (80, 70, 58), (4, 2, 31, 12))
+    pygame.draw.ellipse(scout, (144, 127, 94), (8, 4, 24, 7))
+    pygame.draw.line(scout, BRASS, (12, 14), (15, 18), 1)
+    pygame.draw.line(scout, BRASS, (28, 14), (25, 18), 1)
+    pygame.draw.polygon(scout, DARK_WOOD, ((7, 17), (31, 17), (38, 22), (12, 25)))
+    pygame.draw.polygon(scout, BRASS, ((8, 18), (29, 18), (34, 22), (13, 23)))
+    pygame.draw.polygon(scout, AETHER, ((31, 8), (41, 14), (31, 20)))
+    pygame.draw.circle(scout, BRIGHT_BRASS, (20, 20), 2)
+    _rivet_row(scout, 18, (12, 18, 24, 30))
 
     gunship = pygame.Surface((56, 34), pygame.SRCALPHA)
-    pygame.draw.ellipse(gunship, (74, 57, 50), (5, 3, 42, 15))
-    pygame.draw.rect(gunship, (157, 111, 59), (10, 18, 34, 8))
-    pygame.draw.polygon(gunship, (46, 52, 61), ((44, 19), (55, 23), (44, 27)))
-    pygame.draw.line(gunship, (221, 190, 108), (14, 22), (41, 22), 3)
-    pygame.draw.circle(gunship, (65, 211, 202), (42, 22), 3)
+    pygame.draw.ellipse(gunship, (55, 58, 58), (5, 2, 43, 16))
+    pygame.draw.ellipse(gunship, CANVAS, (9, 4, 36, 11))
+    for x in (17, 29, 41):
+        pygame.draw.arc(gunship, (71, 83, 82), (x - 6, 4, 12, 12), 1.4, 4.9, 1)
+    pygame.draw.line(gunship, BRASS, (13, 17), (17, 22), 2)
+    pygame.draw.line(gunship, BRASS, (41, 17), (36, 22), 2)
+    pygame.draw.rect(gunship, WARM_WOOD, (10, 20, 34, 8), border_radius=2)
+    pygame.draw.rect(gunship, DARK_WOOD, (9, 25, 36, 4), border_radius=2)
+    pygame.draw.polygon(gunship, IRON, ((44, 20), (55, 24), (44, 28)))
+    pygame.draw.line(gunship, BRIGHT_BRASS, (13, 22), (41, 22), 2)
+    pygame.draw.circle(gunship, AETHER, (40, 24), 3)
+    _rivet_row(gunship, 26, (15, 22, 29, 36))
 
     bomber = pygame.Surface((70, 44), pygame.SRCALPHA)
-    pygame.draw.ellipse(bomber, (64, 54, 48), (8, 3, 50, 18))
-    pygame.draw.rect(bomber, (112, 78, 57), (12, 22, 43, 12))
-    pygame.draw.polygon(bomber, (42, 45, 52), ((54, 22), (69, 29), (54, 36)))
-    pygame.draw.circle(bomber, (189, 71, 57), (22, 28), 5)
-    pygame.draw.circle(bomber, (189, 71, 57), (42, 28), 5)
-    pygame.draw.line(bomber, (222, 205, 158), (15, 22), (51, 22), 3)
+    pygame.draw.ellipse(bomber, (49, 47, 43), (6, 2, 54, 20))
+    pygame.draw.ellipse(bomber, (104, 91, 70), (11, 5, 45, 13))
+    for x in (18, 31, 44, 55):
+        pygame.draw.arc(bomber, (72, 72, 64), (x - 7, 5, 14, 16), 1.35, 4.95, 1)
+    pygame.draw.line(bomber, BRASS, (17, 21), (22, 28), 2)
+    pygame.draw.line(bomber, BRASS, (50, 21), (45, 28), 2)
+    pygame.draw.rect(bomber, (103, 68, 47), (12, 26, 43, 11), border_radius=2)
+    pygame.draw.rect(bomber, DARK_WOOD, (14, 34, 40, 5), border_radius=2)
+    pygame.draw.polygon(bomber, IRON, ((54, 25), (69, 31), (54, 38)))
+    pygame.draw.circle(bomber, (193, 63, 57), (23, 31), 5)
+    pygame.draw.circle(bomber, (193, 63, 57), (43, 31), 5)
+    pygame.draw.line(bomber, BRIGHT_BRASS, (16, 26), (52, 26), 2)
+    _rivet_row(bomber, 36, (18, 25, 32, 39, 46))
+    pygame.draw.rect(bomber, IRON, (31, 20, 5, 9))
+    pygame.draw.rect(bomber, BRASS, (29, 18, 9, 3))
     return {
         EnemyKind.SCOUT: scout,
         EnemyKind.GUNSHIP: gunship,
@@ -65,29 +100,41 @@ def create_enemy_surfaces() -> dict[EnemyKind, pygame.Surface]:
 
 
 def create_boss_surface() -> pygame.Surface:
-    """Stvori veliki proceduralni sprite za ISS Goliath."""
+    """Stvori veliki viktorijanski dreadnought sprite za ISS Goliath."""
     surface = pygame.Surface((150, 72), pygame.SRCALPHA)
-    pygame.draw.ellipse(surface, (42, 44, 50), (15, 4, 108, 24))
-    pygame.draw.ellipse(surface, (83, 65, 50), (10, 2, 118, 26), 3)
-    pygame.draw.rect(surface, (55, 49, 47), (20, 30, 104, 18))
-    pygame.draw.rect(surface, (138, 99, 53), (27, 35, 90, 8))
-    pygame.draw.polygon(surface, (38, 40, 47), ((120, 28), (149, 39), (120, 52)))
-    pygame.draw.polygon(surface, (38, 40, 47), ((22, 28), (0, 39), (22, 52)))
-    pygame.draw.circle(surface, (193, 63, 57), (43, 39), 5)
-    pygame.draw.circle(surface, (193, 63, 57), (73, 39), 5)
-    pygame.draw.circle(surface, (193, 63, 57), (103, 39), 5)
-    pygame.draw.line(surface, (224, 190, 103), (28, 30), (116, 30), 3)
-    pygame.draw.line(surface, (224, 190, 103), (32, 49), (110, 49), 2)
-    pygame.draw.circle(surface, (65, 211, 202), (75, 56), 6)
-    pygame.draw.circle(surface, (232, 220, 181), (75, 56), 2)
+    pygame.draw.ellipse(surface, (34, 36, 40), (13, 3, 114, 25))
+    pygame.draw.ellipse(surface, (87, 75, 56), (9, 1, 122, 28), 3)
+    for x in (31, 52, 73, 94, 115):
+        pygame.draw.arc(surface, (80, 72, 59), (x - 10, 4, 20, 23), 1.35, 4.95, 1)
+
+    pygame.draw.rect(surface, (46, 40, 38), (18, 30, 110, 20), border_radius=3)
+    pygame.draw.rect(surface, (111, 75, 44), (25, 35, 96, 9), border_radius=2)
+    pygame.draw.rect(surface, BRASS, (29, 29, 88, 4), border_radius=2)
+    pygame.draw.line(surface, BRIGHT_BRASS, (31, 49), (114, 49), 2)
+    pygame.draw.polygon(surface, IRON, ((120, 27), (149, 40), (120, 53)))
+    pygame.draw.polygon(surface, IRON, ((22, 27), (0, 40), (22, 53)))
+
+    for x in (39, 63, 87, 111):
+        pygame.draw.circle(surface, (177, 59, 52), (x, 41), 5)
+        pygame.draw.circle(surface, (244, 177, 82), (x, 41), 2)
+    _rivet_row(surface, 32, (34, 46, 58, 70, 82, 94, 106))
+    _rivet_row(surface, 47, (32, 44, 56, 68, 80, 92, 104, 116))
+
+    for x, height in ((50, 12), (74, 17), (98, 12)):
+        pygame.draw.rect(surface, IRON, (x, 18 - height // 2, 7, height))
+        pygame.draw.rect(surface, BRASS, (x - 2, 16 - height // 2, 11, 3))
+    pygame.draw.circle(surface, AETHER, (75, 57), 7)
+    pygame.draw.circle(surface, (232, 220, 181), (75, 57), 3)
     return surface
 
 
 def create_repair_surface() -> pygame.Surface:
-    """Stvori cijan ćeliju s križem koja označava popravak."""
+    """Stvori aether ćeliju s križem koja označava popravak."""
     surface = pygame.Surface((32, 32), pygame.SRCALPHA)
-    pygame.draw.circle(surface, (34, 73, 78), (16, 16), 14)
-    pygame.draw.circle(surface, (65, 211, 202), (16, 16), 12, 3)
-    pygame.draw.rect(surface, (231, 222, 179), (13, 7, 6, 18))
-    pygame.draw.rect(surface, (231, 222, 179), (7, 13, 18, 6))
+    pygame.draw.circle(surface, (25, 58, 61), (16, 16), 14)
+    pygame.draw.circle(surface, AETHER, (16, 16), 12, 3)
+    pygame.draw.circle(surface, BRASS, (16, 16), 15, 1)
+    pygame.draw.rect(surface, (231, 222, 179), (13, 7, 6, 18), border_radius=1)
+    pygame.draw.rect(surface, (231, 222, 179), (7, 13, 18, 6), border_radius=1)
+    pygame.draw.circle(surface, (226, 255, 198), (16, 16), 3)
     return surface

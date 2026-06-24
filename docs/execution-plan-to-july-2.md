@@ -42,6 +42,8 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
   o testiranju, bez promjene vrijednosti balansa.
 - **24.6.:** dodan je kratki zeleni/cijan vizualni feedback za skupljanje repair pickupa,
   bez promjene balansa ili toka igre.
+- **24.6.:** dodan je Victorian airship proceduralni polish za Kestrel, standardne
+  protivnike, Goliath, repair ćeliju i industrijski sky sloj.
 
 ## Dnevni raspored
 

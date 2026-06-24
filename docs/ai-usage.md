@@ -266,3 +266,19 @@
 - **Provjera:** Ruff i 144 Pytest testa kroz `./scripts/validate.sh`.
 - **Resursi:** efekt se crta PyGame primitivima; nisu dodani vanjski resursi.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 24. lipnja 2026. — Victorian airship proceduralni polish
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** pojačavanje steampunk vizualnog identiteta u smjeru viktorijanskih zračnih
+  brodova bez uvođenja vanjskih asseta.
+- **Utjecaj:** Kestrel, scout, gunship, bomber, ISS Goliath i repair ćelija dobili su
+  bogatije proceduralne oblike s platnenim balonima, drvenim gondolama, mjedenim nosačima,
+  zakovicama, kabinama i dimnjacima. Industrijski sky sloj dobio je dodatne dimne plumeove.
+  Gameplay balans, sudari, valovi, boss ponašanje, kontrole i HUD logika nisu mijenjani.
+- **Provjera:** Ruff i 148 Pytest testova kroz `./scripts/validate.sh`, 180-frame headless
+  pokretanje, 12-sekundni benchmark od 139,4 FPS-a uz prag 55 FPS-a i pregled generirane
+  kontakt-slike proceduralnih spriteova.
+- **Resursi:** svi vizuali crtaju se PyGame i NumPy primitivima; nisu dodani vanjski
+  resursi ni licencni unosi.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

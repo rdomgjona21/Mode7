@@ -85,7 +85,9 @@ rezultati se sortiraju od najudaljenijeg prema najbližem i tek tada skaliraju i
 
 Kestrel nije svjetski billboard: kamera već predstavlja njegov položaj. Zato se njegova
 proceduralno nacrtana transparentna površina postavlja na stalno mjesto pri dnu zaslona,
-nakon terena i prije dijagnostičkog teksta.
+nakon terena i prije dijagnostičkog teksta. Njegov prikaz sada koristi Victorian airship
+detalje: platneni balon, drvenu gondolu, mjedene nosače, zakovice, kabinu, dimnjak i aether
+pogon.
 
 ## 8. Borbena osnova
 
@@ -273,5 +275,6 @@ Renderer, HUD, efekti i menu paneli uglavnom samo čitaju podatke i prikazuju ih
 Trenutačno rade tri oružja, tri standardna protivnika, tri vala, repair pickup, score, ISS
 Goliath s dvije faze, boss health bar, glavni izbornik, upute, pauza, restart flow,
 suptilne eksplozije, repair flash, boss spark, muzzle flash, damage marker, `VICTORY` i
-`GAME OVER`.
+`GAME OVER`. Kestrel, protivnici, Goliath i repair ćelija imaju proceduralni Victorian
+airship polish, a industrijski sky sloj dobio je dodatne dimne plumeove.
 Još nedostaju zvuk, završno balansiranje, završni dokumenti, prezentacija i release ZIP.

@@ -20,3 +20,11 @@ def test_kestrel_contains_visible_and_transparent_pixels() -> None:
     assert np.any(alpha == 0)
     assert np.any(alpha > 0)
     assert np.unique(colors[alpha > 0], axis=0).shape[0] > 4
+
+
+def test_kestrel_victorian_polish_has_rich_color_detail() -> None:
+    surface = create_kestrel_surface()
+    alpha = pygame.surfarray.array_alpha(surface)
+    colors = pygame.surfarray.array3d(surface)
+
+    assert np.unique(colors[alpha > 0], axis=0).shape[0] >= 10

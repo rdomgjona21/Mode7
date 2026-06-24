@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 1.7
+**Verzija:** 1.8
 
 **Datum:** 24. lipnja 2026.
 
-**Status:** igrivi tok s izbornicima, telemetryjem za balansiranje, proceduralnim feedbackom i macOS paketom
+**Status:** igrivi tok s izbornicima, telemetryjem, Victorian airship polishom i macOS paketom
 
 ## Arhitektura
 
@@ -20,7 +20,8 @@ restartom pokušaja.
 Dodani su i suptilni proceduralni efekti za pucanje, štetu, boss pogotke, skupljanje
 popravka i uništenje protivnika.
 Proceduralni parallax sky slojevi crtaju se iznad horizonta sa smanjenim intenzitetom i
-pomiču se sporije od kamere.
+pomiču se sporije od kamere. Brodovi i popravak sada koriste bogatiji Victorian airship
+polish: platnene balone, drvene gondole, mjedene nosače, zakovice, kabine i dimnjake.
 Za završno balansiranje `CombatSession` bilježi vrijeme pokušaja, uništene standardne
 protivnike, skupljene popravke i ukupno primljenu štetu.
 
@@ -72,7 +73,7 @@ Mjerenje će se ponoviti pri najvećem planiranom borbenom opterećenju.
 640×136, što odgovara području iznad horizonta. Slojevi su `far_clouds`,
 `industrial_haze` i `near_streaks`, a svaki ima vlastiti `scroll_factor` i `opacity` za
 kasniji sporiji pomak u odnosu na kameru. Modul ne koristi vanjske slike; oblici oblaka,
-silueta i linija nastaju NumPyjem i PyGame površinama.
+silueta, dimnih plumeova i linija nastaju NumPyjem i PyGame površinama.
 
 `Mode7Renderer._draw_parallax_sky()` prvo crta osnovnu gradaciju, zatim svaki sloj blita
 uz horizontalno omatanje. Pomak sloja računa se iz položaja kamere i smjera kamere, ali se
@@ -96,9 +97,10 @@ udaljene. Sustav je pripremljen za buduće protivnike, projektile i popravke.
 ## Proceduralni Kestrel
 
 `create_kestrel_surface()` crta transparentnu sliku 96×64 pomoću PyGame elipsi, poligona,
-linija i krugova. Brod koristi mjedenu, tamnoželjeznu i cijan paletu te oblikom razlikuje
-balon, trup, kabinu, peraje i pogon. Budući da kamera predstavlja položaj igrača u svijetu,
-Kestrel ostaje vezan uz zaslon, vodoravno centriran i s donjim rubom na retku 344.
+linija i krugova. Brod koristi mjedenu, tamnoželjeznu, drvenu, platnenu i cijan paletu te
+oblikom razlikuje balon, gondolu, kabinu, nosače, zakovice, dimnjak, peraje i pogon. Budući
+da kamera predstavlja položaj igrača u svijetu, Kestrel ostaje vezan uz zaslon, vodoravno
+centriran i s donjim rubom na retku 344.
 
 Prikaz je generiran kodom, pa nije dodan vanjski resurs ni zapis u licencne manifeste.
 
@@ -154,8 +156,8 @@ Nakon terminalnog stanja borbena simulacija i kamera se zaustavljaju, a prozor s
 može zatvoriti.
 
 Proceduralne slike razlikuju mjedeni cannon, cijan spread gun, crvenu raketu, neprijateljske
-projektile, tri vrste zračnih brodova, ISS Goliath i repair ćeliju. `BillboardProjector`
-ih zajednički sortira i crta. Kompaktni engleski HUD prikazuje trup, odabrano oružje,
+projektile, tri vrste viktorijanskih zračnih brodova, ISS Goliath dreadnought i aether
+repair ćeliju. `BillboardProjector` ih zajednički sortira i crta. Kompaktni engleski HUD prikazuje trup, odabrano oružje,
 hlađenje rakete, val, bodove, vrijeme pokušaja, broj preostalih protivnika, trenutačnu
 prijetnju, stanje dolaska vala, boss health bar, boss fazu, poruku pobjede ili poraza,
 brzinu i FPS.

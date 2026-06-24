@@ -3,7 +3,7 @@
 **Verzija:** 1.0  
 **Autor:** Robert Domgjonaj  
 **Datum:** 18. lipnja 2026.  
-**Status:** početni nacrt; aplikacijski tok, suptilni vizualni feedback i parallax sky implementirani
+**Status:** početni nacrt; aplikacijski tok, suptilni vizualni feedback, parallax sky i Victorian airship polish implementirani
 
 ## Sadržaj
 
@@ -109,7 +109,7 @@ Kompaktni HUD prikazuje trup, odabrano oružje, val, bodove, vrijeme pokušaja i
 
 ### Vizualni smjer
 
-Paleta spaja mjed, tamno željezo, krem tipografiju, oksidirani cijan, upozoravajuću crvenu i olujno plavo nebo. Mode7 ravnina koristi proceduralne oblake, industrijske trake i mjedene navigacijske linije. Zračni brodovi crtaju se PyGame primitivima, a svaka klasa ima prepoznatljivu veličinu i boju. Čestice, projektili, bljeskovi i podrhtavanje komuniciraju udar.
+Paleta spaja mjed, tamno željezo, krem tipografiju, oksidirani cijan, upozoravajuću crvenu i olujno plavo nebo. Mode7 ravnina koristi proceduralne oblake, industrijske trake i mjedene navigacijske linije. Zračni brodovi crtaju se PyGame primitivima u Victorian airship smjeru: platneni baloni, drvene gondole, mjedeni nosači, zakovice, kabine, dimnjaci i jasne klase silueta. Čestice, projektili i bljeskovi komuniciraju udar bez oslanjanja samo na boju.
 
 ### Zvuk
 
@@ -121,7 +121,7 @@ Arhitektura koristi Python 3.12 i PyGame petlju, a kasnije će dobiti zasebna ap
 
 Brodovi, efekti, popravci i projektili projiciraju se iz svijeta na zaslon, sortiraju po dubini i zatim crtaju. Sudari koriste determinističke kružnice i najkraću udaljenost unutar svijeta opsega 2.048 jedinica. `WaveDirector` čita `data/waves.json`, a `data/balance.json` bilježi vrijednosti balansa. Podrijetlo budućih resursa vodit će se u `assets/manifest.csv`.
 
-Trenutačna naredba `python -m aetherfront` pokreće PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja, kamera, vektorizirana Mode7 projekcija, deterministički generator terena i vizualno NumPy uzorkovanje su implementirani. Proceduralni Kestrel prikazan je pri dnu zaslona, a billboard sustav crta scoutove, gunshipove, bombere, ISS Goliath, igračeve i neprijateljske projektile te repair pickup. Cannon, spread gun i raketa koriste vrijednosti štete i hlađenja iz `data/balance.json`. `waves.json` definira tri redovna vala, odgode spawnova, relativne položaje i stanke između valova. Nakon trećeg vala pojavljuje se boss susret: Goliath ima 900 HP, dvije faze i burst paljbu, a kompaktni HUD prikazuje health bar i fazu. Pogoci smanjuju zdravlje protivnika i bossa, uništenje redovnih protivnika dodaje bodove i stvara pickup, uništenje bossa dodaje 5.000 bodova i prikazuje pobjedu, a smrt igrača prikazuje game-over stanje. `CombatSession` mjeri vrijeme pokušaja, uništene standardne protivnike, skupljene popravke i ukupno primljenu štetu kako bi sljedeći balance commitovi imali podatke za odluke. `AppState` sada vodi glavni izbornik, upute, igranje i pauzu, a terminalni ekran nakon pobjede ili poraza omogućuje novi pokušaj ili povratak na izbornik. Suptilni proceduralni efekti dodaju eksplozije, boss spark, repair flash, muzzle flash i lokalni damage marker bez screen shakea. Proceduralni parallax sky slojevi za oblake, industrijsku izmaglicu i bliže linije crtaju se iznad horizonta s namjerno stišanim intenzitetom i pomakom. PyInstaller uspješno uključuje konfiguraciju i izrađuje ARM64 macOS `.app`; završni ZIP izradit će se nakon dovršetka igre.
+Trenutačna naredba `python -m aetherfront` pokreće PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja, kamera, vektorizirana Mode7 projekcija, deterministički generator terena i vizualno NumPy uzorkovanje su implementirani. Proceduralni Kestrel prikazan je pri dnu zaslona, a billboard sustav crta scoutove, gunshipove, bombere, ISS Goliath, igračeve i neprijateljske projektile te repair pickup. Kestrel, standardni protivnici, Goliath i repair ćelija sada imaju bogatiji Victorian airship polish s balonima, gondolama, zakovicama, dimnjacima i mjedenim detaljima. Cannon, spread gun i raketa koriste vrijednosti štete i hlađenja iz `data/balance.json`. `waves.json` definira tri redovna vala, odgode spawnova, relativne položaje i stanke između valova. Nakon trećeg vala pojavljuje se boss susret: Goliath ima 900 HP, dvije faze i burst paljbu, a kompaktni HUD prikazuje health bar i fazu. Pogoci smanjuju zdravlje protivnika i bossa, uništenje redovnih protivnika dodaje bodove i stvara pickup, uništenje bossa dodaje 5.000 bodova i prikazuje pobjedu, a smrt igrača prikazuje game-over stanje. `CombatSession` mjeri vrijeme pokušaja, uništene standardne protivnike, skupljene popravke i ukupno primljenu štetu kako bi sljedeći balance commitovi imali podatke za odluke. `AppState` sada vodi glavni izbornik, upute, igranje i pauzu, a terminalni ekran nakon pobjede ili poraza omogućuje novi pokušaj ili povratak na izbornik. Suptilni proceduralni efekti dodaju eksplozije, boss spark, repair flash, muzzle flash i lokalni damage marker bez screen shakea. Proceduralni parallax sky slojevi za oblake, industrijsku izmaglicu, dimne plumeove i bliže linije crtaju se iznad horizonta s namjerno stišanim intenzitetom i pomakom. PyInstaller uspješno uključuje konfiguraciju i izrađuje ARM64 macOS `.app`; završni ZIP izradit će se nakon dovršetka igre.
 
 ### Sistemski zahtjevi
 
@@ -196,3 +196,4 @@ Generativni AI trenutačno se koristi prema FOI razini 4 za planiranje, struktur
 | 1.10 | 23. 6. 2026. | Robert Domgjonaj | Evidentirano stišavanje parallax efekta i smanjenje borbenog HUD-a |
 | 1.11 | 24. 6. 2026. | Robert Domgjonaj | Evidentirana balance telemetry osnova i playtest dokumenti |
 | 1.12 | 24. 6. 2026. | Robert Domgjonaj | Evidentiran zeleni vizualni feedback za skupljanje popravka |
+| 1.13 | 24. 6. 2026. | Robert Domgjonaj | Evidentiran Victorian airship proceduralni polish |

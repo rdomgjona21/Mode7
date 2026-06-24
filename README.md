@@ -18,13 +18,14 @@ Projekt je u fazi igrive borbene probe. Dovršeni su:
 - vizualni Mode7 renderer s nebom, horizontom i vektoriziranim uzorkovanjem terena;
 - proceduralni parallax sky slojevi integrirani iznad Mode7 horizonta;
 - projekcija, skaliranje i dubinsko sortiranje budućih 2D objekata u svijetu;
-- proceduralni prikaz igračevog broda Kestrel;
+- proceduralni Victorian airship prikaz igračevog broda Kestrel;
 - konfiguracijska i testirana osnova projektila, kružnih sudara, zdravlja i neranjivosti;
 - cannon, spread gun i rakete s vidljivim projektilima i hlađenjem;
-- scout, gunship i bomber s kretanjem, zdravljem, napadima, proceduralnim oblicima i
-  bodovima;
+- scout, gunship i bomber s kretanjem, zdravljem, napadima, proceduralnim viktorijanskim
+  airship oblicima i bodovima;
 - `waves.json` i `WaveDirector` s tri konfigurirana redovna vala;
-- ISS Goliath boss s proceduralnim prikazom, dvije faze, burst paljbom i boss HUD-om;
+- ISS Goliath boss s masivnijim viktorijanskim dreadnought prikazom, dvije faze, burst
+  paljbom i boss HUD-om;
 - repair pickup i kompaktni engleski HUD s prikazom protivnika;
 - glavni izbornik, ekran uputa, pauza te restart ili povratak u izbornik nakon završetka;
 - suptilni proceduralni visual feedback za pucanje, pogotke, štetu, skupljanje popravka i
