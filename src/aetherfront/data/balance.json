@@ -1,8 +1,8 @@
 {
   "player": {
-    "max_health": 500,
+    "max_health": 450,
     "collision_radius": 18.0,
-    "invulnerability_seconds": 1.5
+    "invulnerability_seconds": 1.25
   },
   "projectile": {
     "collision_radius": 4.0,
@@ -11,24 +11,24 @@
   },
   "weapons": {
     "cannon": {
-      "damage": 16,
-      "cooldown_seconds": 0.18,
+      "damage": 18,
+      "cooldown_seconds": 0.20,
       "projectile_speed": 420,
       "projectile_radius": 3.0,
       "projectile_lifetime_seconds": 2.0,
       "angle_offsets": [0.0]
     },
     "spread": {
-      "damage": 10,
-      "cooldown_seconds": 0.34,
+      "damage": 9,
+      "cooldown_seconds": 0.30,
       "projectile_speed": 360,
       "projectile_radius": 3.0,
       "projectile_lifetime_seconds": 1.7,
       "angle_offsets": [-0.16, 0.0, 0.16]
     },
     "rocket": {
-      "damage": 48,
-      "cooldown_seconds": 1.15,
+      "damage": 62,
+      "cooldown_seconds": 1.35,
       "projectile_speed": 250,
       "projectile_radius": 7.0,
       "projectile_lifetime_seconds": 3.0,
@@ -36,58 +36,58 @@
     }
   },
   "repair": {
-    "heal_amount": 24,
-    "score_value": 50,
+    "heal_amount": 36,
+    "score_value": 75,
     "collision_radius": 14.0,
-    "lifetime_seconds": 10.0
+    "lifetime_seconds": 12.0
   },
   "enemies": {
     "scout": {
-      "max_health": 28,
+      "max_health": 32,
       "speed": 62,
       "collision_radius": 13.0,
       "score_value": 120,
-      "contact_damage": 12,
-      "projectile_damage": 8,
-      "attack_cooldown_seconds": 1.35,
+      "contact_damage": 10,
+      "projectile_damage": 9,
+      "attack_cooldown_seconds": 1.45,
       "projectile_speed": 170,
       "projectile_radius": 3.0,
       "projectile_lifetime_seconds": 2.8
     },
     "gunship": {
-      "max_health": 62,
+      "max_health": 72,
       "speed": 40,
       "collision_radius": 18.0,
       "score_value": 240,
-      "contact_damage": 18,
-      "projectile_damage": 13,
-      "attack_cooldown_seconds": 1.05,
+      "contact_damage": 17,
+      "projectile_damage": 14,
+      "attack_cooldown_seconds": 1.20,
       "projectile_speed": 190,
       "projectile_radius": 4.0,
       "projectile_lifetime_seconds": 3.1
     },
     "bomber": {
-      "max_health": 96,
+      "max_health": 120,
       "speed": 27,
       "collision_radius": 24.0,
       "score_value": 420,
-      "contact_damage": 25,
-      "projectile_damage": 22,
-      "attack_cooldown_seconds": 1.65,
+      "contact_damage": 24,
+      "projectile_damage": 24,
+      "attack_cooldown_seconds": 1.85,
       "projectile_speed": 145,
       "projectile_radius": 6.0,
       "projectile_lifetime_seconds": 3.6
     }
   },
   "boss": {
-    "max_health": 900,
+    "max_health": 1250,
     "collision_radius": 72.0,
     "score_value": 5000,
-    "contact_damage": 35,
+    "contact_damage": 32,
     "phase_two_threshold": 0.5,
-    "phase_one_cooldown_seconds": 0.78,
-    "phase_two_cooldown_seconds": 0.42,
-    "projectile_damage": 18,
+    "phase_one_cooldown_seconds": 0.86,
+    "phase_two_cooldown_seconds": 0.50,
+    "projectile_damage": 20,
     "projectile_speed": 175,
     "projectile_radius": 5.0,
     "projectile_lifetime_seconds": 4.0

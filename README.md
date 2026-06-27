@@ -26,7 +26,7 @@ Projekt je u fazi igrive borbene probe. Dovršeni su:
 - `waves.json` i `WaveDirector` s tri konfigurirana redovna vala;
 - ISS Goliath boss s masivnijim viktorijanskim dreadnought prikazom, dvije faze, burst
   paljbom i boss HUD-om;
-- repair pickup i kompaktni engleski HUD s prikazom protivnika;
+- repair pickup i minimalistički steampunk engleski HUD s prikazom protivnika;
 - glavni izbornik, ekran uputa, pauza te restart ili povratak u izbornik nakon završetka;
 - suptilni proceduralni visual feedback za pucanje, pogotke, štetu, skupljanje popravka i
   uništenje protivnika;
@@ -39,8 +39,9 @@ Projekt je u fazi igrive borbene probe. Dovršeni su:
 Tri oružja, vidljivi pogoci i suptilni proceduralni efekti sada rade kroz tri konfigurirana
 redovna vala, boss susret, pobjedu i game-over stanje. Aplikacija ima tok od glavnog
 izbornika do završetka pokušaja. Parallax sky slojevi sada se suptilno pomiču sporije od
-kamere iznad horizonta. Zvuk, završno balansiranje, testovi cijele igre, prezentacija i
-završni distribucijski ZIP još nisu implementirani.
+kamere iznad horizonta. Prvi završni balance pass i minimalistički steampunk HUD su
+implementirani. Zvuk, završni ručni playtestovi, prezentacija i završni distribucijski ZIP
+još nisu implementirani.
 
 Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored zaprimljeno je i
 evidentirano 22. lipnja 2026.

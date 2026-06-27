@@ -3,7 +3,6 @@
 import pygame
 
 from aetherfront.config import (
-    CONTROLS_LABEL,
     INTERNAL_SIZE,
     PLAYER_SCREEN_BOTTOM,
     PLAYER_SCREEN_CENTER_X,
@@ -70,7 +69,6 @@ class Game:
     def _draw_scene(
         canvas: pygame.Surface,
         hud_font: pygame.font.Font,
-        controls_font: pygame.font.Font,
         camera: Camera,
         renderer: Mode7Renderer,
         billboard_projector: BillboardProjector,
@@ -131,9 +129,6 @@ class Game:
         canvas.blit(player_surface, player_rect)
         effects.draw(canvas, camera, billboard_projector)
         draw_hud(canvas, hud_font, session, camera.speed, fps)
-        controls = controls_font.render(CONTROLS_LABEL, True, (232, 220, 181))
-        controls_rect = controls.get_rect(center=(INTERNAL_SIZE[0] // 2, 349))
-        canvas.blit(controls, controls_rect)
 
     def run(self, max_frames: int | None = None) -> int:
         """Izvodi aplikaciju do zatvaranja prozora ili testnog ograničenja frameova.
@@ -156,7 +151,6 @@ class Game:
             clock = pygame.time.Clock()
             font = pygame.font.Font(None, 26)
             hud_font = pygame.font.Font(None, 20)
-            controls_font = pygame.font.Font(None, 22)
             camera = Camera()
             renderer = Mode7Renderer()
             billboard_projector = BillboardProjector()
@@ -250,7 +244,6 @@ class Game:
                 self._draw_scene(
                     canvas,
                     hud_font,
-                    controls_font,
                     camera,
                     renderer,
                     billboard_projector,

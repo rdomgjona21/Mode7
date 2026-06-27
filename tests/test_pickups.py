@@ -23,9 +23,9 @@ def test_repair_heals_once_and_awards_score() -> None:
 
     healed, score = pickup.collect(player)
 
-    assert healed == 24
-    assert score == 50
-    assert player.health == 484
+    assert healed == 36
+    assert score == 75
+    assert player.health == 446
     assert not pickup.active
     assert pickup.collect(player) == (0, 0)
 
@@ -33,5 +33,6 @@ def test_repair_heals_once_and_awards_score() -> None:
 def test_repair_expires() -> None:
     pickup = _pickup()
 
-    assert not pickup.update(10)
+    assert pickup.update(10)
+    assert not pickup.update(2)
     assert not pickup.active

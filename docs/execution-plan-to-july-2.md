@@ -44,6 +44,9 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
   bez promjene balansa ili toka igre.
 - **24.6.:** dodan je Victorian airship proceduralni polish za Kestrel, standardne
   protivnike, Goliath, repair ćeliju i industrijski sky sloj.
+- **25.6.:** primijenjen je prvi završni balance pass: smanjen je trup igrača, ojačan
+  repair, produljena stanka između valova, pojačana uloga raketa i povećana izdržljivost
+  Goliatha. HUD je preoblikovan u minimalistički steampunk stil.
 
 ## Dnevni raspored
 

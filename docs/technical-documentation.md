@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 1.8
+**Verzija:** 1.9
 
-**Datum:** 24. lipnja 2026.
+**Datum:** 25. lipnja 2026.
 
-**Status:** igrivi tok s izbornicima, telemetryjem, Victorian airship polishom i macOS paketom
+**Status:** igrivi tok s prvim završnim balance passom, steampunk HUD-om i macOS paketom
 
 ## Arhitektura
 
@@ -24,6 +24,10 @@ pomiču se sporije od kamere. Brodovi i popravak sada koriste bogatiji Victorian
 polish: platnene balone, drvene gondole, mjedene nosače, zakovice, kabine i dimnjake.
 Za završno balansiranje `CombatSession` bilježi vrijeme pokušaja, uništene standardne
 protivnike, skupljene popravke i ukupno primljenu štetu.
+Aktualni HUD koristi gornju horizontalnu minimalističku steampunk traku s mjedenim rubovima,
+tamnim staklom, segmentiranim health barom i kratkim grupiranim oznakama. Stari gameplay
+tekst s kontrolama uklonjen je iz scene, dok zasebni ekran uputa ostaje dostupan iz
+glavnog izbornika.
 
 ## Mode7 projekcija
 
@@ -106,8 +110,8 @@ Prikaz je generiran kodom, pa nije dodan vanjski resurs ni zapis u licencne mani
 
 ## Borbena osnova
 
-`data/balance.json` trenutačno određuje 500 bodova zdravlja igrača, radijus sudara 18,
-neranjivost od 1,5 sekundi te zadani radijus 4 i trajanje 3 sekunde za projektile.
+`data/balance.json` trenutačno određuje 450 bodova zdravlja igrača, radijus sudara 18,
+neranjivost od 1,25 sekundi te zadani radijus 4 i trajanje 3 sekunde za projektile.
 `load_combat_balance()` učitava podatke paketnim putem i odbija nedostajuće objekte,
 nebrojčane, beskonačne ili nepozitivne vrijednosti.
 
@@ -142,25 +146,27 @@ pokreće kratku stanku i zatim prelazi na sljedeći val. Nakon trećeg vala post
 `waves_complete`, koje trenutačna borbena sesija koristi za stvaranje bossa.
 
 `DreadnoughtBoss` predstavlja ISS Goliath. Stvara se ispred kamere nakon završetka trećeg
-vala, ima 900 HP, velik radijus sudara i dvije faze. Prva faza koristi burst od tri
-projektila i sporije hlađenje, a druga počinje na 50 % zdravlja, koristi burst od pet
-projektila i kraće hlađenje. Boss se održava u prednjem sektoru kako ga igrač ne bi
+vala, ima 1.250 HP, velik radijus sudara i dvije faze. Prva faza koristi burst od tri
+projektila i hlađenje od 0,86 s, a druga počinje na 50 % zdravlja, koristi burst od pet
+projektila i hlađenje od 0,50 s. Boss se održava u prednjem sektoru kako ga igrač ne bi
 nenamjerno prošao i izgubio iz vidljivog borbenog prostora.
 
 `CombatSession` jednom po frameu povezuje ulaze, projektile, `WaveDirector`, neprijatelje,
 kružne sudare, boss susret, repair pickup, zdravlje igrača i bodove. Igračevi projektili
 uništavaju protivnike i odmah dodaju njihove bodove; uništeni protivnik ostavlja popravak
-koji vraća do 24 HP-a, dodaje 50 bodova i nestaje nakon 10 sekundi. Uništenje bossa dodaje
+koji vraća do 36 HP-a, dodaje 75 bodova i nestaje nakon 12 sekundi. Uništenje bossa dodaje
 5.000 bodova i postavlja `victory`, dok zdravlje igrača na nuli postavlja `game_over`.
 Nakon terminalnog stanja borbena simulacija i kamera se zaustavljaju, a prozor se i dalje
 može zatvoriti.
 
 Proceduralne slike razlikuju mjedeni cannon, cijan spread gun, crvenu raketu, neprijateljske
 projektile, tri vrste viktorijanskih zračnih brodova, ISS Goliath dreadnought i aether
-repair ćeliju. `BillboardProjector` ih zajednički sortira i crta. Kompaktni engleski HUD prikazuje trup, odabrano oružje,
-hlađenje rakete, val, bodove, vrijeme pokušaja, broj preostalih protivnika, trenutačnu
-prijetnju, stanje dolaska vala, boss health bar, boss fazu, poruku pobjede ili poraza,
-brzinu i FPS.
+repair ćeliju. `BillboardProjector` ih zajednički sortira i crta. Minimalistički
+steampunk engleski HUD sada je polegnut u gornjoj horizontalnoj traci i prikazuje trup,
+odabrano oružje, hlađenje rakete, val, bodove, vrijeme pokušaja, broj preostalih
+protivnika, trenutačnu prijetnju, stanje dolaska vala, boss health bar, boss fazu, poruku
+pobjede ili poraza, brzinu i FPS. Gameplay scena više ne crta dodatni tekst s kontrolama
+ispod broda.
 
 ## Telemetry za balansiranje
 
@@ -246,5 +252,5 @@ kratku poruku bez Python tracebacka.
 
 ## Sljedeći tehnički korak
 
-Sljedeća zasebna cjelina koristi nove telemetry podatke za podešavanje ritma tri redovna
-vala. Zvuk i glazbena podloga ostaju zaseban kasniji commit bez uvođenja vanjskih resursa.
+Sljedeća zasebna cjelina je zvuk i glazbena podloga, nakon čega slijede završni ručni
+playtestovi, dodatno fino balansiranje prema bilješkama i izrada release ZIP-a.

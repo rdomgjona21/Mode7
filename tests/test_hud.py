@@ -4,7 +4,7 @@ import pygame
 from aetherfront.config import INTERNAL_SIZE
 from aetherfront.gameplay.session import CombatSession
 from aetherfront.rendering.camera import Camera
-from aetherfront.ui.hud import draw_hud, format_elapsed_time
+from aetherfront.ui.hud import HUD_RECT, draw_hud, format_elapsed_time
 
 
 def test_elapsed_time_formats_as_minutes_and_seconds() -> None:
@@ -25,7 +25,7 @@ def test_hud_draws_visible_pixels_headless() -> None:
         pygame.font.quit()
 
 
-def test_hud_uses_compact_left_panel() -> None:
+def test_hud_uses_top_horizontal_panel() -> None:
     pygame.font.init()
     try:
         canvas = pygame.Surface(INTERNAL_SIZE)
@@ -33,7 +33,12 @@ def test_hud_uses_compact_left_panel() -> None:
         draw_hud(canvas, font, CombatSession.create(Camera()), speed=20, fps=60)
 
         pixels = pygame.surfarray.array3d(canvas)
-        assert np.any(pixels[:252, :164] != 0)
+        panel_pixels = pixels[
+            HUD_RECT.left : HUD_RECT.right,
+            HUD_RECT.top : HUD_RECT.bottom,
+        ]
+        assert np.any(panel_pixels != 0)
+        assert np.all(pixels[20, 340] == 0)
         assert np.all(pixels[280, 180] == 0)
     finally:
         pygame.font.quit()

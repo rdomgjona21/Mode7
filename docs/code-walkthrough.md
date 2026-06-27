@@ -137,9 +137,9 @@ Za balansiranje sesija dodatno bilježi `elapsed_time`, `enemies_destroyed`,
 konkretne podatke za ručni playtest: koliko je pokušaj trajao, koliko je protivnika
 uništeno, koliko je popravaka skupljeno i koliko je štete igrač stvarno primio.
 
-HUD samo čita stanje sesije. Ne mijenja zdravlje, hlađenja ni bodove, koristi manji
-borbeni font od izbornika, prikazuje vrijeme pokušaja i moguće ga je zasebno testirati
-crtanjem na običnu headless površinu.
+HUD samo čita stanje sesije. Ne mijenja zdravlje, hlađenja ni bodove, koristi gornju
+horizontalnu steampunk traku, borbeni font od izbornika, prikazuje vrijeme pokušaja i
+moguće ga je zasebno testirati crtanjem na običnu headless površinu.
 
 ## 10. Glavna petlja
 
@@ -162,7 +162,7 @@ Petlja `while running` čini jedan frame u svakom prolazu:
 6. obrađuje odabir oružja, paljbu i raketu samo tijekom igranja;
 7. ažurira kameru i borbenu sesiju pomoću `dt` samo u aktivnom `PLAYING` stanju;
 8. crta Mode7 teren i dubinski sortirane borbene objekte;
-9. crta Kestrel, HUD, kontrole i eventualni panel izbornika;
+9. crta Kestrel, gornji horizontalni HUD i eventualni panel izbornika;
 10. povećava internu površinu na prozor;
 11. prikazuje dovršenu sliku pozivom `pygame.display.flip()`.
 
@@ -228,7 +228,7 @@ stvaranje bossa nakon trećeg vala, boss damage, bodove, nastanak i prikupljanje
 victory, game-over stanje, terminalno zaustavljanje simulacije, ograničenje projektila i
 štetu nad igračem, telemetry vrijeme, broj uništenih protivnika, broj skupljenih popravaka
 i ukupno primljenu štetu. HUD i benchmark imaju zasebne headless testove, uključujući
-provjeru da borbeni HUD ostaje u kompaktnom lijevom panelu.
+provjeru da borbeni HUD ostaje u gornjoj horizontalnoj traci.
 
 ## 12. Validacija
 
@@ -276,5 +276,8 @@ Trenutačno rade tri oružja, tri standardna protivnika, tri vala, repair pickup
 Goliath s dvije faze, boss health bar, glavni izbornik, upute, pauza, restart flow,
 suptilne eksplozije, repair flash, boss spark, muzzle flash, damage marker, `VICTORY` i
 `GAME OVER`. Kestrel, protivnici, Goliath i repair ćelija imaju proceduralni Victorian
-airship polish, a industrijski sky sloj dobio je dodatne dimne plumeove.
-Još nedostaju zvuk, završno balansiranje, završni dokumenti, prezentacija i release ZIP.
+airship polish, industrijski sky sloj ima dodatne dimne plumeove, a HUD koristi gornju
+horizontalnu minimalističku steampunk traku s mjedenim rubovima i segmentiranim barovima.
+Prvi završni balance pass je primijenjen kroz `balance.json` i `waves.json`, ali još
+nedostaju zvuk, ručni playtestovi za fino balansiranje, završni dokumenti, prezentacija i
+release ZIP.

@@ -1,6 +1,6 @@
 # Izvještaj o testiranju — Aetherfront: Zeppelin Wars
 
-**Status:** početni kostur za završno balansiranje  
+**Status:** prvi završni balance pass implementiran, ručni playtestovi još prazni  
 **Datum početka:** 24. lipnja 2026.
 
 ## 1. Svrha
@@ -60,6 +60,7 @@ primljena šteta, dojam težine i pronađeni problemi.
 ## 6. Otvorene stavke
 
 - Dovršiti zvuk i glazbenu podlogu.
-- Provesti završno balansiranje valova, oružja, survivabilityja i bossa.
+- Ručno provjeriti prvi balance pass i po potrebi fino podesiti valove, oružja,
+  survivability i bossa.
 - Popuniti pet ručnih playtest zapisa.
 - Ponoviti paketiranje i čisti ZIP smoke test.

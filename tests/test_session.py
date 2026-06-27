@@ -76,7 +76,7 @@ def test_session_advances_from_first_to_second_wave_after_clear() -> None:
     assert session.enemies == []
     assert session.wave_director.incoming
 
-    session.update(2.0, camera)
+    session.update(2.4, camera)
     assert session.wave_director.current_wave_number == 2
     assert session.enemies_remaining == 1
     assert session.enemies[0].kind.value == "scout"
@@ -94,7 +94,7 @@ def test_session_can_reach_waves_complete_after_clearing_three_waves() -> None:
         session.update(0.0, camera)
         if wave_number < 3:
             assert session.wave_director.incoming
-            session.update(2.0, camera)
+            session.update(2.4, camera)
 
     assert session.wave_director.waves_complete
     assert session.enemies == []
@@ -111,7 +111,7 @@ def test_boss_receives_player_projectile_damage_after_waves() -> None:
             enemy.take_damage(enemy.max_health)
         session.update(0.0, camera)
         if wave_number < 3:
-            session.update(2.0, camera)
+            session.update(2.4, camera)
     assert session.boss is not None
     boss = session.boss
     session.projectiles.append(
@@ -120,7 +120,7 @@ def test_boss_receives_player_projectile_damage_after_waves() -> None:
             y=boss.y,
             heading=0,
             speed=0,
-            damage=450,
+            damage=625,
             radius=4,
             lifetime_remaining=3,
             team="player",
@@ -130,7 +130,7 @@ def test_boss_receives_player_projectile_damage_after_waves() -> None:
 
     session.update(0.0, camera)
 
-    assert boss.health == 450
+    assert boss.health == 625
     assert boss.phase_label == "PHASE 2"
     assert session.feedback.boss_was_hit
 
@@ -144,7 +144,7 @@ def test_destroyed_boss_awards_score_and_sets_victory() -> None:
             enemy.take_damage(enemy.max_health)
         session.update(0.0, camera)
         if wave_number < 3:
-            session.update(2.0, camera)
+            session.update(2.4, camera)
     assert session.boss is not None
     boss = session.boss
     previous_score = session.score
@@ -227,8 +227,8 @@ def test_player_collects_repair_and_receives_score() -> None:
 
     session.update(0, camera)
 
-    assert session.player.health == 484
-    assert session.score == 50
+    assert session.player.health == 446
+    assert session.score == 75
     assert session.pickups == []
     assert session.repairs_collected == 1
     assert session.feedback.repair_collected_positions == [(camera.x, camera.y)]
@@ -301,7 +301,7 @@ def test_enemy_projectile_can_damage_player() -> None:
 
     session.update(0, camera)
 
-    assert session.player.health == 487
+    assert session.player.health == 437
     assert session.projectiles == []
     assert session.damage_taken == 13
 

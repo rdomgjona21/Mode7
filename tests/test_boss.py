@@ -10,8 +10,8 @@ def _boss() -> DreadnoughtBoss:
 def test_boss_starts_with_locked_health_and_phase_one() -> None:
     boss = _boss()
 
-    assert boss.max_health == 900
-    assert boss.health == 900
+    assert boss.max_health == 1250
+    assert boss.health == 1250
     assert boss.phase is BossPhase.PHASE_ONE
     assert boss.phase_label == "PHASE 1"
 
@@ -19,11 +19,11 @@ def test_boss_starts_with_locked_health_and_phase_one() -> None:
 def test_boss_enters_phase_two_at_half_health() -> None:
     boss = _boss()
 
-    boss.take_damage(450)
+    boss.take_damage(625)
 
     assert boss.phase is BossPhase.PHASE_TWO
     assert boss.phase_label == "PHASE 2"
-    assert boss.current_cooldown_seconds == 0.42
+    assert boss.current_cooldown_seconds == 0.50
 
 
 def test_boss_phase_two_fires_wider_burst() -> None:
@@ -31,7 +31,7 @@ def test_boss_phase_two_fires_wider_burst() -> None:
     boss.attack_cooldown_remaining = 0
 
     phase_one = boss.fire_if_ready(100, 100)
-    boss.take_damage(450)
+    boss.take_damage(625)
     boss.attack_cooldown_remaining = 0
     phase_two = boss.fire_if_ready(100, 100)
 
@@ -44,6 +44,6 @@ def test_boss_phase_two_fires_wider_burst() -> None:
 def test_boss_can_be_destroyed_by_damage() -> None:
     boss = _boss()
 
-    assert boss.take_damage(900)
+    assert boss.take_damage(1250)
     assert not boss.alive
     assert boss.phase is BossPhase.DESTROYED

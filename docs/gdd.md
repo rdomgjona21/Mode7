@@ -73,7 +73,7 @@ Izazov raste kroz izdržljivost protivnika, miješane formacije, preklapanje pal
 | Raketa | lijevi/desni Shift | Neovisno vrijeme hlađenja |
 | Pauza | Esc | Zaustavlja simulaciju i prikazuje izbornik |
 
-Kestrel počinje s 500 bodova trupa i 1,5 sekundi neranjivosti nakon pogotka. Brod je vizualno pri dnu zaslona, dok kamera prati njegov položaj i smjer u svijetu.
+Kestrel počinje s 450 bodova trupa i 1,25 sekundi neranjivosti nakon pogotka. Brod je vizualno pri dnu zaslona, dok kamera prati njegov položaj i smjer u svijetu.
 
 ## 6. Oružja i nagrade
 
@@ -83,7 +83,7 @@ Kestrel počinje s 500 bodova trupa i 1,5 sekundi neranjivosti nakon pogotka. Br
 | Spread gun | Blizina i više ciljeva | 10 × 3 | 0,34 s | Tri cijan projektila pod ±0,16 rad |
 | Rocket | Velika trenutna šteta | 48 | 1,15 s | Jedna sporija velika raketa |
 
-Uništeni protivnici donose 120–420 bodova, a šef 5.000. Popravak vraća 24 boda trupa i daje 50 bodova te nestaje nakon ograničenog vremena.
+Uništeni protivnici donose 120–420 bodova, a šef 5.000. Popravak vraća 36 bodova trupa i daje 75 bodova te nestaje nakon ograničenog vremena.
 
 ## 7. Protivnici, valovi i šef
 
@@ -103,7 +103,11 @@ Tok stanja je:
 
 `Main Menu → Instructions → Playing ↔ Paused → Victory/Game Over → Replay ili Main Menu`
 
-Kompaktni HUD prikazuje trup, odabrano oružje, val, bodove, vrijeme pokušaja i dijagnostički FPS. Tijekom šefa dodaje njegovu traku zdravlja i fazu. Upozorenja najavljuju misiju i dolazak dreadnoughta. Svi natpisi i kontrole u igri ostaju na engleskom.
+Gornja horizontalna HUD traka prikazuje trup, odabrano oružje, raketno hlađenje, val,
+bodove, vrijeme pokušaja, protivnike, brzinu i dijagnostički FPS. Tijekom šefa dodaje
+njegovu traku zdravlja i fazu. Poseban gameplay tekst s kontrolama nije prikazan preko
+scene; kontrole ostaju dostupne na zasebnom ekranu uputa. Upozorenja najavljuju misiju i
+dolazak dreadnoughta. Svi natpisi i kontrole u igri ostaju na engleskom.
 
 ## 9. Vizualni i zvučni smjer
 
@@ -121,7 +125,7 @@ Arhitektura koristi Python 3.12 i PyGame petlju, a kasnije će dobiti zasebna ap
 
 Brodovi, efekti, popravci i projektili projiciraju se iz svijeta na zaslon, sortiraju po dubini i zatim crtaju. Sudari koriste determinističke kružnice i najkraću udaljenost unutar svijeta opsega 2.048 jedinica. `WaveDirector` čita `data/waves.json`, a `data/balance.json` bilježi vrijednosti balansa. Podrijetlo budućih resursa vodit će se u `assets/manifest.csv`.
 
-Trenutačna naredba `python -m aetherfront` pokreće PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja, kamera, vektorizirana Mode7 projekcija, deterministički generator terena i vizualno NumPy uzorkovanje su implementirani. Proceduralni Kestrel prikazan je pri dnu zaslona, a billboard sustav crta scoutove, gunshipove, bombere, ISS Goliath, igračeve i neprijateljske projektile te repair pickup. Kestrel, standardni protivnici, Goliath i repair ćelija sada imaju bogatiji Victorian airship polish s balonima, gondolama, zakovicama, dimnjacima i mjedenim detaljima. Cannon, spread gun i raketa koriste vrijednosti štete i hlađenja iz `data/balance.json`. `waves.json` definira tri redovna vala, odgode spawnova, relativne položaje i stanke između valova. Nakon trećeg vala pojavljuje se boss susret: Goliath ima 900 HP, dvije faze i burst paljbu, a kompaktni HUD prikazuje health bar i fazu. Pogoci smanjuju zdravlje protivnika i bossa, uništenje redovnih protivnika dodaje bodove i stvara pickup, uništenje bossa dodaje 5.000 bodova i prikazuje pobjedu, a smrt igrača prikazuje game-over stanje. `CombatSession` mjeri vrijeme pokušaja, uništene standardne protivnike, skupljene popravke i ukupno primljenu štetu kako bi sljedeći balance commitovi imali podatke za odluke. `AppState` sada vodi glavni izbornik, upute, igranje i pauzu, a terminalni ekran nakon pobjede ili poraza omogućuje novi pokušaj ili povratak na izbornik. Suptilni proceduralni efekti dodaju eksplozije, boss spark, repair flash, muzzle flash i lokalni damage marker bez screen shakea. Proceduralni parallax sky slojevi za oblake, industrijsku izmaglicu, dimne plumeove i bliže linije crtaju se iznad horizonta s namjerno stišanim intenzitetom i pomakom. PyInstaller uspješno uključuje konfiguraciju i izrađuje ARM64 macOS `.app`; završni ZIP izradit će se nakon dovršetka igre.
+Trenutačna naredba `python -m aetherfront` pokreće PyGame prozor s internom slikom 640×360 skaliranom na 1280×720. Aplikacijska petlja, kamera, vektorizirana Mode7 projekcija, deterministički generator terena i vizualno NumPy uzorkovanje su implementirani. Proceduralni Kestrel prikazan je pri dnu zaslona, a billboard sustav crta scoutove, gunshipove, bombere, ISS Goliath, igračeve i neprijateljske projektile te repair pickup. Kestrel, standardni protivnici, Goliath i repair ćelija sada imaju bogatiji Victorian airship polish s balonima, gondolama, zakovicama, dimnjacima i mjedenim detaljima. Cannon, spread gun i raketa koriste vrijednosti štete i hlađenja iz `data/balance.json`. `waves.json` definira tri redovna vala, odgode spawnova, relativne položaje i stanke između valova. Nakon trećeg vala pojavljuje se boss susret: Goliath ima 1.250 HP, dvije faze i burst paljbu, a minimalistički steampunk HUD prikazuje health bar i fazu. Pogoci smanjuju zdravlje protivnika i bossa, uništenje redovnih protivnika dodaje bodove i stvara pickup, uništenje bossa dodaje 5.000 bodova i prikazuje pobjedu, a smrt igrača prikazuje game-over stanje. `CombatSession` mjeri vrijeme pokušaja, uništene standardne protivnike, skupljene popravke i ukupno primljenu štetu kako bi balance odluke imale konkretne podatke. `AppState` sada vodi glavni izbornik, upute, igranje i pauzu, a terminalni ekran nakon pobjede ili poraza omogućuje novi pokušaj ili povratak na izbornik. Suptilni proceduralni efekti dodaju eksplozije, boss spark, repair flash, muzzle flash i lokalni damage marker bez screen shakea. Proceduralni parallax sky slojevi za oblake, industrijsku izmaglicu, dimne plumeove i bliže linije crtaju se iznad horizonta s namjerno stišanim intenzitetom i pomakom. PyInstaller uspješno uključuje konfiguraciju i izrađuje ARM64 macOS `.app`; završni ZIP izradit će se nakon dovršetka igre.
 
 ### Sistemski zahtjevi
 
@@ -144,6 +148,8 @@ Proceduralna ravnina neprekidno se omata, pa igrač ne može napustiti borbeni p
 - Pet uzastopnih igranja bez neobrađene iznimke.
 - Cilj i kontrole razumljivi su bez vanjskih uputa.
 - Svako oružje, protivnik, popravak i faza šefa pojavljuju se u uobičajenoj sesiji.
+- Trenutačni prvi završni balance pass koristi 450 HP igrača, 1,25 s neranjivosti,
+  jači repair pickup od 36 HP-a, malo sporije valove i izdržljivijeg Goliatha od 1.250 HP.
 
 ## 13. Razvoj, proračun i objava
 
@@ -197,3 +203,4 @@ Generativni AI trenutačno se koristi prema FOI razini 4 za planiranje, struktur
 | 1.11 | 24. 6. 2026. | Robert Domgjonaj | Evidentirana balance telemetry osnova i playtest dokumenti |
 | 1.12 | 24. 6. 2026. | Robert Domgjonaj | Evidentiran zeleni vizualni feedback za skupljanje popravka |
 | 1.13 | 24. 6. 2026. | Robert Domgjonaj | Evidentiran Victorian airship proceduralni polish |
+| 1.14 | 25. 6. 2026. | Robert Domgjonaj | Evidentiran prvi završni balance pass i minimalistički steampunk HUD |

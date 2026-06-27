@@ -282,3 +282,22 @@
 - **Resursi:** svi vizuali crtaju se PyGame i NumPy primitivima; nisu dodani vanjski
   resursi ni licencni unosi.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 25. lipnja 2026. — prvi završni balance pass i steampunk HUD
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** podešavanje prvog završnog balansa igre i oblikovanje borbenog HUD-a u
+  minimalističkom steampunk stilu.
+- **Utjecaj:** `balance.json` i `waves.json` sada koriste niži trup igrača, kraću
+  neranjivost, jači repair pickup, čitljivije stanke između valova, jasnije uloge oružja,
+  izdržljivije standardne protivnike i snažniji Goliath boss. `hud.py` sada crta gornju
+  horizontalnu tamnu traku s mjedenim rubovima, zakovicama, separatorima, segmentiranim
+  health barom i kratkim grupiranim oznakama. Gameplay tekst s kontrolama uklonjen je iz
+  scene, a zasebni ekran uputa ostaje dostupan iz glavnog izbornika. Nisu dodani novi
+  asseti ni nova mehanika.
+- **Provjera:** Ruff i 148 Pytest testova kroz `./scripts/validate.sh`, 180-frame headless
+  pokretanje, 12-sekundni benchmark od 209,2 FPS-a uz prag 55 FPS-a i pregled privremene
+  slike gornjeg horizontalnog HUD-a.
+- **Resursi:** HUD se crta PyGame primitivima; nisu dodani vanjski resursi ni licencni
+  unosi.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

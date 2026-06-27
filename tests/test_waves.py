@@ -27,7 +27,7 @@ def test_wave_spawn_delay_is_deterministic() -> None:
     balance = load_combat_balance()
 
     first = director.update(0.0, camera, balance, living_enemy_count=0)
-    early = director.update(0.39, camera, balance, living_enemy_count=1)
+    early = director.update(0.54, camera, balance, living_enemy_count=1)
     second = director.update(0.01, camera, balance, living_enemy_count=1)
 
     assert [enemy.kind.value for enemy in first] == ["scout"]
