@@ -47,6 +47,9 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
 - **25.6.:** primijenjen je prvi završni balance pass: smanjen je trup igrača, ojačan
   repair, produljena stanka između valova, pojačana uloga raketa i povećana izdržljivost
   Goliatha. HUD je preoblikovan u minimalistički steampunk stil.
+- **27.6.:** integrirani su ElevenLabs zvučni efekti za oružja, protivnike, bossa,
+  repair, UI, pobjedu i game-over stanje. MP3 asseti su evidentirani u licencnim
+  manifestima i uključeni u paketiranje.
 
 ## Dnevni raspored
 
@@ -61,7 +64,7 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
 | **26.6.** | 4 h | Izraditi `waves.json` i `WaveDirector`. Implementirati tri vala, stanke, spawn položaje i završetak vala. Dodati kostur izvještaja o testiranju. | Moguće odigrati sva tri redovna vala. `Add configured combat waves` |
 | **27.6.** | 5 h | Implementirati ISS Goliath s 900 HP, dvije faze, obrascima paljbe i scout pratnjom. Dodati boss HUD, pobjedu i poraz. | Cijeli borbeni tok do pobjede. `Add two-phase dreadnought boss` |
 | **28.6.** | 4 h | Implementirati Main Menu, Instructions, Playing, Paused, Victory i Game Over, restart i povratak u izbornik. Početi prezentaciju i završni kontrolni popis. | Potpun tok od izbornika do završetka. `Complete application state flow` |
-| **29.6.** | 4 h | Dodati sintetizirani zvuk, glazbenu podlogu, čestice, eksplozije, bljeskove i screen shake. Snimiti prve završne screenshotove. | Funkcionalno dovršena igra. `Add audio and combat feedback` |
+| **29.6.** | 4 h | Dodati sintetizirani zvuk, glazbenu podlogu, čestice, eksplozije i bljeskove bez agresivnog screen shakea. Snimiti prve završne screenshotove. | Funkcionalno dovršena igra. `Add audio and combat feedback` |
 | **30.6.** | 4 h | Zamrznuti funkcionalnosti. Balansirati borbu, profilirati opterećenje, odigrati tri potpune sesije i popraviti pronađene greške. | Stabilan release candidate i najmanje 55 FPS. `Balance and stabilize vertical slice` |
 | **1.7.** | 5 h | Završiti hrvatske dokumente, PDF-ove, izvještaj o testiranju, licence, AI evidenciju i changelog. Završiti engleski PPTX, itch.io tekst i medije. Napraviti `.app` i ZIP. | Svi materijali i zapakirani kandidat. `Prepare release documentation and package` |
 | **2.7.** | 4 h | Odigrati još dvije potpune sesije. Provjeriti čisti ZIP, kontrole, sadržaj, licence, jezike i prezentaciju. Popraviti samo blokirajuće greške i pokrenuti završne provjere. | Završena aplikacija i svi materijali. `Finalize Aetherfront release candidate` |

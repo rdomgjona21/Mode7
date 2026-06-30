@@ -11,6 +11,10 @@ from aetherfront.rendering.mode7 import Mode7Projection
 from aetherfront.rendering.parallax import ParallaxSkyLayer, create_parallax_sky_layers
 from aetherfront.rendering.terrain import generate_terrain_texture
 
+PARALLAX_CAMERA_X_WEIGHT = 0.10
+PARALLAX_CAMERA_Y_WEIGHT = 0.04
+PARALLAX_HEADING_WEIGHT = 0.65
+
 
 class Mode7Renderer:
     """Crta nebo i perspektivnu ravninu bez Python petlje po pikselima."""
@@ -58,8 +62,11 @@ class Mode7Renderer:
     def _parallax_offset(camera: Camera, layer: ParallaxSkyLayer) -> int:
         """Izračunaj omotani horizontalni pomak sky sloja sporiji od tla."""
         width = layer.surface.get_width()
-        position_component = camera.x * 0.10 + camera.y * 0.04
-        heading_component = camera.heading / math.tau * width * 0.65
+        position_component = (
+            camera.x * PARALLAX_CAMERA_X_WEIGHT
+            + camera.y * PARALLAX_CAMERA_Y_WEIGHT
+        )
+        heading_component = camera.heading / math.tau * width * PARALLAX_HEADING_WEIGHT
         return round((position_component + heading_component) * layer.scroll_factor) % width
 
     def _draw_parallax_sky(self, sky_surface: pygame.Surface, camera: Camera) -> None:

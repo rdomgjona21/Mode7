@@ -18,8 +18,8 @@ Standardna provjera pokreće se naredbom:
 ```
 
 Trenutačni skup pokriva konfiguraciju, kameru, Mode7 projekciju, renderer, billboarde,
-oružja, protivnike, valove, bossa, HUD, efekte, pickupove, borbenu sesiju i benchmark
-skriptu.
+oružja, protivnike, valove, bossa, HUD, efekte, audio assete, pickupove, borbenu sesiju i
+benchmark skriptu.
 
 ## 3. Performanse
 
@@ -54,12 +54,13 @@ primljena šteta, dojam težine i pronađeni problemi.
 - Svako oružje, svaki standardni protivnik, repair pickup i obje faze bossa vidljivi su u
   uobičajenoj sesiji.
 - Skupljanje repair pickupa prikazuje kratki zeleni vizualni feedback bez prekrivanja HUD-a.
+- Pucanje, protivnici, boss, repair, UI, pobjeda i game-over imaju čitljive zvučne efekte.
+- Menu, tri redovna vala i dvije boss faze imaju različite generirane WAV glazbene loopove.
 - Prosječne performanse ostaju iznad 55 FPS.
 - Pet potpunih sesija prolazi bez neobrađene iznimke.
 
 ## 6. Otvorene stavke
 
-- Dovršiti zvuk i glazbenu podlogu.
 - Ručno provjeriti prvi balance pass i po potrebi fino podesiti valove, oružja,
   survivability i bossa.
 - Popuniti pet ručnih playtest zapisa.

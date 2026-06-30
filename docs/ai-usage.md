@@ -301,3 +301,85 @@
 - **Resursi:** HUD se crta PyGame primitivima; nisu dodani vanjski resursi ni licencni
   unosi.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 27. lipnja 2026. — ElevenLabs zvučni efekti
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** analiza korisnički dodanih ElevenLabs MP3 efekata, stabilizacija naziva
+  asseta, evidentiranje licenci i povezivanje zvukova s postojećim gameplay događajima.
+- **Utjecaj:** dodan je `AudioManager` s `pygame.mixer` učitavanjem, no-op fallbackom bez
+  audio uređaja, kontroliranim glasnoćama i kraćenjem duljih efekata. `CombatFeedback`
+  sada razlikuje ispaljena oružja, neprijateljske hice, početak vala, dolazak bossa,
+  uništenje bossa i terminalna stanja. Zvučni efekti povezani su s oružjima, protivnicima,
+  bossom, repair pickupom, UI radnjama, pobjedom i game-over stanjem. Balans, kontrole i
+  vizualni prikaz nisu mijenjani. Nakon ručne provjere terminalni victory/game-over zvukovi
+  dobili su prioritetno reproduciranje koje zaustavlja preklopljene borbene SFX kanale.
+- **Provjera:** Ruff i 154 Pytest testa kroz `./scripts/validate.sh`, 180-frame headless
+  pokretanje, 12-sekundni benchmark od 151,4 FPS-a uz prag 55 FPS-a i uspješan
+  `./scripts/package.sh` s provjerom SFX asseta u `.app` paketu.
+- **Resursi:** korišteni su korisnički dodani ElevenLabs MP3 audio asseti. Svi su
+  preimenovani u stabilne nazive i evidentirani u `src/aetherfront/assets/manifest.csv` i
+  `docs/asset-licenses.csv`.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 27. lipnja 2026. — Proceduralna glazbena podloga
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** dodavanje glazbene podloge za menu, tri redovna vala i dvije faze bossa kroz
+  projektno generirane WAV assete.
+- **Utjecaj:** `AudioManager` sada generira šest kratkih stereo loopova u kodu koristeći
+  NumPy: `menu`, `wave_1`, `wave_2`, `wave_3`, `boss_phase_1` i `boss_phase_2`, koji se spremaju u
+  `assets/audio/music`. `Game` bira aktivni loop prema trenutačnom valu ili boss fazi,
+  zaustavlja glazbu pri pauzi, povratku na izbornik i terminalnim stanjima te ostavlja victory i
+  game-over SFX kao prioritetne zvukove. Nakon ručne primjedbe da se glazba ne čuje,
+  pojačani su glazbeni volumeni i generator signala te je dodana provjera minimalne
+  amplitude. Nakon dodatnih ručnih primjedbi da SFX nadglasavaju glazbu, često ponavljani
+  borbeni SFX-ovi su postupno dodatno stišani, a glazbeni loopovi dodatno pojačani.
+- **Provjera:** `PATH=.venv/bin:$PATH ./scripts/validate.sh` s Ruffom i 156 Pytest testova,
+  180-frame headless pokretanje s dummy SDL video/audio driverima, 12-sekundni Mode7
+  benchmark od 143,9 FPS-a uz prag 55 FPS-a i uspješan `./scripts/package.sh` koji je
+  stvorio `dist/Aetherfront.app`.
+- **Resursi:** nisu dodani novi vanjski resursi. Glazba je projektno generirana u WAV
+  datoteke i evidentirana u oba asset manifesta.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 30. lipnja 2026. — analiza code reviewa i sigurno učvršćivanje koda
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** provjera dostavljenog code reviewa, uklanjanje manjih rizika rušenja i
+  dodavanje hrvatskih komentara koji objašnjavaju tok audio feedbacka i borbene sesije.
+- **Utjecaj:** `_music_for_session()` sada ima fallback za neočekivani broj vala,
+  `CombatFeedback.enemy_fire_kinds` koristi `set[str]`, drugi `WaveDirector.update(0.0)`
+  poziv izdvojen je u jasnu `_finalize_wave_progress()` metodu s objašnjenjem, boss više
+  ne koristi `assert` za runtime guard i parallax konstante dobile su imenovane vrijednosti.
+  Veliki refactor `Game.run()` namjerno nije izveden u ovoj izmjeni jer je rizičniji i
+  treba zaseban plan sa state-transition testovima.
+- **Provjera:** `PATH=.venv/bin:$PATH ./scripts/validate.sh` s Ruffom i 161 Pytest testom,
+  180-frame headless pokretanje s dummy SDL video/audio driverima i 12-sekundni Mode7
+  benchmark od 233,1 FPS-a uz prag 55 FPS-a.
+- **Resursi:** nisu dodani novi asseti.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 30. lipnja 2026. — sinkronizirani raniji repair feedback
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** uskladiti repair SFX sa zelenim vizualnim efektom nakon što je odvojeni
+  raniji audio cue stvarao dojam nesinkroniziranosti.
+- **Utjecaj:** uklonjen je zasebni repair audio cue, a stvarni collection radius je
+  proširen. Zvuk, zeleni efekt, health i score sada nastaju iz istog collect događaja.
+- **Provjera:** testovi su prilagođeni da provjeravaju jedan sinkronizirani rani collect
+  događaj umjesto odvojenog audio cuea.
+- **Resursi:** nisu dodani novi asseti.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 30. lipnja 2026. — komentari za razumijevanje gameplay koda
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** dodati hrvatske komentare u ključne Python datoteke kako bi autor lakše
+  pratio tok borbe, audio događaja, renderiranja i vizualnih efekata.
+- **Utjecaj:** komentirani su odabrani dijelovi `AudioManager`, `CombatSession`,
+  glavne `Game` petlje i `EffectsState`. Komentari objašnjavaju namjeru i redoslijed
+  obrade bez promjene gameplay ponašanja.
+- **Provjera:** pokrenuta je standardna validacija projekta.
+- **Resursi:** nisu dodani novi asseti.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

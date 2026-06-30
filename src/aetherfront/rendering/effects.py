@@ -61,6 +61,8 @@ class EffectsState:
     player_hit_remaining: float = 0.0
 
     def add_explosion(self, x: float, y: float) -> None:
+        # Eksplozija je svjetski efekt: prati položaj uništenog protivnika i zato se
+        # rotira/projicira jednako kao brodovi.
         self.world_effects.append(
             WorldEffect(
                 kind=EffectKind.EXPLOSION,
@@ -73,6 +75,7 @@ class EffectsState:
         )
 
     def add_boss_spark(self, x: float, y: float) -> None:
+        # Boss spark je kraći od eksplozije jer označava pogodak, ne uništenje.
         self.world_effects.append(
             WorldEffect(
                 kind=EffectKind.BOSS_SPARK,
@@ -85,6 +88,8 @@ class EffectsState:
         )
 
     def add_repair_flash(self, x: float, y: float) -> None:
+        # Repair flash koristi isti svjetski položaj kao pickup, pa se zeleni efekt vidi
+        # točno ondje gdje je plus prikupljen.
         self.world_effects.append(
             WorldEffect(
                 kind=EffectKind.REPAIR,
@@ -97,14 +102,18 @@ class EffectsState:
         )
 
     def trigger_muzzle_flash(self) -> None:
+        # Muzzle flash je lokalni efekt ispred Kestrela, zato nije vezan uz svjetske
+        # koordinate i ne prolazi kroz billboard projekciju.
         self.muzzle_flash_remaining = MUZZLE_FLASH_LIFETIME
 
     def trigger_player_hit(self) -> None:
+        # Damage marker je također lokalni efekt jer igračev brod ostaje fiksiran na ekranu.
         self.player_hit_remaining = PLAYER_HIT_LIFETIME
 
     def update(self, dt: float, *, paused: bool = False) -> None:
         if paused:
             return
+        # Svaki efekt čuva samo preostalo vrijeme. Kada dođe do nule, izbacuje se iz liste.
         for effect in self.world_effects:
             effect.update(dt)
         self.world_effects = [effect for effect in self.world_effects if effect.active]
@@ -142,6 +151,8 @@ def create_world_effect_surface(effect: WorldEffect) -> pygame.Surface:
 
 def _create_explosion_surface(age_ratio: float) -> pygame.Surface:
     surface = pygame.Surface((40, 40), pygame.SRCALPHA)
+    # `age_ratio` ide od 0 do 1: alpha pada, a radius raste, čime eksplozija kratko
+    # "procvjeta" i zatim nestane.
     alpha = round(210 * (1.0 - age_ratio))
     radius = max(3, round(7 + age_ratio * 11))
     center = (20, 20)
@@ -159,6 +170,7 @@ def _create_explosion_surface(age_ratio: float) -> pygame.Surface:
 
 def _create_boss_spark_surface(age_ratio: float) -> pygame.Surface:
     surface = pygame.Surface((34, 34), pygame.SRCALPHA)
+    # Cijan prsten i crveni križ daju čitljiv boss hit bez velikog screen shakea.
     alpha = round(230 * (1.0 - age_ratio))
     radius = max(3, round(5 + age_ratio * 7))
     center = (17, 17)
@@ -170,6 +182,8 @@ def _create_boss_spark_surface(age_ratio: float) -> pygame.Surface:
 
 def _create_repair_flash_surface(age_ratio: float) -> pygame.Surface:
     surface = pygame.Surface((48, 48), pygame.SRCALPHA)
+    # Repair efekt namjerno koristi zeleni plus i prsten kako bi se razlikovao od plavog
+    # pickup spritea i narančastih eksplozija.
     alpha = round(235 * (1.0 - age_ratio))
     radius = max(8, round(12 + age_ratio * 13))
     center = (24, 24)

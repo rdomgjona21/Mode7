@@ -35,4 +35,22 @@ if [[ -z "$waves_file" ]]; then
   exit 1
 fi
 
+sfx_file="$(find dist/Aetherfront.app -path '*/aetherfront/assets/audio/sfx/cannon_fire.mp3' -print -quit)"
+if [[ -z "$sfx_file" ]]; then
+  echo "Packaging failed: sound effects are missing from the application bundle" >&2
+  exit 1
+fi
+
+music_file="$(find dist/Aetherfront.app -path '*/aetherfront/assets/audio/music/wave_1.wav' -print -quit)"
+if [[ -z "$music_file" ]]; then
+  echo "Packaging failed: music loops are missing from the application bundle" >&2
+  exit 1
+fi
+
+menu_music_file="$(find dist/Aetherfront.app -path '*/aetherfront/assets/audio/music/menu.wav' -print -quit)"
+if [[ -z "$menu_music_file" ]]; then
+  echo "Packaging failed: menu music is missing from the application bundle" >&2
+  exit 1
+fi
+
 echo "Created dist/Aetherfront.app"

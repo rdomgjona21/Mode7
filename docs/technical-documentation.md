@@ -1,10 +1,10 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 1.9
+**Verzija:** 2.0
 
-**Datum:** 25. lipnja 2026.
+**Datum:** 27. lipnja 2026.
 
-**Status:** igrivi tok s prvim završnim balance passom, steampunk HUD-om i macOS paketom
+**Status:** igrivi tok s prvim završnim balance passom, steampunk HUD-om, SFX-om, glazbom i macOS paketom
 
 ## Arhitektura
 
@@ -28,6 +28,8 @@ Aktualni HUD koristi gornju horizontalnu minimalističku steampunk traku s mjede
 tamnim staklom, segmentiranim health barom i kratkim grupiranim oznakama. Stari gameplay
 tekst s kontrolama uklonjen je iz scene, dok zasebni ekran uputa ostaje dostupan iz
 glavnog izbornika.
+Audio sloj koristi ElevenLabs MP3 efekte i generirane WAV glazbene loopove učitane preko
+`pygame.mixer`, uz sigurni fallback bez zvuka ako audio uređaj ili mixer nisu dostupni.
 
 ## Mode7 projekcija
 
@@ -184,12 +186,17 @@ perspektivnog prikaza plusa, a ne tek nakon prolaska pokraj njega. Ovi podaci ni
 gameplay sustav; služe kao mjerni sloj za iduće balance commitove i za ručni obrazac
 `tests/playtest-notes.md`.
 
+Repair SFX, zeleni vizualni feedback, health i score koriste isti raniji collect događaj.
+Time se pickup aktivira čim igrač vizualno uđe u područje velikog plavog križa, bez
+odvojenog audio cuea koji bi mogao kasniti ili se razići od zelenog efekta.
+
 ## Vizualni feedback
 
 `CombatFeedback` u `CombatSession` bilježi samo događaje zadnjeg framea: uništene položaje,
-pozicije skupljenih popravaka, boss pogodak, stvarnu štetu nad igračem i stvarno ispaljeno
-oružje. Ti se podaci brišu na početku svakog `update()` poziva i ne stvaraju zaseban sloj
-pravila igre.
+pozicije skupljenih popravaka, stvarno ispaljena igračeva oružja, vrste neprijateljskih
+hica, početak novog vala, pojavu bossa, boss pogodak, uništenje bossa, stvarnu štetu nad
+igračem i terminalna stanja. Ti se podaci brišu na početku svakog `update()` poziva i ne
+stvaraju zaseban sloj pravila igre.
 
 `EffectsState` u renderer sloju čuva kratkotrajne svjetske i lokalne efekte. Uništenje
 standardnog protivnika dodaje malu narančasto-mjedenu eksploziju u svjetskim koordinatama,
@@ -198,6 +205,42 @@ crveno-cijan spark, stvarno pucanje dodaje muzzle flash ispred Kestrela, a stvar
 šteta dodaje lokalni crveni marker pri rubu ekrana. Svjetski efekti koriste postojeći
 `BillboardProjector`, pa poštuju rotaciju kamere i omatanje svijeta. Efekti se crtaju prije
 HUD-a, bez screen shakea i bez promjene `Mode7Renderer` ili stanja kamere.
+
+## Zvučni efekti
+
+`AudioManager` učitava stabilno imenovane ElevenLabs MP3 datoteke iz
+`assets/audio/sfx`. Svaki efekt ima kratak `SoundEffect` identifikator, kontroliranu
+glasnoću i opcionalni `maxtime` za dulje izvore poput neprijateljskog lakog hica i
+weapon-ready klika. Ako `pygame.mixer` ne može inicijalizirati audio uređaj, manager se
+prebacuje u no-op način i gameplay nastavlja bez iznimke.
+
+Glavna petlja povezuje audio s istim `CombatFeedback` događajima koji već pokreću vizualne
+efekte: pucanje igrača, protivničku paljbu, uništenje protivnika, boss pogodak, boss
+dolazak, boss uništenje, štetu igrača i skupljanje repair pickupa. UI zvukovi pokrivaju
+izbor u meniju, pauzu i odabir oružja, a pobjeda i game-over reproduciraju se samo jednom
+po pokušaju. MP3 datoteke su uključene u `pyproject.toml` package-data i provjeravaju se u
+`scripts/package.sh`.
+
+## Glazbena podloga
+
+Glazba je proceduralno generirana u WAV datoteke unutar `assets/audio/music`.
+`MusicTrack` definira šest loopova: `MENU`, `WAVE_1`, `WAVE_2`, `WAVE_3`,
+`BOSS_PHASE_1` i `BOSS_PHASE_2`. Svaki loop traje osam sekundi, generira se kao stereo `int16` NumPy matrica
+kroz `scripts/generate_music_assets.py`, sprema kao PCM WAV i učitava kao
+`pygame.mixer.Sound` pri inicijalizaciji audio sloja.
+
+`Game` pušta `MENU` loop u glavnom izborniku i na ekranu uputa. Tijekom aktivnog igranja
+bira glazbu prema napretku borbe. Prva tri vala imaju zasebne tempo/intenzitet profile,
+boss faza 1 koristi sporiji prijeteći loop, a boss faza 2 prelazi u brži i gušći loop nakon
+što Goliath padne na 50 % HP-a ili manje. Glazba se gasi pri pauzi i terminalnim stanjima,
+dok victory i game-over SFX imaju prioritet nad borbenom glazbom. Volumeni loopova namjerno
+su viši od prve tehničke verzije, a često ponavljani borbeni SFX-ovi dodatno su stišani
+kako bi glazba ostala čujna ispod paljbe i eksplozija.
+
+Loopovi su evidentirani u `assets/manifest.csv` i `docs/asset-licenses.csv` kao projektno
+generirani resursi. Testovi provjeravaju da je svaka glazbena tema definirana, da WAV
+datoteka postoji, da ima valjanu glasnoću i da generator vraća stereo `int16` signal s
+vidljivim uzorkom.
 
 ## Aplikacijska stanja
 
@@ -242,7 +285,7 @@ automatiziranim testovima. U normalnom pokretanju aplikacija radi do zatvaranja 
 `package.sh` prvo izvodi Ruff i Pytest, zatim gradi prozorsku aplikaciju s identifikatorom
 `hr.foi.aetherfront`. PyInstallerova konfiguracija i cache usmjereni su u ignoriranu mapu
 `tmp/`, a skripta završava pogreškom ako izvršna datoteka ili paketni `balance.json`
-ili `waves.json` unutar `.app` paketa ne postoje.
+ili `waves.json` ili osnovni SFX asset unutar `.app` paketa ne postoje.
 Rani ARM64 paket 22. lipnja uspješno je izgrađen, ostao aktivan u headless smoke testu i
 stvarno se otvorio i zatvorio u macOS-u.
 
@@ -252,5 +295,5 @@ kratku poruku bez Python tracebacka.
 
 ## Sljedeći tehnički korak
 
-Sljedeća zasebna cjelina je zvuk i glazbena podloga, nakon čega slijede završni ručni
-playtestovi, dodatno fino balansiranje prema bilješkama i izrada release ZIP-a.
+Sljedeća zasebna cjelina su završni ručni playtestovi, dodatno fino balansiranje prema
+bilješkama, izrada prezentacije i priprema release ZIP-a.

@@ -29,7 +29,7 @@ aetherfront = "aetherfront.main:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-aetherfront = ["data/*.json", "assets/**/*.csv"]
+aetherfront = ["data/*.json", "assets/**/*.csv", "assets/audio/**/*.mp3", "assets/audio/**/*.wav"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
@@ -42,4 +42,3 @@ target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
-

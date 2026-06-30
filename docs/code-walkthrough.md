@@ -243,7 +243,8 @@ ispod zadanog praga, primjerice 55 FPS-a. Svakih deset sekundi ispisuje napredak
 
 `scripts/package.sh` ponavlja validaciju i poziva PyInstaller za izradu ARM64 macOS
 aplikacije. Rezultat u `dist/` nije dio Git repozitorija; skripta na kraju izričito
-provjerava postoje li izvršna datoteka, `balance.json` i `waves.json` unutar paketa.
+provjerava postoje li izvršna datoteka, `balance.json`, `waves.json` i osnovni SFX asset
+unutar paketa.
 
 Za učenje je korisno privremeno promijeniti jednu konstantu ili očekivanje u testu,
 pokrenuti `./scripts/validate.sh`, pročitati pogrešku i zatim vratiti promjenu.
@@ -267,10 +268,11 @@ Borbena petlja povezuje kretanje kamere, oružja, neprijatelje, valove, sudare, 
 boss borbu, bodove, pobjedu i poraz. `CombatSession` drži većinu gameplay stanja i kratki
 `CombatFeedback` zadnjeg framea te osnovni telemetry za balansiranje, dok `AppState` drži
 tok izbornika, uputa, igranja i pauze. Kada se repair pickup stvarno pokupi, feedback nosi
-njegovu svjetsku poziciju do `EffectsState`, koji crta kratki zeleni/cijan plus efekt.
-Zona skupljanja je namjerno znatno veća od osnovnog sidrišnog radijusa pickupa kako bi se
-collect i zeleni feedback aktivirali čim igrač uđe u područje velikog perspektivnog plusa.
-Renderer, HUD, efekti i menu paneli uglavnom samo čitaju podatke i prikazuju ih.
+njegovu svjetsku poziciju do `EffectsState`, koji crta kratki zeleni/cijan plus efekt, i
+do `AudioManager`, koji reproducira odgovarajući ElevenLabs SFX. Zona skupljanja je
+namjerno znatno veća od osnovnog sidrišnog radijusa pickupa kako bi se collect i zeleni
+feedback aktivirali čim igrač uđe u područje velikog perspektivnog plusa. Renderer, HUD,
+efekti, audio manager i menu paneli uglavnom samo čitaju podatke i prikazuju ih.
 
 Trenutačno rade tri oružja, tri standardna protivnika, tri vala, repair pickup, score, ISS
 Goliath s dvije faze, boss health bar, glavni izbornik, upute, pauza, restart flow,
@@ -278,6 +280,8 @@ suptilne eksplozije, repair flash, boss spark, muzzle flash, damage marker, `VIC
 `GAME OVER`. Kestrel, protivnici, Goliath i repair ćelija imaju proceduralni Victorian
 airship polish, industrijski sky sloj ima dodatne dimne plumeove, a HUD koristi gornju
 horizontalnu minimalističku steampunk traku s mjedenim rubovima i segmentiranim barovima.
-Prvi završni balance pass je primijenjen kroz `balance.json` i `waves.json`, ali još
-nedostaju zvuk, ručni playtestovi za fino balansiranje, završni dokumenti, prezentacija i
-release ZIP.
+ElevenLabs SFX pokriva oružja, protivnike, bossa, repair, UI i terminalna stanja.
+Generirana WAV glazba sada ima zasebne loopove za menu, tri vala i dvije boss faze, a `Game`
+automatski mijenja temu prema trenutačnom valu ili boss fazi. Prvi završni balance pass je
+primijenjen kroz `balance.json` i `waves.json`, ali još nedostaju ručni playtestovi za
+fino balansiranje, završni dokumenti, prezentacija i release ZIP.

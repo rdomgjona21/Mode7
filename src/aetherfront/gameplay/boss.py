@@ -115,7 +115,8 @@ class DreadnoughtBoss:
         """Odredi fazu iz preostalog zdravlja."""
         if not self.alive:
             return BossPhase.DESTROYED
-        assert self.health is not None
+        if self.health is None:
+            raise RuntimeError("boss health must be initialized before phase calculation")
         if self.health <= self.max_health * self.phase_two_threshold:
             return BossPhase.PHASE_TWO
         return BossPhase.PHASE_ONE
@@ -154,7 +155,8 @@ class DreadnoughtBoss:
             raise ValueError("damage must be finite and non-negative")
         if not self.alive or amount == 0:
             return False
-        assert self.health is not None
+        if self.health is None:
+            raise RuntimeError("boss health must be initialized before taking damage")
         self.health = max(0.0, self.health - amount)
         return not self.alive
 

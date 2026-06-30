@@ -1,6 +1,9 @@
+from types import SimpleNamespace
+
 import pygame
 import pytest
 
+from aetherfront.audio.manager import MusicTrack
 from aetherfront.core.game import Game
 
 
@@ -26,3 +29,13 @@ def test_game_rejects_invalid_frame_limit() -> None:
     """Nula frameova nema smisla i mora proizvesti jasno objašnjenu pogrešku."""
     with pytest.raises(ValueError, match="at least 1"):
         Game().run(max_frames=0)
+
+
+def test_music_for_session_falls_back_when_wave_number_is_unexpected() -> None:
+    """Neispravan broj vala ne smije rušiti audio odabir KeyErrorom."""
+    session = SimpleNamespace(
+        boss=None,
+        wave_director=SimpleNamespace(current_wave_number=99),
+    )
+
+    assert Game._music_for_session(session) is MusicTrack.WAVE_1

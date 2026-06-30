@@ -3,7 +3,10 @@ import pytest
 from aetherfront.gameplay.collisions import wrapped_axis_delta
 from aetherfront.gameplay.pickups import RepairPickup
 from aetherfront.gameplay.projectiles import Projectile
-from aetherfront.gameplay.session import REPAIR_COLLECTION_RADIUS_MULTIPLIER, CombatSession
+from aetherfront.gameplay.session import (
+    REPAIR_COLLECTION_RADIUS_MULTIPLIER,
+    CombatSession,
+)
 from aetherfront.rendering.camera import Camera
 
 
@@ -14,6 +17,14 @@ def test_session_starts_with_first_configured_wave() -> None:
     assert session.wave_director.current_wave_number == 1
     assert session.enemies_remaining == 1
     assert session.enemies[0].kind.value == "scout"
+
+
+def test_combat_feedback_deduplicates_enemy_fire_kinds() -> None:
+    session = CombatSession.create(Camera())
+
+    session.feedback.enemy_fire_kinds.update(("enemy_light", "enemy_light", "enemy_heavy"))
+
+    assert session.feedback.enemy_fire_kinds == {"enemy_light", "enemy_heavy"}
 
 
 def test_destroyed_enemy_awards_score_and_creates_repair() -> None:
@@ -259,6 +270,35 @@ def test_player_collects_repair_when_touching_visible_pickup_edge() -> None:
     assert session.feedback.repair_collected_positions == [(camera.x + x_offset, camera.y)]
 
 
+def test_repair_feedback_uses_single_early_collection_event() -> None:
+    camera = Camera()
+    session = CombatSession.create(camera)
+    repair = session.balance.repair
+    player_radius = session.balance.player.collision_radius
+    pickup_offset = (
+        player_radius
+        + repair.collision_radius * REPAIR_COLLECTION_RADIUS_MULTIPLIER
+        - 1
+    )
+
+    session.pickups.append(
+        RepairPickup(
+            x=camera.x + pickup_offset,
+            y=camera.y,
+            heal_amount=repair.heal_amount,
+            score_value=repair.score_value,
+            radius=repair.collision_radius,
+            lifetime_remaining=repair.lifetime_seconds,
+        )
+    )
+
+    session.update(0, camera)
+
+    assert session.pickups == []
+    assert session.repairs_collected == 1
+    assert session.feedback.repair_collected_positions == [(camera.x + pickup_offset, camera.y)]
+
+
 def test_session_enforces_projectile_limit() -> None:
     camera = Camera()
     session = CombatSession.create(camera)
@@ -277,9 +317,11 @@ def test_session_reports_player_fired_only_when_weapon_creates_projectile() -> N
 
     session.update(0, camera, fire_primary=True)
     assert session.feedback.player_fired
+    assert session.feedback.fired_weapons == ["cannon"]
 
     session.update(0, camera, fire_primary=True)
     assert not session.feedback.player_fired
+    assert session.feedback.fired_weapons == []
 
 
 def test_enemy_projectile_can_damage_player() -> None:
@@ -304,6 +346,7 @@ def test_enemy_projectile_can_damage_player() -> None:
     assert session.player.health == 437
     assert session.projectiles == []
     assert session.damage_taken == 13
+    assert session.feedback.player_was_damaged
 
 
 def test_enemy_behind_player_is_recycled_into_front_sector() -> None:
