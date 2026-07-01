@@ -398,3 +398,62 @@
   testova.
 - **Resursi:** nisu dodani novi asseti.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 1. srpnja 2026. — vraćanje healtha igrača na 100
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** vratiti maksimalni trup igrača na početnu vrijednost od 100 HP-a.
+- **Utjecaj:** `balance.json` sada postavlja `player.max_health` na 100. Testovi i
+  hrvatska dokumentacija usklađeni su s novom vrijednošću. Neprijatelji, boss, oružja,
+  repair pickup, neranjivost, zvuk i vizuali nisu mijenjani.
+- **Provjera:** pokrenuta je standardna validacija projekta.
+- **Resursi:** nisu dodani novi asseti.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 1. srpnja 2026. — generirana cloud podloga
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** pojačati dojam letenja iznad oblaka generiranim stiliziranim cloud assetom
+  umjesto sive proceduralne podloge.
+- **Utjecaj:** generirana su tri kandidata cloud teksture, a odabran je najčitljiviji
+  stilizirani PNG s jasnim svijetlim oblacima i tamnoplavim zračnim prazninama.
+  `Mode7Renderer` sada zadano učitava `cloud_layer.png`, dok proceduralna tekstura ostaje
+  fallback ako asset nije dostupan. Kontrole, borba, valovi, boss, health, oružja, zvuk i
+  HUD logika nisu mijenjani.
+- **Provjera:** dodani su testovi za učitavanje cloud asseta, fallback ponašanje, asset
+  manifeste i package-data uključivanje PNG datoteka; pokrenuta je standardna validacija
+  projekta.
+- **Resursi:** dodan je `src/aetherfront/assets/images/terrain/cloud_layer.png`, evidentiran
+  u `src/aetherfront/assets/manifest.csv` i `docs/asset-licenses.csv` kao projektno
+  generirani OpenAI image asset.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 1. srpnja 2026. — korekcija cloud podloge protiv dojma leda
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** ispraviti vizualni dojam nakon ručne provjere u kojoj je prethodni cloud
+  asset izgledao kao zaleđena površina.
+- **Utjecaj:** generirana su dva nova tamnija kandidata bez snijega, leda, vode i bijelih
+  ploha, a odabran je olujni cloud asset s prigušenim kontrastom. Renderer dodatno
+  primjenjuje blagi atmosferski haze samo na daleke redove Mode7 podloge kako se rastegnuti
+  horizont ne bi čitao kao led ili voda. Gameplay, kontrole, kamera, valovi, boss, oružja,
+  zvuk i HUD logika nisu mijenjani.
+- **Provjera:** dodan je test za ground haze i pokrenuta je standardna validacija projekta.
+- **Resursi:** `cloud_layer.png` zamijenjen je novom OpenAI generiranom varijantom, a oba
+  asset manifesta ažurirana su opisom modifikacije.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 1. srpnja 2026. — svjetlija fotorealistična cloud podloga
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** uskladiti Mode7 podlogu s korisnikovom odlukom da prva nova fotorealistična
+  slika oblaka bude finalni vizualni smjer.
+- **Utjecaj:** `cloud_layer.png` zamijenjen je odabranim svjetlijim fotorealističnim
+  aerial cloud assetom s bijelim kumulusnim oblacima i plavim zračnim prazninama.
+  Atmosferski haze u rendereru posvijetljen je i smanjen kako ne bi potamnio novu podlogu.
+  Gameplay, kontrole, kamera, valovi, boss, oružja, zvuk i HUD logika nisu mijenjani.
+- **Provjera:** dodan je test koji provjerava da cloud asset ostaje dovoljno svijetao za
+  daylight cloud stil; pokrenuta je standardna validacija projekta.
+- **Resursi:** `cloud_layer.png` ostaje OpenAI generirani projektni image asset, a oba
+  asset manifesta ažurirana su opisom finalne svjetlije fotorealistične varijante.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

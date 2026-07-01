@@ -73,7 +73,7 @@ Izazov raste kroz izdržljivost protivnika, miješane formacije, preklapanje pal
 | Raketa | lijevi/desni Shift | Neovisno vrijeme hlađenja |
 | Pauza | Esc | Zaustavlja simulaciju i prikazuje izbornik |
 
-Kestrel počinje s 450 bodova trupa i 1,25 sekundi neranjivosti nakon pogotka. Brod je vizualno pri dnu zaslona, dok kamera prati njegov položaj i smjer u svijetu.
+Kestrel počinje sa 100 bodova trupa i 1,25 sekundi neranjivosti nakon pogotka. Brod je vizualno pri dnu zaslona, dok kamera prati njegov položaj i smjer u svijetu.
 
 ## 6. Oružja i nagrade
 
@@ -113,7 +113,7 @@ dolazak dreadnoughta. Svi natpisi i kontrole u igri ostaju na engleskom.
 
 ### Vizualni smjer
 
-Paleta spaja mjed, tamno željezo, krem tipografiju, oksidirani cijan, upozoravajuću crvenu i olujno plavo nebo. Mode7 ravnina koristi proceduralne oblake, industrijske trake i mjedene navigacijske linije. Zračni brodovi crtaju se PyGame primitivima u Victorian airship smjeru: platneni baloni, drvene gondole, mjedeni nosači, zakovice, kabine, dimnjaci i jasne klase silueta. Čestice, projektili i bljeskovi komuniciraju udar bez oslanjanja samo na boju.
+Paleta spaja mjed, tamno željezo, krem tipografiju, oksidirani cijan, upozoravajuću crvenu i olujno plavo nebo. Mode7 ravnina koristi generirani fotorealistični PNG cloud asset kao glavnu podlogu: svijetle dnevne kumulusne oblake, prirodne plave zračne praznine i mekane sjene bez kopna, mora, snijega ili leda. Proceduralni generator ostaje sigurnosni fallback ako asset nije dostupan, a renderer dodaje svijetli atmosferski haze na daleke redove kako se perspektivno rastegnuti oblaci zadrže kao zračni sloj. Cilj je da se borba čita kao letenje iznad oblaka, a ne kao kretanje po ravnoj cestovnoj mreži. Zračni brodovi crtaju se PyGame primitivima u Victorian airship smjeru: platneni baloni, drvene gondole, mjedeni nosači, zakovice, kabine, dimnjaci i jasne klase silueta. Čestice, projektili i bljeskovi komuniciraju udar bez oslanjanja samo na boju.
 
 ### Zvuk
 
@@ -150,8 +150,9 @@ eksplozije, boss spark, repair flash, muzzle flash i lokalni damage marker bez s
 shakea. `AudioManager` reproducira ElevenLabs SFX za oružja, protivničku paljbu,
 uništenja, bossa, repair, UI i terminalna stanja te generirane WAV music loopove za menu,
 tri vala i dvije boss faze uz fallback bez zvuka ako mixer nije dostupan. Proceduralni parallax
-sky slojevi za oblake, industrijsku izmaglicu, dimne plumeove i bliže linije crtaju se
-iznad horizonta s namjerno stišanim intenzitetom i pomakom. PyInstaller uspješno uključuje
+sky slojevi za udaljene oblake, balone, lebdeće gradske siluete, dimne plumeove i bliže
+zračne tragove crtaju se iznad horizonta s namjerno stišanim intenzitetom i pomakom.
+PyInstaller uspješno uključuje
 konfiguraciju i izrađuje ARM64 macOS `.app`; završni ZIP izradit će se nakon dovršetka
 igre.
 
@@ -176,7 +177,7 @@ Proceduralna ravnina neprekidno se omata, pa igrač ne može napustiti borbeni p
 - Pet uzastopnih igranja bez neobrađene iznimke.
 - Cilj i kontrole razumljivi su bez vanjskih uputa.
 - Svako oružje, protivnik, popravak i faza šefa pojavljuju se u uobičajenoj sesiji.
-- Trenutačni prvi završni balance pass koristi 450 HP igrača, 1,25 s neranjivosti,
+- Trenutačni prvi završni balance pass koristi 100 HP igrača, 1,25 s neranjivosti,
   jači repair pickup od 36 HP-a, malo sporije valove i izdržljivijeg Goliatha od 1.250 HP.
 
 ## 13. Razvoj, proračun i objava
@@ -234,3 +235,4 @@ Generativni AI trenutačno se koristi prema FOI razini 4 za planiranje, struktur
 | 1.14 | 25. 6. 2026. | Robert Domgjonaj | Evidentiran prvi završni balance pass i minimalistički steampunk HUD |
 | 1.15 | 27. 6. 2026. | Robert Domgjonaj | Evidentirana integracija ElevenLabs zvučnih efekata |
 | 1.16 | 27. 6. 2026. | Robert Domgjonaj | Evidentirana proceduralna glazba za menu, valove i boss faze |
+| 1.17 | 1. 7. 2026. | Robert Domgjonaj | Evidentirana generirana cloud podloga i pojačani parallax dojam letenja |

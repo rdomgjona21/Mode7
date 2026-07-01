@@ -9,11 +9,14 @@ from aetherfront.config import HORIZON_Y, INTERNAL_SIZE, WORLD_SIZE
 from aetherfront.rendering.camera import Camera
 from aetherfront.rendering.mode7 import Mode7Projection
 from aetherfront.rendering.parallax import ParallaxSkyLayer, create_parallax_sky_layers
-from aetherfront.rendering.terrain import generate_terrain_texture
+from aetherfront.rendering.terrain import load_terrain_texture
 
 PARALLAX_CAMERA_X_WEIGHT = 0.10
 PARALLAX_CAMERA_Y_WEIGHT = 0.04
 PARALLAX_HEADING_WEIGHT = 0.65
+GROUND_HAZE_COLOR = np.array((104, 133, 155), dtype=np.float64)
+GROUND_HAZE_MAX_ALPHA = 0.34
+GROUND_HAZE_FADE_ROWS = 96
 
 
 class Mode7Renderer:
@@ -26,7 +29,7 @@ class Mode7Renderer:
     ) -> None:
         """Pripremi projekciju, teksturu i nepromjenjivu gradaciju neba."""
         self.projection = projection or Mode7Projection()
-        self.texture = generate_terrain_texture() if texture is None else texture
+        self.texture = load_terrain_texture() if texture is None else texture
         self._validate_texture(self.texture)
 
         if (self.projection.width, self.projection.height) != INTERNAL_SIZE:
@@ -87,6 +90,15 @@ class Mode7Renderer:
         texture_y %= self._texture_height
         return np.ascontiguousarray(self.texture[texture_y, texture_x])
 
+    @staticmethod
+    def _apply_ground_haze(ground: np.ndarray) -> np.ndarray:
+        """Ublaži daleke redove tla bez zatamnjivanja svijetle fotorealistične teksture."""
+        row_index = np.arange(ground.shape[0], dtype=np.float64)[:, np.newaxis, np.newaxis]
+        haze_alpha = np.clip(1.0 - row_index / GROUND_HAZE_FADE_ROWS, 0.0, 1.0)
+        haze_alpha *= GROUND_HAZE_MAX_ALPHA
+        blended = ground.astype(np.float64) * (1.0 - haze_alpha) + GROUND_HAZE_COLOR * haze_alpha
+        return np.ascontiguousarray(blended.astype(np.uint8))
+
     def draw(self, canvas: pygame.Surface, camera: Camera) -> None:
         """Nacrtaj jedan Mode7 frame na internu PyGame površinu."""
         if canvas.get_size() != INTERNAL_SIZE:
@@ -95,7 +107,7 @@ class Mode7Renderer:
         sky_surface = canvas.subsurface((0, 0, INTERNAL_SIZE[0], HORIZON_Y + 1))
         self._draw_parallax_sky(sky_surface, camera)
 
-        ground = self.sample_ground(camera)
+        ground = self._apply_ground_haze(self.sample_ground(camera))
         ground_surface = canvas.subsurface(
             (0, HORIZON_Y + 1, INTERNAL_SIZE[0], INTERNAL_SIZE[1] - HORIZON_Y - 1)
         )

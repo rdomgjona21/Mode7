@@ -35,6 +35,17 @@ def test_draw_fills_sky_horizon_and_ground() -> None:
     assert np.unique(pixels[:, HORIZON_Y + 1 :].reshape(-1, 3), axis=0).shape[0] > 8
 
 
+def test_ground_haze_softens_only_far_rows() -> None:
+    ground = np.full((180, 8, 3), 220, dtype=np.uint8)
+
+    hazed = Mode7Renderer._apply_ground_haze(ground)
+
+    assert hazed.dtype == np.uint8
+    assert hazed.flags.c_contiguous
+    assert np.all(hazed[0] < ground[0])
+    assert np.array_equal(hazed[-1], ground[-1])
+
+
 def test_parallax_sky_changes_with_camera_motion() -> None:
     renderer = Mode7Renderer()
     first = pygame.Surface(INTERNAL_SIZE)

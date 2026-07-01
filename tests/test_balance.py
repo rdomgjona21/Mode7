@@ -9,7 +9,7 @@ from aetherfront.gameplay.balance import load_combat_balance
 def test_default_balance_matches_locked_combat_foundation() -> None:
     balance = load_combat_balance()
 
-    assert balance.player.max_health == 450
+    assert balance.player.max_health == 100
     assert balance.player.collision_radius == 18
     assert balance.player.invulnerability_seconds == 1.25
     assert balance.projectile.collision_radius == 4

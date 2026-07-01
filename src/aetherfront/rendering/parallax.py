@@ -67,29 +67,60 @@ def _far_cloud_pixels(width: int, height: int, seed: int) -> np.ndarray:
     mask = wave + noise > 0.58
     pixels = np.zeros((height, width, 4), dtype=np.uint8)
     pixels[mask] = (122, 142, 151, 42)
+    for _ in range(5):
+        center_x = int(rng.integers(20, width - 20))
+        center_y = int(rng.integers(10, max(11, round(height * 0.55))))
+        radius_x = int(rng.integers(5, 10))
+        radius_y = int(rng.integers(7, 13))
+        yy, xx = np.ogrid[:height, :width]
+        balloon = ((xx - center_x) / radius_x) ** 2 + ((yy - center_y) / radius_y) ** 2 <= 1.0
+        gondola_top = min(height, center_y + radius_y + 2)
+        gondola_bottom = min(height, gondola_top + 2)
+        pixels[balloon] = (118, 134, 139, 44)
+        pixels[gondola_top:gondola_bottom, center_x - 3 : center_x + 4] = (165, 119, 56, 42)
     return pixels
 
 
 def _industrial_haze_pixels(width: int, height: int, seed: int) -> np.ndarray:
     rng = np.random.default_rng(seed)
     pixels = np.zeros((height, width, 4), dtype=np.uint8)
-    base_y = round(height * 0.72)
-    for column in range(0, width, 14):
-        building_width = int(rng.integers(6, 18))
-        building_height = int(rng.integers(10, 42))
-        top = max(8, base_y - building_height)
-        right = min(width, column + building_width)
-        pixels[top:base_y, column:right] = (24, 35, 42, 58)
-        if rng.random() > 0.45:
-            pixels[top : min(base_y, top + 2), column:right] = (173, 130, 62, 62)
-        if rng.random() > 0.70:
-            stack_x = min(width - 2, column + building_width // 2)
-            stack_top = max(6, top - int(rng.integers(4, 11)))
-            pixels[stack_top:top, stack_x : stack_x + 2] = (33, 31, 29, 58)
-            for puff in range(3):
-                puff_y = max(2, stack_top - 4 - puff * 5)
-                puff_x = max(0, min(width - 7, stack_x - 2 + puff * 2))
-                pixels[puff_y : puff_y + 4, puff_x : puff_x + 7] = (106, 122, 121, 34)
+    skyline_y = round(height * 0.72)
+    for cluster_x in range(-20, width, 74):
+        island_width = int(rng.integers(38, 68))
+        island_y = int(skyline_y + rng.integers(-9, 8))
+        left = max(0, cluster_x + int(rng.integers(-8, 9)))
+        right = min(width, left + island_width)
+        if right <= left:
+            continue
+
+        pixels[island_y : min(height, island_y + 3), left:right] = (167, 124, 58, 60)
+        pixels[min(height - 1, island_y + 3) : min(height, island_y + 8), left + 4 : right - 4] = (
+            20,
+            31,
+            38,
+            58,
+        )
+        for column in range(left + 6, max(left + 7, right - 8), 9):
+            building_width = int(rng.integers(5, 11))
+            building_height = int(rng.integers(12, 36))
+            top = max(7, island_y - building_height)
+            building_right = min(right, column + building_width)
+            pixels[top:island_y, column:building_right] = (24, 35, 42, 58)
+            if rng.random() > 0.50:
+                pixels[top : min(island_y, top + 2), column:building_right] = (
+                    173,
+                    130,
+                    62,
+                    62,
+                )
+            if rng.random() > 0.62:
+                stack_x = min(width - 2, column + building_width // 2)
+                stack_top = max(5, top - int(rng.integers(4, 12)))
+                pixels[stack_top:top, stack_x : stack_x + 2] = (33, 31, 29, 58)
+                for puff in range(3):
+                    puff_y = max(2, stack_top - 4 - puff * 5)
+                    puff_x = max(0, min(width - 7, stack_x - 2 + puff * 2))
+                    pixels[puff_y : puff_y + 4, puff_x : puff_x + 7] = (106, 122, 121, 34)
     return pixels
 
 

@@ -48,17 +48,17 @@ Primjerice, središnji stupac nema bočni otklon. Ako je smjer kamere `0`, njego
 rotacije za 90° isti stupac napreduje po osi `y`. Vizualni renderer koristi te koordinate
 kao indekse proceduralne teksture.
 
-## 5. Proceduralna tekstura terena
+## 5. Cloud tekstura terena
 
-`generate_terrain_texture()` stvara cijelu sliku kao NumPy matricu umjesto spremanja PNG
-datoteke. `np.meshgrid()` daje koordinate svih piksela odjednom, a nekoliko periodičnih
-sinusnih i kosinusnih funkcija iz njih gradi osnovno polje. Seed određuje faze funkcija,
-pa isti seed uvijek proizvodi jednaku teksturu.
+`load_terrain_texture()` prvo pokušava učitati projektni PNG asset
+`cloud_layer.png`. PyGame ga čita kao sliku, a `pygame.surfarray.array3d()` pretvara ga u
+NumPy matricu istog RGB formata koji koristi Mode7 renderer. Zato renderer ne mora znati
+je li tekstura došla iz datoteke ili iz proceduralnog fallbacka.
 
-Normalizirano polje pretvara se u RGB kanale. Maske zatim označavaju oblake, industrijske
-zone i mjedene linije. Svaka maska istodobno mijenja mnogo piksela; ne postoji Python
-petlja koja obrađuje jedan piksel po prolazu. Rezultat je matrica `uint8` istog formata
-koji očekuje slikovni prikaz.
+Ako PNG ne postoji ili se ne može učitati, `load_terrain_texture()` koristi
+`generate_terrain_texture()`. Taj fallback i dalje stvara cijelu sliku kao NumPy matricu:
+`np.meshgrid()` daje koordinate svih piksela odjednom, a periodične sinusne funkcije i
+maske stvaraju oblačni uzorak bez Python petlje po pojedinačnim pikselima.
 
 ## 6. Vizualni Mode7 renderer
 

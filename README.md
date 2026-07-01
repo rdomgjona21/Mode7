@@ -14,9 +14,9 @@ Projekt je u fazi igrive borbene probe. Dovršeni su:
 - osnovni PyGame prozor, glavna petlja i skaliranje interne slike;
 - kamera s upravljanjem, brzinom i omatanjem svijeta;
 - vektorizirana Mode7 projekcijska matematika;
-- proceduralni NumPy generator teksture terena;
+- generirani cloud PNG asset s proceduralnim fallbackom za Mode7 podlogu;
 - vizualni Mode7 renderer s nebom, horizontom i vektoriziranim uzorkovanjem terena;
-- proceduralni parallax sky slojevi integrirani iznad Mode7 horizonta;
+- proceduralni parallax sky slojevi s oblacima, balonima i lebdećom gradskom siluetom;
 - projekcija, skaliranje i dubinsko sortiranje budućih 2D objekata u svijetu;
 - proceduralni Victorian airship prikaz igračevog broda Kestrel;
 - konfiguracijska i testirana osnova projektila, kružnih sudara, zdravlja i neranjivosti;

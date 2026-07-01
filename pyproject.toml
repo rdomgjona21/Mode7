@@ -29,7 +29,13 @@ aetherfront = "aetherfront.main:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-aetherfront = ["data/*.json", "assets/**/*.csv", "assets/audio/**/*.mp3", "assets/audio/**/*.wav"]
+aetherfront = [
+  "data/*.json",
+  "assets/**/*.csv",
+  "assets/audio/**/*.mp3",
+  "assets/audio/**/*.wav",
+  "assets/images/**/*.png",
+]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

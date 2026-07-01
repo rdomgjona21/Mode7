@@ -47,15 +47,19 @@ Rezultat `ProjectionGrid` sadrži `screen_rows`, `world_x` i `world_y`. Matrice 
 imaju oblik 224×640 i koristi ih `Mode7Renderer` za NumPy uzorkovanje teksture. U
 izračunu nema Python petlje po pikselima.
 
-## Proceduralna tekstura terena
+## Cloud tekstura terena
 
-`generate_terrain_texture(size=512, seed=7)` vraća kontinuiranu NumPy RGB matricu tipa
-`uint8`. Periodične sinusne funkcije stvaraju olujno-plave zone, pragovi izdvajaju svjetlije
-oblake i tamnije industrijske površine, a modularna mreža dodaje mjedene navigacijske
-linije. Isti seed uvijek daje jednak rezultat, što olakšava ponovljive testove.
+`load_terrain_texture()` zadano učitava `assets/images/terrain/cloud_layer.png`, generirani
+fotorealistični cloud PNG asset. PyGame ga čita kao RGB površinu, a `pygame.surfarray` ga
+pretvara u kontinuiranu NumPy matricu tipa `uint8` koju Mode7 renderer može uzorkovati bez
+promjene projekcijske matematike. Tekstura je kvadratna i koristi svijetle dnevne
+kumulusne oblake, prirodne plave zračne praznine i mekane sjene kako bi podloga jasnije
+izgledala kao sloj oblaka ispod broda, a ne kao snijeg, led, voda ili kopno.
 
-Tekstura se generira u memoriji tijekom pokretanja i ne koristi vanjske slike, autore ni
-licence. Zbog toga nije potreban novi zapis u registru vanjskih resursa.
+`generate_terrain_texture(size=512, seed=7)` ostaje proceduralni fallback ako PNG asset ne
+postoji ili se ne može učitati. Fallback zadržava deterministički oblačni uzorak kako bi
+aplikacija i testovi ostali sigurni i bez asseta. Cloud PNG evidentiran je u oba asset
+manifesta i uključen u package-data konfiguraciju.
 
 ## Vizualni renderer
 
@@ -68,6 +72,10 @@ horizont.
 Metoda `sample_ground()` odvojena je od crtanja kako bi se rezultat uzorkovanja mogao
 automatizirano provjeriti. `draw()` prihvaća samo internu površinu 640×360, čime se
 sprječava tiho rastezanje ili rezanje projekcije.
+Prije prijenosa na PyGame površinu `Mode7Renderer` na najudaljenije retke tla primjenjuje
+svijetli atmosferski haze. Haze se postupno gasi prema donjem dijelu zaslona, pa ublažava
+perspektivno rastezanje teksture uz horizont bez zatamnjivanja fotorealistične cloud
+podloge, bliskih borbenih objekata ili same Mode7 projekcije.
 
 Na ciljanom M1 MacBook Airu izolirani 60-sekundni benchmark 20. lipnja 2026. izmjerio je
 159,3 FPS-a, čime je tehnički prag od najmanje 55 FPS-a ostvaren za trenutačni renderer.
@@ -79,7 +87,8 @@ Mjerenje će se ponoviti pri najvećem planiranom borbenom opterećenju.
 640×136, što odgovara području iznad horizonta. Slojevi su `far_clouds`,
 `industrial_haze` i `near_streaks`, a svaki ima vlastiti `scroll_factor` i `opacity` za
 kasniji sporiji pomak u odnosu na kameru. Modul ne koristi vanjske slike; oblici oblaka,
-silueta, dimnih plumeova i linija nastaju NumPyjem i PyGame površinama.
+udaljenih balona, lebdećih gradskih silueta, dimnih plumeova i linija nastaju NumPyjem i
+PyGame površinama.
 
 `Mode7Renderer._draw_parallax_sky()` prvo crta osnovnu gradaciju, zatim svaki sloj blita
 uz horizontalno omatanje. Pomak sloja računa se iz položaja kamere i smjera kamere, ali se
@@ -112,7 +121,7 @@ Prikaz je generiran kodom, pa nije dodan vanjski resurs ni zapis u licencne mani
 
 ## Borbena osnova
 
-`data/balance.json` trenutačno određuje 450 bodova zdravlja igrača, radijus sudara 18,
+`data/balance.json` trenutačno određuje 100 bodova zdravlja igrača, radijus sudara 18,
 neranjivost od 1,25 sekundi te zadani radijus 4 i trajanje 3 sekunde za projektile.
 `load_combat_balance()` učitava podatke paketnim putem i odbija nedostajuće objekte,
 nebrojčane, beskonačne ili nepozitivne vrijednosti.

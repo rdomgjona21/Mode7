@@ -238,7 +238,7 @@ def test_player_collects_repair_and_receives_score() -> None:
 
     session.update(0, camera)
 
-    assert session.player.health == 446
+    assert session.player.health == 96
     assert session.score == 75
     assert session.pickups == []
     assert session.repairs_collected == 1
@@ -343,7 +343,7 @@ def test_enemy_projectile_can_damage_player() -> None:
 
     session.update(0, camera)
 
-    assert session.player.health == 437
+    assert session.player.health == 87
     assert session.projectiles == []
     assert session.damage_taken == 13
     assert session.feedback.player_was_damaged

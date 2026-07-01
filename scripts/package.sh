@@ -53,4 +53,10 @@ if [[ -z "$menu_music_file" ]]; then
   exit 1
 fi
 
+cloud_texture_file="$(find dist/Aetherfront.app -path '*/aetherfront/assets/images/terrain/cloud_layer.png' -print -quit)"
+if [[ -z "$cloud_texture_file" ]]; then
+  echo "Packaging failed: cloud terrain texture is missing from the application bundle" >&2
+  exit 1
+fi
+
 echo "Created dist/Aetherfront.app"

@@ -1,6 +1,6 @@
 {
   "player": {
-    "max_health": 450,
+    "max_health": 100,
     "collision_radius": 18.0,
     "invulnerability_seconds": 1.25
   },
