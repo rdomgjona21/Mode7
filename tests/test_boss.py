@@ -1,3 +1,7 @@
+import math
+
+import pytest
+
 from aetherfront.gameplay.balance import load_combat_balance
 from aetherfront.gameplay.boss import BossPhase, DreadnoughtBoss
 from aetherfront.rendering.camera import Camera
@@ -47,3 +51,37 @@ def test_boss_can_be_destroyed_by_damage() -> None:
     assert boss.take_damage(1250)
     assert not boss.alive
     assert boss.phase is BossPhase.DESTROYED
+
+
+@pytest.mark.parametrize(
+    "field, value, message",
+    [
+        ("max_health", 0.0, "health"),
+        ("radius", 0.0, "radius"),
+        ("phase_two_threshold", 1.0, "threshold"),
+        ("projectile_speed", 0.0, "speed"),
+        ("heading", math.inf, "finite"),
+    ],
+)
+def test_boss_rejects_invalid_values(field: str, value: float, message: str) -> None:
+    balance = load_combat_balance().boss
+    values = {
+        "x": 100.0,
+        "y": 100.0,
+        "heading": 0.0,
+        "max_health": balance.max_health,
+        "radius": balance.collision_radius,
+        "score_value": balance.score_value,
+        "contact_damage": balance.contact_damage,
+        "phase_two_threshold": balance.phase_two_threshold,
+        "phase_one_cooldown_seconds": balance.phase_one_cooldown_seconds,
+        "phase_two_cooldown_seconds": balance.phase_two_cooldown_seconds,
+        "projectile_damage": balance.projectile_damage,
+        "projectile_speed": balance.projectile_speed,
+        "projectile_radius": balance.projectile_radius,
+        "projectile_lifetime_seconds": balance.projectile_lifetime_seconds,
+    }
+    values[field] = value
+
+    with pytest.raises(ValueError, match=message):
+        DreadnoughtBoss(**values)  # type: ignore[arg-type]

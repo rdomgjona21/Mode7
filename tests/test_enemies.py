@@ -1,5 +1,7 @@
 import math
 
+import pytest
+
 from aetherfront.gameplay.balance import load_combat_balance
 from aetherfront.gameplay.enemies import Enemy, EnemyKind
 
@@ -50,3 +52,37 @@ def test_enemy_projectile_respects_attack_cooldown() -> None:
     assert first.team == "enemy"
     assert first.kind == "enemy_heavy"
     assert second is None
+
+
+@pytest.mark.parametrize(
+    "field, value, message",
+    [
+        ("max_health", 0.0, "health"),
+        ("speed", 0.0, "speed"),
+        ("radius", 0.0, "radius"),
+        ("projectile_lifetime_seconds", 0.0, "lifetime"),
+        ("heading", math.inf, "finite"),
+    ],
+)
+def test_enemy_rejects_invalid_values(field: str, value: float, message: str) -> None:
+    balance = load_combat_balance().enemies["scout"]
+    values = {
+        "kind": EnemyKind.SCOUT,
+        "x": 100.0,
+        "y": 100.0,
+        "heading": 0.0,
+        "max_health": balance.max_health,
+        "speed": balance.speed,
+        "radius": balance.collision_radius,
+        "score_value": balance.score_value,
+        "contact_damage": balance.contact_damage,
+        "projectile_damage": balance.projectile_damage,
+        "attack_cooldown_seconds": balance.attack_cooldown_seconds,
+        "projectile_speed": balance.projectile_speed,
+        "projectile_radius": balance.projectile_radius,
+        "projectile_lifetime_seconds": balance.projectile_lifetime_seconds,
+    }
+    values[field] = value
+
+    with pytest.raises(ValueError, match=message):
+        Enemy(**values)  # type: ignore[arg-type]

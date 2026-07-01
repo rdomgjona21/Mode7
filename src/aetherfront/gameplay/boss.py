@@ -8,6 +8,11 @@ from aetherfront.config import WORLD_SIZE
 from aetherfront.gameplay.balance import BossBalance
 from aetherfront.gameplay.collisions import CircleBody, wrapped_axis_delta
 from aetherfront.gameplay.projectiles import Projectile
+from aetherfront.gameplay.validation import (
+    require_all_finite,
+    require_non_negative,
+    require_positive,
+)
 from aetherfront.rendering.camera import Camera
 
 BOSS_SPAWN_DISTANCE = 820.0
@@ -46,43 +51,33 @@ class DreadnoughtBoss:
 
     def __post_init__(self) -> None:
         """Provjeri osnovne vrijednosti prije uporabe u simulaciji."""
-        numeric_values = (
-            self.x,
-            self.y,
-            self.heading,
-            self.max_health,
-            self.radius,
-            self.contact_damage,
-            self.phase_two_threshold,
-            self.phase_one_cooldown_seconds,
-            self.phase_two_cooldown_seconds,
-            self.projectile_damage,
-            self.projectile_speed,
-            self.projectile_radius,
-            self.projectile_lifetime_seconds,
-            self.attack_cooldown_remaining,
+        require_all_finite(
+            (
+                ("boss x", self.x),
+                ("boss y", self.y),
+                ("boss heading", self.heading),
+                ("boss phase threshold", self.phase_two_threshold),
+                ("boss attack cooldown remaining", self.attack_cooldown_remaining),
+            )
         )
-        if not all(math.isfinite(value) for value in numeric_values):
-            raise ValueError("boss values must be finite")
-        if self.max_health <= 0 or self.radius <= 0:
-            raise ValueError("boss health and radius must be positive")
+        require_positive(self.max_health, "boss health")
+        require_positive(self.radius, "boss radius")
         if self.score_value <= 0:
             raise ValueError("boss score value must be positive")
-        if self.contact_damage <= 0 or self.projectile_damage <= 0:
-            raise ValueError("boss damage values must be positive")
+        require_positive(self.contact_damage, "boss contact damage")
+        require_positive(self.projectile_damage, "boss projectile damage")
         if not 0 < self.phase_two_threshold < 1:
             raise ValueError("boss phase threshold must be between 0 and 1")
-        if self.phase_one_cooldown_seconds <= 0 or self.phase_two_cooldown_seconds <= 0:
-            raise ValueError("boss cooldown values must be positive")
-        if self.projectile_speed <= 0 or self.projectile_radius <= 0:
-            raise ValueError("boss projectile speed and radius must be positive")
-        if self.projectile_lifetime_seconds <= 0:
-            raise ValueError("boss projectile lifetime must be positive")
+        require_positive(self.phase_one_cooldown_seconds, "boss phase one cooldown")
+        require_positive(self.phase_two_cooldown_seconds, "boss phase two cooldown")
+        require_positive(self.projectile_speed, "boss projectile speed")
+        require_positive(self.projectile_radius, "boss projectile radius")
+        require_positive(self.projectile_lifetime_seconds, "boss projectile lifetime")
         self.heading %= math.tau
         if self.health is None:
             self.health = self.max_health
-        elif not math.isfinite(self.health) or self.health < 0:
-            raise ValueError("boss health must be finite and non-negative")
+        else:
+            require_non_negative(self.health, "boss health")
         self.health = min(self.health, self.max_health)
 
     @classmethod

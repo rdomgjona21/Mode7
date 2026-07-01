@@ -8,6 +8,11 @@ from aetherfront.config import WORLD_SIZE
 from aetherfront.gameplay.balance import EnemyBalance
 from aetherfront.gameplay.collisions import CircleBody, wrapped_axis_delta
 from aetherfront.gameplay.projectiles import Projectile
+from aetherfront.gameplay.validation import (
+    require_all_finite,
+    require_non_negative,
+    require_positive,
+)
 
 
 class EnemyKind(StrEnum):
@@ -42,41 +47,31 @@ class Enemy:
 
     def __post_init__(self) -> None:
         """Odbij numerički neispravnog protivnika prije simulacije."""
-        numeric_values = (
-            self.x,
-            self.y,
-            self.heading,
-            self.max_health,
-            self.speed,
-            self.radius,
-            self.contact_damage,
-            self.projectile_damage,
-            self.attack_cooldown_seconds,
-            self.projectile_speed,
-            self.projectile_radius,
-            self.projectile_lifetime_seconds,
-            self.attack_cooldown_remaining,
-            self.strafe_phase,
+        require_all_finite(
+            (
+                ("enemy x", self.x),
+                ("enemy y", self.y),
+                ("enemy heading", self.heading),
+                ("enemy attack cooldown remaining", self.attack_cooldown_remaining),
+                ("enemy strafe phase", self.strafe_phase),
+            )
         )
-        if not all(math.isfinite(value) for value in numeric_values):
-            raise ValueError("enemy values must be finite")
-        if self.max_health <= 0 or self.speed <= 0 or self.radius <= 0:
-            raise ValueError("enemy health, speed and radius must be positive")
+        require_positive(self.max_health, "enemy health")
+        require_positive(self.speed, "enemy speed")
+        require_positive(self.radius, "enemy radius")
         if self.score_value <= 0:
             raise ValueError("enemy score value must be positive")
-        if self.contact_damage <= 0 or self.projectile_damage <= 0:
-            raise ValueError("enemy damage values must be positive")
-        if self.attack_cooldown_seconds <= 0:
-            raise ValueError("enemy attack cooldown must be positive")
-        if self.projectile_speed <= 0 or self.projectile_radius <= 0:
-            raise ValueError("enemy projectile speed and radius must be positive")
-        if self.projectile_lifetime_seconds <= 0:
-            raise ValueError("enemy projectile lifetime must be positive")
+        require_positive(self.contact_damage, "enemy contact damage")
+        require_positive(self.projectile_damage, "enemy projectile damage")
+        require_positive(self.attack_cooldown_seconds, "enemy attack cooldown")
+        require_positive(self.projectile_speed, "enemy projectile speed")
+        require_positive(self.projectile_radius, "enemy projectile radius")
+        require_positive(self.projectile_lifetime_seconds, "enemy projectile lifetime")
         self.heading %= math.tau
         if self.health is None:
             self.health = self.max_health
-        elif not math.isfinite(self.health) or self.health < 0:
-            raise ValueError("enemy health must be finite and non-negative")
+        else:
+            require_non_negative(self.health, "enemy health")
         self.health = min(self.health, self.max_health)
 
     @classmethod

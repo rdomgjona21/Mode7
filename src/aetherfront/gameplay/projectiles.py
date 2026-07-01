@@ -5,6 +5,12 @@ from dataclasses import dataclass
 
 from aetherfront.config import WORLD_SIZE
 from aetherfront.gameplay.collisions import CircleBody
+from aetherfront.gameplay.validation import (
+    require_all_finite,
+    require_non_negative,
+    require_positive,
+    require_text,
+)
 
 
 @dataclass(slots=True)
@@ -23,19 +29,19 @@ class Projectile:
 
     def __post_init__(self) -> None:
         """Provjeri vrijednosti potrebne za stabilnu simulaciju."""
-        numeric_values = (self.x, self.y, self.heading, self.speed, self.damage)
-        if not all(math.isfinite(value) for value in numeric_values):
-            raise ValueError("projectile values must be finite")
-        if self.speed < 0 or self.damage < 0:
-            raise ValueError("projectile speed and damage must be non-negative")
-        if not math.isfinite(self.radius) or self.radius <= 0:
-            raise ValueError("projectile radius must be positive and finite")
-        if not math.isfinite(self.lifetime_remaining) or self.lifetime_remaining <= 0:
-            raise ValueError("projectile lifetime must be positive and finite")
-        if not self.team:
-            raise ValueError("projectile team must not be empty")
-        if not self.kind:
-            raise ValueError("projectile kind must not be empty")
+        require_all_finite(
+            (
+                ("projectile x", self.x),
+                ("projectile y", self.y),
+                ("projectile heading", self.heading),
+            )
+        )
+        require_non_negative(self.speed, "projectile speed")
+        require_non_negative(self.damage, "projectile damage")
+        require_positive(self.radius, "projectile radius")
+        require_positive(self.lifetime_remaining, "projectile lifetime")
+        require_text(self.team, "projectile team")
+        require_text(self.kind, "projectile kind")
         self.heading %= math.tau
 
     @property

@@ -383,3 +383,18 @@
 - **Provjera:** pokrenuta je standardna validacija projekta.
 - **Resursi:** nisu dodani novi asseti.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 1. srpnja 2026. — cleanup Game.run i validation helperi
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** provesti zaseban cleanup prema code reviewu: smanjiti ugniježđenost
+  `Game.run()` i ukloniti ponavljanje validacijske logike u gameplay modelima.
+- **Utjecaj:** event handling je izdvojen u metode za main menu, instructions, pause i
+  playing/terminal stanja. Dodan je `GameRuntimeState` za promjenjivo stanje petlje.
+  Zajedničke provjere numeričkih vrijednosti premještene su u
+  `gameplay/validation.py`, a koriste ih `Projectile`, `Enemy` i `DreadnoughtBoss`.
+- **Provjera:** dodani su state-transition testovi i dodatni invalid-value testovi za
+  protivnike i bossa; `PATH=.venv/bin:$PATH ./scripts/validate.sh` prolazi sa 178
+  testova.
+- **Resursi:** nisu dodani novi asseti.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

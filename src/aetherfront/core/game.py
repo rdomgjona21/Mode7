@@ -1,5 +1,7 @@
 """Osnovna PyGame aplikacija i njezina glavna petlja."""
 
+from dataclasses import dataclass
+
 import pygame
 
 from aetherfront.audio.manager import AudioManager, MusicTrack, SoundEffect
@@ -36,6 +38,17 @@ from aetherfront.ui.menus import (
 )
 
 
+@dataclass(slots=True)
+class GameRuntimeState:
+    """Promjenjivo stanje aplikacije koje event handleri mogu ažurirati."""
+
+    app_state: AppState
+    camera: Camera
+    session: CombatSession
+    terminal_audio_played: str | None = None
+    running: bool = True
+
+
 class Game:
     """Upravlja prozorom, crtanjem i životnim ciklusom aplikacije."""
 
@@ -49,6 +62,126 @@ class Game:
         """Stvori svježu kameru i borbenu sesiju za novi pokušaj misije."""
         camera = Camera()
         return camera, CombatSession.create(camera)
+
+    @staticmethod
+    def _start_attempt(state: GameRuntimeState) -> None:
+        """Resetiraj kameru i borbu te prebaci aplikaciju u igranje."""
+        state.camera, state.session = Game._new_attempt()
+        state.terminal_audio_played = None
+        state.app_state = AppState.PLAYING
+
+    @staticmethod
+    def _return_to_menu(state: GameRuntimeState, audio: AudioManager) -> None:
+        """Vrati aplikaciju u menu s čistim pokušajem i ugašenom borbenom glazbom."""
+        state.camera, state.session = Game._new_attempt()
+        state.terminal_audio_played = None
+        audio.stop_music()
+        state.app_state = AppState.MAIN_MENU
+
+    @staticmethod
+    def _handle_menu_event(
+        event: pygame.event.Event,
+        state: GameRuntimeState,
+        audio: AudioManager,
+    ) -> None:
+        """Obradi tipke dostupne na glavnom izborniku."""
+        if event.key in (pygame.K_RETURN, pygame.K_SPACE):
+            audio.play(SoundEffect.MENU_SELECT)
+            Game._start_attempt(state)
+        elif event.key == pygame.K_i:
+            audio.play(SoundEffect.MENU_SELECT)
+            state.app_state = AppState.INSTRUCTIONS
+        elif event.key == pygame.K_ESCAPE:
+            state.running = False
+
+    @staticmethod
+    def _handle_instructions_event(
+        event: pygame.event.Event,
+        state: GameRuntimeState,
+        audio: AudioManager,
+    ) -> None:
+        """Obradi tipke na ekranu uputa."""
+        if event.key in (pygame.K_RETURN, pygame.K_SPACE):
+            audio.play(SoundEffect.MENU_SELECT)
+            Game._start_attempt(state)
+        elif event.key in (pygame.K_m, pygame.K_ESCAPE):
+            audio.play(SoundEffect.MENU_SELECT)
+            state.app_state = AppState.MAIN_MENU
+
+    @staticmethod
+    def _handle_pause_event(
+        event: pygame.event.Event,
+        state: GameRuntimeState,
+        audio: AudioManager,
+    ) -> None:
+        """Obradi tipke dok je pokušaj pauziran."""
+        if event.key == pygame.K_ESCAPE:
+            audio.play(SoundEffect.PAUSE)
+            audio.stop_music()
+            state.app_state = AppState.PLAYING
+        elif event.key == pygame.K_r:
+            audio.play(SoundEffect.MENU_SELECT)
+            Game._start_attempt(state)
+        elif event.key == pygame.K_m:
+            audio.play(SoundEffect.MENU_SELECT)
+            Game._return_to_menu(state, audio)
+
+    @staticmethod
+    def _handle_game_event(
+        event: pygame.event.Event,
+        state: GameRuntimeState,
+        audio: AudioManager,
+    ) -> None:
+        """Obradi tipke tijekom igranja i na terminalnom victory/game-over panelu."""
+        if state.session.victory or state.session.game_over:
+            if event.key == pygame.K_r:
+                audio.play(SoundEffect.MENU_SELECT)
+                Game._start_attempt(state)
+            elif event.key == pygame.K_m:
+                audio.play(SoundEffect.MENU_SELECT)
+                Game._return_to_menu(state, audio)
+            return
+
+        if event.key == pygame.K_ESCAPE:
+            audio.play(SoundEffect.PAUSE)
+            audio.stop_music()
+            state.app_state = AppState.PAUSED
+        elif event.key == pygame.K_1:
+            if state.session.weapons.primary is not PrimaryWeapon.CANNON:
+                audio.play(SoundEffect.WEAPON_READY)
+            state.session.select_primary(PrimaryWeapon.CANNON)
+        elif event.key == pygame.K_2:
+            if state.session.weapons.primary is not PrimaryWeapon.SPREAD:
+                audio.play(SoundEffect.WEAPON_READY)
+            state.session.select_primary(PrimaryWeapon.SPREAD)
+
+    @staticmethod
+    def _handle_keydown_event(
+        event: pygame.event.Event,
+        state: GameRuntimeState,
+        audio: AudioManager,
+    ) -> None:
+        """Usmjeri KEYDOWN događaj prema handleru trenutačnog aplikacijskog stanja."""
+        if state.app_state == AppState.MAIN_MENU:
+            Game._handle_menu_event(event, state, audio)
+        elif state.app_state == AppState.INSTRUCTIONS:
+            Game._handle_instructions_event(event, state, audio)
+        elif state.app_state == AppState.PAUSED:
+            Game._handle_pause_event(event, state, audio)
+        elif state.app_state == AppState.PLAYING:
+            Game._handle_game_event(event, state, audio)
+
+    @staticmethod
+    def _handle_pygame_event(
+        event: pygame.event.Event,
+        state: GameRuntimeState,
+        audio: AudioManager,
+    ) -> None:
+        """Obradi jedan PyGame event bez izravnog crtanja ili simulacije borbe."""
+        if event.type == pygame.QUIT:
+            state.running = False
+        elif event.type == pygame.KEYDOWN:
+            Game._handle_keydown_event(event, state, audio)
 
     @staticmethod
     def _draw_overlay(
@@ -219,8 +352,12 @@ class Game:
             camera = Camera()
             renderer = Mode7Renderer()
             billboard_projector = BillboardProjector()
-            app_state = AppState.MAIN_MENU
             camera, session = self._new_attempt()
+            state = GameRuntimeState(
+                app_state=AppState.MAIN_MENU,
+                camera=camera,
+                session=session,
+            )
             projectile_surfaces = create_projectile_surfaces()
             enemy_surfaces = create_enemy_surfaces()
             boss_surface = create_boss_surface()
@@ -228,79 +365,15 @@ class Game:
             player_surface = create_kestrel_surface()
             effects = EffectsState()
             audio = AudioManager.load()
-            terminal_audio_played: str | None = None
 
-            running = True
             frame_count = 0
-            while running:
+            while state.running:
                 # Delta time pretvara milisekunde protekle od zadnjeg framea u sekunde.
                 dt = clock.tick(TARGET_FPS) / 1000.0
 
                 # Operacijski sustav šalje događaj QUIT kada korisnik zatvori prozor.
                 for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        running = False
-                    elif event.type == pygame.KEYDOWN:
-                        if app_state == AppState.MAIN_MENU:
-                            if event.key in (pygame.K_RETURN, pygame.K_SPACE):
-                                audio.play(SoundEffect.MENU_SELECT)
-                                camera, session = self._new_attempt()
-                                terminal_audio_played = None
-                                app_state = AppState.PLAYING
-                            elif event.key == pygame.K_i:
-                                audio.play(SoundEffect.MENU_SELECT)
-                                app_state = AppState.INSTRUCTIONS
-                            elif event.key == pygame.K_ESCAPE:
-                                running = False
-                        elif app_state == AppState.INSTRUCTIONS:
-                            if event.key in (pygame.K_RETURN, pygame.K_SPACE):
-                                audio.play(SoundEffect.MENU_SELECT)
-                                camera, session = self._new_attempt()
-                                terminal_audio_played = None
-                                app_state = AppState.PLAYING
-                            elif event.key in (pygame.K_m, pygame.K_ESCAPE):
-                                audio.play(SoundEffect.MENU_SELECT)
-                                app_state = AppState.MAIN_MENU
-                        elif app_state == AppState.PAUSED:
-                            if event.key == pygame.K_ESCAPE:
-                                audio.play(SoundEffect.PAUSE)
-                                audio.stop_music()
-                                app_state = AppState.PLAYING
-                            elif event.key == pygame.K_r:
-                                audio.play(SoundEffect.MENU_SELECT)
-                                camera, session = self._new_attempt()
-                                terminal_audio_played = None
-                                app_state = AppState.PLAYING
-                            elif event.key == pygame.K_m:
-                                audio.play(SoundEffect.MENU_SELECT)
-                                camera, session = self._new_attempt()
-                                terminal_audio_played = None
-                                audio.stop_music()
-                                app_state = AppState.MAIN_MENU
-                        elif app_state == AppState.PLAYING:
-                            if session.victory or session.game_over:
-                                if event.key == pygame.K_r:
-                                    audio.play(SoundEffect.MENU_SELECT)
-                                    camera, session = self._new_attempt()
-                                    terminal_audio_played = None
-                                elif event.key == pygame.K_m:
-                                    audio.play(SoundEffect.MENU_SELECT)
-                                    camera, session = self._new_attempt()
-                                    terminal_audio_played = None
-                                    audio.stop_music()
-                                    app_state = AppState.MAIN_MENU
-                            elif event.key == pygame.K_ESCAPE:
-                                audio.play(SoundEffect.PAUSE)
-                                audio.stop_music()
-                                app_state = AppState.PAUSED
-                            elif event.key == pygame.K_1:
-                                if session.weapons.primary is not PrimaryWeapon.CANNON:
-                                    audio.play(SoundEffect.WEAPON_READY)
-                                session.select_primary(PrimaryWeapon.CANNON)
-                            elif event.key == pygame.K_2:
-                                if session.weapons.primary is not PrimaryWeapon.SPREAD:
-                                    audio.play(SoundEffect.WEAPON_READY)
-                                session.select_primary(PrimaryWeapon.SPREAD)
+                    self._handle_pygame_event(event, state, audio)
 
                 keys = pygame.key.get_pressed()
                 turn = self._axis(
@@ -311,48 +384,55 @@ class Game:
                     keys[pygame.K_w] or keys[pygame.K_UP],
                     keys[pygame.K_s] or keys[pygame.K_DOWN],
                 )
-                if app_state == AppState.PLAYING and not session.victory and not session.game_over:
-                    camera.update(dt, turn, throttle)
-                    session.update(
+                if (
+                    state.app_state == AppState.PLAYING
+                    and not state.session.victory
+                    and not state.session.game_over
+                ):
+                    state.camera.update(dt, turn, throttle)
+                    state.session.update(
                         dt,
-                        camera,
+                        state.camera,
                         fire_primary=keys[pygame.K_SPACE],
                         fire_rocket=keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT],
                     )
-                    for x, y in session.feedback.destroyed_positions:
+                    for x, y in state.session.feedback.destroyed_positions:
                         effects.add_explosion(x, y)
-                    for x, y in session.feedback.repair_collected_positions:
+                    for x, y in state.session.feedback.repair_collected_positions:
                         effects.add_repair_flash(x, y)
                     # `CombatFeedback` je most između gameplaya i prezentacijskog sloja:
                     # session odlučuje što se dogodilo, a Game samo pokreće efekte/zvuk.
-                    if session.feedback.boss_was_hit and session.boss is not None:
-                        effects.add_boss_spark(session.boss.x, session.boss.y)
-                    if session.feedback.player_was_damaged:
+                    if state.session.feedback.boss_was_hit and state.session.boss is not None:
+                        effects.add_boss_spark(state.session.boss.x, state.session.boss.y)
+                    if state.session.feedback.player_was_damaged:
                         effects.trigger_player_hit()
-                    if session.feedback.player_fired:
+                    if state.session.feedback.player_fired:
                         effects.trigger_muzzle_flash()
-                    audio.play_music(self._music_for_session(session))
-                    self._play_combat_audio(audio, session)
-                    if session.victory and terminal_audio_played != "victory":
+                    audio.play_music(self._music_for_session(state.session))
+                    self._play_combat_audio(audio, state.session)
+                    if state.session.victory and state.terminal_audio_played != "victory":
                         # Terminalni SFX smije se pokrenuti samo jednom po pokušaju.
                         audio.play_terminal(SoundEffect.VICTORY)
-                        terminal_audio_played = "victory"
-                    elif session.game_over and terminal_audio_played != "game_over":
+                        state.terminal_audio_played = "victory"
+                    elif (
+                        state.session.game_over
+                        and state.terminal_audio_played != "game_over"
+                    ):
                         # Isto vrijedi za game-over, inače bi se zvuk ponavljao svaki frame.
                         audio.play_terminal(SoundEffect.GAME_OVER)
-                        terminal_audio_played = "game_over"
+                        state.terminal_audio_played = "game_over"
                     effects.update(dt)
-                elif app_state in (AppState.MAIN_MENU, AppState.INSTRUCTIONS):
+                elif state.app_state in (AppState.MAIN_MENU, AppState.INSTRUCTIONS):
                     audio.play_music(MusicTrack.MENU)
 
                 # Mode7 renderer pretvara položaj i smjer kamere u perspektivnu ravninu.
                 self._draw_scene(
                     canvas,
                     hud_font,
-                    camera,
+                    state.camera,
                     renderer,
                     billboard_projector,
-                    session,
+                    state.session,
                     projectile_surfaces,
                     enemy_surfaces,
                     boss_surface,
@@ -361,7 +441,7 @@ class Game:
                     clock.get_fps(),
                     effects,
                 )
-                self._draw_overlay(canvas, font, app_state, session)
+                self._draw_overlay(canvas, font, state.app_state, state.session)
 
                 # Interna slika povećava se na prozor, a flip prikazuje dovršeni frame.
                 pygame.transform.scale(canvas, WINDOW_SIZE, window)
@@ -369,7 +449,7 @@ class Game:
 
                 frame_count += 1
                 if max_frames is not None and frame_count >= max_frames:
-                    running = False
+                    state.running = False
         finally:
             # ``finally`` se izvodi i nakon pogreške, pa PyGame ne ostavlja aktivan prozor.
             pygame.quit()
