@@ -299,7 +299,9 @@ automatiziranim testovima. U normalnom pokretanju aplikacija radi do zatvaranja 
 `package.sh` prvo izvodi Ruff i Pytest, zatim gradi prozorsku aplikaciju s identifikatorom
 `hr.foi.aetherfront`. PyInstallerova konfiguracija i cache usmjereni su u ignoriranu mapu
 `tmp/`, a skripta završava pogreškom ako izvršna datoteka ili paketni `balance.json`
-ili `waves.json` ili osnovni SFX asset unutar `.app` paketa ne postoje.
+ili `waves.json` ili osnovni SFX asset unutar `.app` paketa ne postoje. Nakon uspješnog
+`.app` builda skripta izrađuje `dist/Aetherfront-Zeppelin-Wars-macOS.zip`, raspakirava ga
+u privremenu mapu i provjerava da raspakirani ZIP sadrži izvršnu aplikaciju.
 Rani ARM64 paket 22. lipnja uspješno je izgrađen, ostao aktivan u headless smoke testu i
 stvarno se otvorio i zatvorio u macOS-u.
 
@@ -309,6 +311,6 @@ kratku poruku bez Python tracebacka.
 
 ## Sljedeći tehnički korak
 
-Sljedeća zasebna cjelina je završno paketiranje: ponoviti `.app` build, izraditi release
-ZIP, raspakirati ga u čistu mapu i potvrditi da aplikacija radi iz raspakiranog paketa.
-Prezentacija se izrađuje naknadno prema korisnikovoj odluci.
+Završno paketiranje i ZIP smoke test provedeni su 2. srpnja 2026. Sljedeća zasebna cjelina
+su završni PDF dokumenti ako su potrebni za predaju. Prezentacija se izrađuje naknadno
+prema korisnikovoj odluci.

@@ -3,7 +3,7 @@
 **Projekt:** Aetherfront: Zeppelin Wars  
 **Datum:** 2. srpnja 2026.  
 **Commit provjere:** `58e9649`  
-**Status:** release kandidat; package/ZIP provjera slijedi u zasebnom završnom commitu
+**Status:** release kandidat; package/ZIP provjera završena, PDF i prezentacija ostaju zasebni završni materijali
 
 ## Automatizirane provjere
 
@@ -14,6 +14,8 @@
 | Testovi pokrivaju osnovni state flow | Prolazi | `tests/test_game.py`, `tests/test_states.py`, `tests/test_session.py` |
 | Testovi pokrivaju Mode7, sudare, oružja, valove i bossa | Prolazi | `tests/test_mode7.py`, `tests/test_collisions.py`, `tests/test_weapons.py`, `tests/test_waves.py`, `tests/test_boss.py` |
 | Asset manifesti i audio/image resursi se provjeravaju | Prolazi | `tests/test_audio.py`, `tests/test_terrain.py` |
+| macOS `.app` build prolazi | Prolazi | `PATH=.venv/bin:$PATH ./scripts/package.sh` |
+| Release ZIP nastaje | Prolazi | `dist/Aetherfront-Zeppelin-Wars-macOS.zip`, približno 29 MB |
 
 ## Ručne provjere
 
@@ -32,10 +34,19 @@
 | SFX i glazba | Prolazi | Oružja, UI, repair, boss i glazbeni loopovi su čujni. |
 | Pet i više ručnih sesija bez neobrađene iznimke | Prolazi | Autor je potvrdio 2. srpnja 2026. |
 
+## Package/ZIP smoke test
+
+| Kriterij | Status | Napomena |
+|---|---|---|
+| `.app` executable postoji | Prolazi | `Aetherfront.app/Contents/MacOS/Aetherfront` je izvršan. |
+| ZIP se može raspakirati u čistu mapu | Prolazi | Testirano u `/tmp/aetherfront_zip_test.*`. |
+| Raspakirani paket sadrži konfiguraciju | Prolazi | `balance.json` je pronađen u bundleu. |
+| Raspakirani paket sadrži glazbu | Prolazi | `assets/audio/music/menu.wav` je pronađen u bundleu. |
+| Raspakirani paket sadrži cloud texture asset | Prolazi | `assets/images/terrain/cloud_layer.png` je pronađen u bundleu. |
+| Raspakirani executable ne pada odmah | Prolazi | Pokrenut 3 sekunde s dummy SDL video/audio driverima i zaustavljen bez ranog pada. |
+
 ## Stavke koje još treba zatvoriti prije konačne predaje
 
-- Napraviti završni `.app` build.
-- Napraviti release ZIP.
-- Raspakirati ZIP u čistu mapu i pokrenuti aplikaciju.
 - Ažurirati dokumentaciju rezultatima package/ZIP provjere.
+- Izvesti završne PDF dokumente ako su potrebni za predaju.
 - Prezentaciju izraditi naknadno prema posebnoj odluci.

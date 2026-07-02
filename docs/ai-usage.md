@@ -487,3 +487,20 @@
 - **Resursi:** nisu dodani novi asseti.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj; detaljni
   score/damage brojevi nisu izmišljeni jer nisu zabilježeni tijekom ručnih sesija.
+
+## 2. srpnja 2026. — završno paketiranje i ZIP smoke test
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** zatvoriti release package zahtjev kroz ponovljiv `.app` build, release ZIP i
+  smoke test iz čiste raspakirane mape.
+- **Utjecaj:** `scripts/package.sh` sada nakon PyInstaller `.app` builda izrađuje
+  `dist/Aetherfront-Zeppelin-Wars-macOS.zip` i provjerava da se ZIP može raspakirati te da
+  sadrži izvršnu aplikaciju. Ažurirani su README, tehnička dokumentacija, testing report i
+  završni acceptance checklist.
+- **Provjera:** `PATH=.venv/bin:$PATH ./scripts/package.sh` prošao je validaciju s 190
+  testova, izradio `dist/Aetherfront.app` i ZIP od približno 29 MB. ZIP je dodatno
+  raspakiran u `/tmp/aetherfront_zip_test.*`; potvrđeni su executable, `balance.json`,
+  `menu.wav` i `cloud_layer.png`, a raspakirani executable radio je 3 sekunde s dummy SDL
+  video/audio driverima bez ranog pada.
+- **Resursi:** nisu dodani novi asseti.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

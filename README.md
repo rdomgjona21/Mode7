@@ -45,8 +45,8 @@ redovna vala, boss susret, pobjedu i game-over stanje. Aplikacija ima tok od gla
 izbornika do završetka pokušaja. Parallax sky slojevi sada se suptilno pomiču sporije od
 kamere iznad horizonta. Prvi završni balance pass, minimalistički steampunk HUD, zvučni
 efekti i glazbena podloga su implementirani. Autor je 2. srpnja 2026. potvrdio više od
-pet ručnih sesija bez neobrađene iznimke. Završni distribucijski ZIP i prezentacija još
-nisu zatvoreni u repozitoriju.
+pet ručnih sesija bez neobrađene iznimke. Završni `.app` i distribucijski ZIP izrađeni su
+i provjereni smoke testom; prezentacija se izrađuje naknadno.
 
 Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored zaprimljeno je i
 evidentirano 22. lipnja 2026.
@@ -78,12 +78,14 @@ Izolirano 60-sekundno mjerenje Mode7 renderera pokreće se naredbom:
 python scripts/benchmark_mode7.py --duration 60 --minimum 55
 ```
 
-Rana macOS aplikacija izrađuje se u ignoriranoj mapi `dist/`:
+macOS aplikacija i release ZIP izrađuju se u ignoriranoj mapi `dist/`:
 
 ```bash
 ./scripts/package.sh
 open dist/Aetherfront.app
 ```
+
+Release ZIP nastaje kao `dist/Aetherfront-Zeppelin-Wars-macOS.zip`.
 
 ## Dokumentacija
 

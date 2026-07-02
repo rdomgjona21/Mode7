@@ -105,8 +105,11 @@ Sažetak ručnih provjera:
 
 ## 6. Otvorene stavke
 
-- Ponoviti završno paketiranje.
-- Izraditi release ZIP.
-- Provjeriti pokretanje aplikacije iz čistog raspakiranog ZIP-a.
+- Završno paketiranje 2. srpnja 2026. prošlo je kroz `PATH=.venv/bin:$PATH ./scripts/package.sh`.
+- Izrađen je `dist/Aetherfront-Zeppelin-Wars-macOS.zip` veličine približno 29 MB.
+- ZIP je raspakiran u čistu privremenu mapu i potvrđeno je da sadrži izvršnu
+  `Aetherfront.app` aplikaciju, `balance.json`, menu glazbu i cloud texture asset.
+- Raspakirani executable pokrenut je s dummy SDL video/audio driverima i nije završio
+  greškom tijekom kratkog smoke testa.
 - Izvesti završne PDF dokumente ako vrijeme i lokalni alati dopuštaju.
 - Prezentacija se izrađuje naknadno prema korisnikovoj odluci i nije dio ovog commita.

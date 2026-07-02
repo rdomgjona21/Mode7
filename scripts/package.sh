@@ -59,4 +59,20 @@ if [[ -z "$cloud_texture_file" ]]; then
   exit 1
 fi
 
+zip_file="dist/Aetherfront-Zeppelin-Wars-macOS.zip"
+rm -f "$zip_file"
+ditto -c -k --keepParent dist/Aetherfront.app "$zip_file"
+if [[ ! -s "$zip_file" ]]; then
+  echo "Packaging failed: expected release ZIP is missing or empty: $zip_file" >&2
+  exit 1
+fi
+
+zip_smoke_dir="$(mktemp -d "${TMPDIR:-/tmp}/aetherfront_zip_smoke.XXXXXX")"
+ditto -x -k "$zip_file" "$zip_smoke_dir"
+if [[ ! -x "$zip_smoke_dir/Aetherfront.app/Contents/MacOS/Aetherfront" ]]; then
+  echo "Packaging failed: extracted ZIP does not contain a runnable app" >&2
+  exit 1
+fi
+
 echo "Created dist/Aetherfront.app"
+echo "Created $zip_file"
