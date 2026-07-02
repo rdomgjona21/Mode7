@@ -123,7 +123,9 @@ ispred kamere i bočni pomak, pa se svaki val pojavljuje u odnosu na smjer kojim
 `DreadnoughtBoss` opisuje ISS Goliath nakon završetka valova. Boss ima vlastito zdravlje,
 radijus sudara, dvije faze, cooldown i burst paljbu. Faza se ne sprema ručno, nego se
 računa iz preostalog zdravlja: iznad 50 % je prva faza, a na 50 % ili manje počinje druga
-faza s pet projektila i kraćim hlađenjem.
+faza s pet projektila i kraćim hlađenjem. `CombatSession` dodatno prati je li već dodijeljen
+boss-critical repair; kada Goliath u drugoj fazi prvi put padne na 20 % zdravlja ili manje,
+igrač dobiva 50 HP-a do maksimalnog dopuštenog zdravlja.
 
 `CombatSession` je središte borbene probe. Ažurira `WaveDirector`, projektile, protivnike,
 njihove napade, boss susret, sudare igrača i neprijatelja, nastanak popravaka i bodove.
@@ -275,9 +277,9 @@ feedback aktivirali čim igrač uđe u područje velikog perspektivnog plusa. Re
 efekti, audio manager i menu paneli uglavnom samo čitaju podatke i prikazuju ih.
 
 Trenutačno rade tri oružja, tri standardna protivnika, tri vala, repair pickup, score, ISS
-Goliath s dvije faze, boss health bar, glavni izbornik, upute, pauza, restart flow,
-suptilne eksplozije, repair flash, boss spark, muzzle flash, damage marker, `VICTORY` i
-`GAME OVER`. Kestrel, protivnici, Goliath i repair ćelija imaju proceduralni Victorian
+Goliath s dvije faze, jednokratni hitni popravak na 20 % boss healtha u fazi 2, boss health
+bar, glavni izbornik, upute, pauza, restart flow, suptilne eksplozije, repair flash, boss
+spark, muzzle flash, damage marker, `VICTORY` i `GAME OVER`. Kestrel, protivnici, Goliath i repair ćelija imaju proceduralni Victorian
 airship polish, industrijski sky sloj ima dodatne dimne plumeove, a HUD koristi gornju
 horizontalnu minimalističku steampunk traku s mjedenim rubovima i segmentiranim barovima.
 ElevenLabs SFX pokriva oružja, protivnike, bossa, repair, UI i terminalna stanja.

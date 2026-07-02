@@ -457,3 +457,18 @@
 - **Resursi:** `cloud_layer.png` ostaje OpenAI generirani projektni image asset, a oba
   asset manifesta ažurirana su opisom finalne svjetlije fotorealistične varijante.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 1. srpnja 2026. — boss-critical hitni popravak
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** dodati jednokratni health bonus u završnicu boss faze 2 prema korisničkom
+  zahtjevu.
+- **Utjecaj:** `CombatSession` sada dodjeljuje igraču 50 HP-a kada ISS Goliath u drugoj
+  fazi prvi put padne na 20 % zdravlja ili manje. Bonus koristi postojeći
+  `PlayerCombatState.heal()` pa ne može prijeći maksimalnih 100 HP-a i zaštićen je flagom
+  `boss_critical_repair_awarded` kako se ne bi aktivirao više puta. Valovi, boss napadi,
+  oružja, zvuk, vizuali i HUD logika nisu mijenjani.
+- **Provjera:** dodani su testovi za aktivaciju bonusa, ograničenje na maksimalni health i
+  jednokratnu dodjelu; pokrenuta je standardna validacija projekta.
+- **Resursi:** nisu dodani novi asseti.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

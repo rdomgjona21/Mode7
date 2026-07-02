@@ -160,13 +160,18 @@ pokreće kratku stanku i zatim prelazi na sljedeći val. Nakon trećeg vala post
 vala, ima 1.250 HP, velik radijus sudara i dvije faze. Prva faza koristi burst od tri
 projektila i hlađenje od 0,86 s, a druga počinje na 50 % zdravlja, koristi burst od pet
 projektila i hlađenje od 0,50 s. Boss se održava u prednjem sektoru kako ga igrač ne bi
-nenamjerno prošao i izgubio iz vidljivog borbenog prostora.
+nenamjerno prošao i izgubio iz vidljivog borbenog prostora. Kada Goliath u drugoj fazi
+prvi put padne na 20 % zdravlja ili manje, `CombatSession` dodjeljuje igraču jednokratni
+hitni popravak od 50 HP-a, pri čemu `PlayerCombatState.heal()` i dalje ograničava zdravlje
+na maksimum.
 
 `CombatSession` jednom po frameu povezuje ulaze, projektile, `WaveDirector`, neprijatelje,
 kružne sudare, boss susret, repair pickup, zdravlje igrača i bodove. Igračevi projektili
 uništavaju protivnike i odmah dodaju njihove bodove; uništeni protivnik ostavlja popravak
 koji vraća do 36 HP-a, dodaje 75 bodova i nestaje nakon 12 sekundi. Uništenje bossa dodaje
 5.000 bodova i postavlja `victory`, dok zdravlje igrača na nuli postavlja `game_over`.
+Poseban flag `boss_critical_repair_awarded` sprječava da se boss-critical popravak na
+20 % zdravlja ponovi više puta u istom pokušaju.
 Nakon terminalnog stanja borbena simulacija i kamera se zaustavljaju, a prozor se i dalje
 može zatvoriti.
 

@@ -1,5 +1,6 @@
 import pytest
 
+from aetherfront.gameplay.boss import DreadnoughtBoss
 from aetherfront.gameplay.collisions import wrapped_axis_delta
 from aetherfront.gameplay.pickups import RepairPickup
 from aetherfront.gameplay.projectiles import Projectile
@@ -144,6 +145,81 @@ def test_boss_receives_player_projectile_damage_after_waves() -> None:
     assert boss.health == 625
     assert boss.phase_label == "PHASE 2"
     assert session.feedback.boss_was_hit
+
+
+def test_boss_critical_health_awards_player_repair_once() -> None:
+    camera = Camera()
+    session = CombatSession.create(camera)
+    session.enemies = []
+    session.boss = session.boss or DreadnoughtBoss.spawn_ahead(camera, session.balance.boss)
+    boss = session.boss
+    boss.health = boss.max_health * 0.24
+    session.player.take_damage(70)
+    session.projectiles.append(
+        Projectile(
+            x=boss.x,
+            y=boss.y,
+            heading=0,
+            speed=0,
+            damage=boss.max_health * 0.05,
+            radius=4,
+            lifetime_remaining=3,
+            team="player",
+            kind="rocket",
+        )
+    )
+
+    session.update(0.0, camera)
+
+    assert boss.health == pytest.approx(boss.max_health * 0.19)
+    assert session.player.health == 80
+    assert session.boss_critical_repair_awarded
+
+    session.projectiles.append(
+        Projectile(
+            x=boss.x,
+            y=boss.y,
+            heading=0,
+            speed=0,
+            damage=1,
+            radius=4,
+            lifetime_remaining=3,
+            team="player",
+            kind="cannon",
+        )
+    )
+    session.update(0.0, camera)
+
+    assert session.player.health == 80
+
+
+def test_boss_critical_repair_is_capped_at_player_max_health() -> None:
+    camera = Camera()
+    session = CombatSession.create(camera)
+    session.enemies = []
+    session.boss = session.boss or DreadnoughtBoss.spawn_ahead(camera, session.balance.boss)
+    boss = session.boss
+    boss.health = boss.max_health * 0.21
+    session.player.take_damage(15)
+    session.projectiles.append(
+        Projectile(
+            x=boss.x,
+            y=boss.y,
+            heading=0,
+            speed=0,
+            damage=boss.max_health * 0.02,
+            radius=4,
+            lifetime_remaining=3,
+            team="player",
+            kind="rocket",
+        )
+    )
+
+    session.update(0.0, camera)
+
+    assert boss.health == pytest.approx(boss.max_health * 0.19)
+    assert session.player.health == session.player.max_health
+    assert session.boss_critical_repair_awarded
 
 
 def test_destroyed_boss_awards_score_and_sets_victory() -> None:

@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 
 from aetherfront.config import WORLD_SIZE
 from aetherfront.gameplay.balance import CombatBalance, load_combat_balance
-from aetherfront.gameplay.boss import DreadnoughtBoss
+from aetherfront.gameplay.boss import BossPhase, DreadnoughtBoss
 from aetherfront.gameplay.collisions import CircleBody, circles_overlap, wrapped_axis_delta
 from aetherfront.gameplay.enemies import Enemy
 from aetherfront.gameplay.pickups import RepairPickup
@@ -22,6 +22,8 @@ RECYCLED_ENEMY_COOLDOWN_SECONDS = 0.8
 # Pickup sprite se u Mode7 perspektivi vidi znatno veći od osnovnog collision radiusa.
 # Zato collect radius mora odgovarati vizualnom dojmu, a ne samo matematičkom sidrištu.
 REPAIR_COLLECTION_RADIUS_MULTIPLIER = 10.5
+BOSS_CRITICAL_REPAIR_THRESHOLD = 0.20
+BOSS_CRITICAL_REPAIR_HEAL = 50.0
 
 
 @dataclass(slots=True)
@@ -73,6 +75,7 @@ class CombatSession:
     victory: bool = False
     game_over: bool = False
     boss_score_awarded: bool = False
+    boss_critical_repair_awarded: bool = False
     feedback: CombatFeedback = field(default_factory=CombatFeedback)
 
     @classmethod
@@ -191,6 +194,22 @@ class CombatSession:
                     boss_destroyed = True
         self.projectiles = [projectile for projectile in self.projectiles if projectile.active]
         return boss_was_hit, boss_destroyed
+
+    def _award_boss_critical_repair(self) -> None:
+        """Jednom obnovi dio trupa kada faza 2 padne na kritičnih 20 %."""
+        if self.boss_critical_repair_awarded or self.boss is None or not self.boss.alive:
+            return
+        if self.boss.phase is not BossPhase.PHASE_TWO:
+            return
+        if self.boss.health is None:
+            return
+        if self.boss.health > self.boss.max_health * BOSS_CRITICAL_REPAIR_THRESHOLD:
+            return
+
+        # Bonus je namjerno odvojen od običnog pickupa: ne stvara novi objekt u svijetu,
+        # nego daje kratku pomoć za završnicu borbe kada je Goliath već ozbiljno oštećen.
+        self.player.heal(BOSS_CRITICAL_REPAIR_HEAL)
+        self.boss_critical_repair_awarded = True
 
     def _update_enemies(self, dt: float, camera: Camera) -> set[str]:
         fired_kinds: set[str] = set()
@@ -370,6 +389,7 @@ class CombatSession:
         self._update_projectiles(dt)
         self.feedback.destroyed_positions = self._hit_enemies()
         self.feedback.boss_was_hit, self.feedback.boss_destroyed = self._hit_boss()
+        self._award_boss_critical_repair()
         self.feedback.player_was_damaged = self._hit_player(camera)
         self._update_terminal_state()
 

@@ -83,7 +83,7 @@ Kestrel počinje sa 100 bodova trupa i 1,25 sekundi neranjivosti nakon pogotka. 
 | Spread gun | Blizina i više ciljeva | 10 × 3 | 0,34 s | Tri cijan projektila pod ±0,16 rad |
 | Rocket | Velika trenutna šteta | 48 | 1,15 s | Jedna sporija velika raketa |
 
-Uništeni protivnici donose 120–420 bodova, a šef 5.000. Popravak vraća 36 bodova trupa i daje 75 bodova te nestaje nakon ograničenog vremena.
+Uništeni protivnici donose 120–420 bodova, a šef 5.000. Popravak vraća 36 bodova trupa i daje 75 bodova te nestaje nakon ograničenog vremena. U završnici boss borbe, kada Goliath u drugoj fazi prvi put padne na 20 % trupa ili manje, Kestrel automatski dobiva jednokratni hitni popravak od 50 HP-a, ograničen maksimalnim zdravljem igrača.
 
 ## 7. Protivnici, valovi i šef
 
@@ -95,7 +95,7 @@ Uništeni protivnici donose 120–420 bodova, a šef 5.000. Popravak vraća 36 b
 
 Prvi val uvodi šest scoutova. Drugi kombinira pet scoutova i tri gunshipa. Treći donosi pet scoutova, četiri gunshipa i dva bombera. Između očišćenih valova postoji kratka stanka.
 
-**Imperial Dreadnought** ima 900 bodova trupa. U prvoj fazi puca u nizu od tri projektila. Na 50 % trupa započinje druga faza: interval paljbe pada s 0,78 na 0,42 sekunde, niz se širi na pet projektila, a periodično dolaze scoutovi. Velik oblik, zasebna traka zdravlja, upozorenje i završno podrhtavanje jasno komuniciraju stanje šefa.
+**Imperial Dreadnought** ima 1.250 bodova trupa. U prvoj fazi puca u nizu od tri projektila. Na 50 % trupa započinje druga faza: interval paljbe pada s 0,86 na 0,50 sekundi, niz se širi na pet projektila, a periodično dolaze scoutovi. Na 20 % trupa u drugoj fazi aktivira se jednokratni hitni popravak igrača od 50 HP-a. Velik oblik, zasebna traka zdravlja, upozorenje i završno podrhtavanje jasno komuniciraju stanje šefa.
 
 ## 8. Sučelje i stanja igre
 
@@ -178,7 +178,8 @@ Proceduralna ravnina neprekidno se omata, pa igrač ne može napustiti borbeni p
 - Cilj i kontrole razumljivi su bez vanjskih uputa.
 - Svako oružje, protivnik, popravak i faza šefa pojavljuju se u uobičajenoj sesiji.
 - Trenutačni prvi završni balance pass koristi 100 HP igrača, 1,25 s neranjivosti,
-  jači repair pickup od 36 HP-a, malo sporije valove i izdržljivijeg Goliatha od 1.250 HP.
+  jači repair pickup od 36 HP-a, jednokratni boss-critical repair od 50 HP-a na 20 %
+  Goliathova zdravlja u fazi 2, malo sporije valove i izdržljivijeg Goliatha od 1.250 HP.
 
 ## 13. Razvoj, proračun i objava
 
@@ -236,3 +237,4 @@ Generativni AI trenutačno se koristi prema FOI razini 4 za planiranje, struktur
 | 1.15 | 27. 6. 2026. | Robert Domgjonaj | Evidentirana integracija ElevenLabs zvučnih efekata |
 | 1.16 | 27. 6. 2026. | Robert Domgjonaj | Evidentirana proceduralna glazba za menu, valove i boss faze |
 | 1.17 | 1. 7. 2026. | Robert Domgjonaj | Evidentirana generirana cloud podloga i pojačani parallax dojam letenja |
+| 1.18 | 1. 7. 2026. | Robert Domgjonaj | Evidentiran jednokratni hitni popravak u završnici boss faze 2 |
