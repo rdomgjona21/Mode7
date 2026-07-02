@@ -285,5 +285,7 @@ horizontalnu minimalističku steampunk traku s mjedenim rubovima i segmentiranim
 ElevenLabs SFX pokriva oružja, protivnike, bossa, repair, UI i terminalna stanja.
 Generirana WAV glazba sada ima zasebne loopove za menu, tri vala i dvije boss faze, a `Game`
 automatski mijenja temu prema trenutačnom valu ili boss fazi. Prvi završni balance pass je
-primijenjen kroz `balance.json` i `waves.json`, ali još nedostaju ručni playtestovi za
-fino balansiranje, završni dokumenti, prezentacija i release ZIP.
+primijenjen kroz `balance.json` i `waves.json`. Autor je 2. srpnja 2026. potvrdio pet i
+više ručnih sesija bez neobrađene iznimke, završni hrvatski dokumenti izvezeni su u PDF,
+a `./scripts/package.sh` izrađuje i provjerava release ZIP. Prezentacija se izrađuje
+naknadno prema korisnikovoj odluci.

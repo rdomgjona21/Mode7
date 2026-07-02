@@ -384,6 +384,20 @@
 - **Resursi:** nisu dodani novi asseti.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
 
+## 2. srpnja 2026. — usklađivanje završnog statusa dokumentacije
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** usporediti trenutno stanje projekta s početnim P5 ciljevima i uskladiti
+  završne dokumente s dokazima: validacijom, benchmarkom, package skriptom, ZIP smoke
+  testom, PDF izvozom i korisnikovom odlukom da se prezentacija izrađuje naknadno.
+- **Utjecaj:** ažurirani su GDD, projektni plan, operativni plan, tehnička dokumentacija,
+  vodič kroz kod, izvještaj o testiranju i završni kontrolni popis prihvata. Izmjena ne
+  mijenja gameplay, balans, kontrole, audio, assete ni release skriptu.
+- **Provjera:** `PATH=.venv/bin:$PATH ./scripts/validate.sh`, 12-sekundni Mode7 benchmark
+  od 156,4 FPS-a uz prag 55 FPS-a i `PATH=.venv/bin:$PATH ./scripts/package.sh`.
+- **Resursi:** nisu dodani novi asseti.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
 ## 1. srpnja 2026. — cleanup Game.run i validation helperi
 
 - **Alat:** OpenAI Codex.

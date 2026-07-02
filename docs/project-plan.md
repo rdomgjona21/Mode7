@@ -31,7 +31,7 @@ Cilj je izraditi stabilnu, samostalnu macOS igru na engleskom jeziku pod nazivom
 4. Uključiti upute, pauzu, poraz, pobjedu, HUD, zvuk, glazbu, čestice i jasnu povratnu informaciju sudara bez agresivnog podrhtavanja zaslona.
 5. Proći automatizirane provjere prikaza, sudara, oružja, valova i licenci resursa.
 6. Završiti pet uzastopnih ručnih igranja bez neobrađene iznimke.
-7. Predati izvorni kod, macOS ZIP, projektni plan, GDD, tehničku dokumentaciju, izvještaj o testiranju, prezentaciju, evidenciju resursa i izjavu o uporabi AI-ja.
+7. Predati izvorni kod, macOS ZIP, projektni plan, GDD, tehničku dokumentaciju, izvještaj o testiranju, evidenciju resursa i izjavu o uporabi AI-ja; prezentacija se izrađuje naknadno prema korisnikovoj odluci.
 
 ## 3. Opseg
 
@@ -43,7 +43,7 @@ Cilj je izraditi stabilnu, samostalnu macOS igru na engleskom jeziku pod nazivom
 - Protivnici scout, gunship i bomber te tri skriptirana vala.
 - Zdravlje, popravci, bodovi, vremena hlađenja, sudari i povratne informacije.
 - Glavni izbornik, upute, pauza, poraz, pobjeda, HUD i zvuk.
-- macOS `.app` i ZIP, dokumentacija, testovi i prezentacija.
+- macOS `.app` i ZIP, dokumentacija, testovi i naknadna prezentacija.
 
 ### Isključeno
 
@@ -59,7 +59,7 @@ Višeigrački način, proceduralno stvaranje razina, više razina, spremanje, mr
 | 4 | Sadržaj i napredovanje | Tri vrste protivnika, tri vala, dvije faze šefa | Cjelovito igranje do pobjede | 12 |
 | 5 | Sučelje i dorada | HUD, izbornici, zvuk, čestice, povratne informacije | Popis funkcionalnosti | 8 |
 | 6 | Testiranje i balans | Pet igranja, popravci i balansiranje | Dnevnik testiranja | 8 |
-| 7 | Izdanje i dokumentacija | `.app`, ZIP, PDF-ovi, PPTX, licence, AI evidencija | Provjera čistog izdanja | 8 |
+| 7 | Izdanje i dokumentacija | `.app`, ZIP, PDF-ovi, licence, AI evidencija; PPTX naknadno | Provjera čistog izdanja | 8 |
 | | **Ukupno** | | | **66** |
 
 ## 5. Trotjedni raspored
@@ -83,7 +83,7 @@ Višeigrački način, proceduralno stvaranje razina, više razina, spremanje, mr
 - **21. lipnja — tehnički prag:** Mode7 stabilno radi na ≥55 FPS.
 - **27. lipnja — igrivi borbeni tok:** moguće je odigrati cijelu borbu do pobjede nad šefom.
 - **29. lipnja — zamrzavanje funkcionalnosti:** nastavljaju se samo popravci, balans, dokumentacija i izdanje.
-- **2. srpnja — kandidat za izdanje:** dovršeni su izvorni kod, ZIP, PDF-ovi, prezentacija i dokazi.
+- **2. srpnja — kandidat za izdanje:** dovršeni su izvorni kod, ZIP, PDF-ovi i dokazi; prezentacija se izrađuje naknadno.
 
 ## 6. Uloge i odgovornosti
 
@@ -112,4 +112,4 @@ Napredak se tjedno zapisuje u dnevnik promjena. Izvještaj navodi završene radn
 
 ## 10. Ograničenja, proračun i promjene
 
-Novčani proračun iznosi 0 €. Koriste se alati otvorenog koda i vlastiti generirani resursi. Izvođenje ne ovisi o internetu. Svaka promjena opsega mora navesti trošak u satima i ukloniti barem jednako velik postojeći zahtjev. Nakon 29. lipnja nisu dopuštene nove funkcionalnosti. Potrebno odobrenje zaprimljeno je 22. lipnja 2026.; objava na itch.io i službena predaja slijede nakon dovršetka i završne provjere svih materijala.
+Novčani proračun iznosi 0 €. Koriste se alati otvorenog koda i vlastiti generirani resursi. Izvođenje ne ovisi o internetu. Svaka promjena opsega mora navesti trošak u satima i ukloniti barem jednako velik postojeći zahtjev. Nakon 29. lipnja nisu dopuštene nove funkcionalnosti. Potrebno odobrenje zaprimljeno je 22. lipnja 2026.; aplikacija, ZIP, PDF dokumentacija, licence i testni dokazi završeni su 2. srpnja 2026., a objava na itch.io i službena predaja slijede nakon naknadne prezentacije i završne korisničke odluke.

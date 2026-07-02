@@ -152,9 +152,9 @@ uništenja, bossa, repair, UI i terminalna stanja te generirane WAV music loopov
 tri vala i dvije boss faze uz fallback bez zvuka ako mixer nije dostupan. Proceduralni parallax
 sky slojevi za udaljene oblake, balone, lebdeće gradske siluete, dimne plumeove i bliže
 zračne tragove crtaju se iznad horizonta s namjerno stišanim intenzitetom i pomakom.
-PyInstaller uspješno uključuje
-konfiguraciju i izrađuje ARM64 macOS `.app`; završni ZIP izradit će se nakon dovršetka
-igre.
+PyInstaller uspješno uključuje konfiguraciju i izrađuje ARM64 macOS `.app`. Završni
+release ZIP `dist/Aetherfront-Zeppelin-Wars-macOS.zip` izrađen je 2. srpnja 2026. i
+provjeren smoke testom nakon raspakiravanja u čistu privremenu mapu.
 
 ### Sistemski zahtjevi
 
@@ -183,13 +183,27 @@ Proceduralna ravnina neprekidno se omata, pa igrač ne može napustiti borbeni p
 
 ## 13. Razvoj, proračun i objava
 
-Razvoj traje od 18. lipnja do 2. srpnja 2026. i procijenjen je na 66 individualnih sati. Proračun iznosi 0 €. Itch.io izdanje bit će besplatno i na engleskom, s opisom, kontrolama, zahtjevima, snimkama zaslona, videom, licencama i napomenom da je riječ o akademskom projektu P5. Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored zaprimljeno je 22. lipnja 2026.; objava slijedi nakon dovršetka aplikacije i završnih provjera.
+Razvoj traje od 18. lipnja do 2. srpnja 2026. i procijenjen je na 66 individualnih sati.
+Proračun iznosi 0 €. Itch.io izdanje bit će besplatno i na engleskom, s opisom,
+kontrolama, zahtjevima, snimkama zaslona, videom, licencama i napomenom da je riječ o
+akademskom projektu P5. Odobrenje nastavnika za temu P5 i izmijenjeni individualni
+raspored zaprimljeno je 22. lipnja 2026. Aplikacija, macOS ZIP, hrvatski PDF dokumenti,
+testni dokazi, licence i AI evidencija pripremljeni su 2. srpnja 2026.; završna
+prezentacija izrađuje se naknadno prema korisnikovoj odluci.
 
 ## 14. Rizici, izvori, licence, AI i pojmovnik
 
-Glavni aktivni rizici su performanse prikaza pod punim borbenim opterećenjem, širenje opsega, pakiranje, kasna izrada šefa, vrijeme za testiranje i licence. Administrativni rizik od izostanka odobrenja zatvoren je 22. lipnja 2026. Projektni plan određuje pragove i mjere. Resursi još nisu odabrani ni izrađeni; svaki budući resurs morat će biti evidentiran prije uporabe.
+Glavni tehnički rizici projekta bili su performanse prikaza pod punim borbenim
+opterećenjem, širenje opsega, pakiranje, kasna izrada šefa, vrijeme za testiranje i
+licence. Administrativni rizik od izostanka odobrenja zatvoren je 22. lipnja 2026.
+Performanse, boss tok, package build, ZIP smoke test, pet i više ručnih sesija te asset
+manifesti zatvoreni su do 2. srpnja 2026. Preostala organizacijska stavka izvan ovog
+commita je završna prezentacija.
 
-Generativni AI trenutačno se koristi prema FOI razini 4 za planiranje, strukturu projekta i početnu dokumentaciju. Buduća uporaba za kod i testove bit će zasebno evidentirana. Autor je odgovoran za odabir, ispravke, testiranje, izvore, privatnost i konačnu predaju. Tajne i osobni podaci nisu uneseni.
+Generativni AI korišten je prema FOI razini 4 za planiranje, strukturu projekta, kod,
+testove, proceduralne resurse, dokumentaciju i završnu provjeru. Uporaba je evidentirana u
+`docs/ai-usage.md`. Autor je odgovoran za odabir, ispravke, testiranje, izvore, privatnost
+i konačnu predaju. Tajne i osobni podaci nisu uneseni.
 
 ### Izvori
 
@@ -238,3 +252,4 @@ Generativni AI trenutačno se koristi prema FOI razini 4 za planiranje, struktur
 | 1.16 | 27. 6. 2026. | Robert Domgjonaj | Evidentirana proceduralna glazba za menu, valove i boss faze |
 | 1.17 | 1. 7. 2026. | Robert Domgjonaj | Evidentirana generirana cloud podloga i pojačani parallax dojam letenja |
 | 1.18 | 1. 7. 2026. | Robert Domgjonaj | Evidentiran jednokratni hitni popravak u završnici boss faze 2 |
+| 1.19 | 2. 7. 2026. | Robert Domgjonaj | Evidentirani završni ZIP, PDF dokumenti i status prezentacije |

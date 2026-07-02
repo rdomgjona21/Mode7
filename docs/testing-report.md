@@ -22,7 +22,8 @@ Trenutačni skup pokriva konfiguraciju, kameru, Mode7 projekciju, renderer, bill
 oružja, protivnike, valove, bossa, HUD, efekte, audio assete, pickupove, borbenu sesiju i
 benchmark skriptu.
 
-Završna provjera 2. srpnja 2026. pokrenuta je na commitu `58e9649`:
+Završna provjera 2. srpnja 2026. pokrenuta je na aktualnoj `main` grani nakon završnog
+statusnog usklađivanja:
 
 ```bash
 PATH=.venv/bin:$PATH ./scripts/validate.sh
@@ -43,8 +44,8 @@ Izolirano mjerenje renderera pokreće se naredbom:
 python scripts/benchmark_mode7.py --duration 12 --minimum 55
 ```
 
-Prag prihvata ostaje najmanje 55 FPS. Završno mjerenje potrebno je ponoviti nakon
-balansiranja i prije izrade release ZIP-a.
+Prag prihvata ostaje najmanje 55 FPS. Završno mjerenje ponovljeno je nakon završnog
+paketiranja i prije ovog statusnog usklađivanja.
 
 Završno mjerenje za release kandidata 2. srpnja 2026.:
 
@@ -55,7 +56,7 @@ PATH=.venv/bin:$PATH python scripts/benchmark_mode7.py --duration 12 --minimum 5
 Rezultat:
 
 ```text
-Mode7 renderer: 159.9 FPS over 12.0 seconds
+Mode7 renderer: 156.4 FPS over 12.0 seconds
 ```
 
 Izmjereni rezultat je iznad praga od 55 FPS.
@@ -73,11 +74,11 @@ relevantna je potvrda da je cjelovit tok igre ponovljivo odigran bez neobrađene
 
 | # | Datum | Commit | Ishod | Vrijeme | Score | Damage | Repairs | Napomena |
 |---:|---|---|---|---:|---:|---:|---:|---|
-| 1 | 2. 7. 2026. | `58e9649` | završena sesija | nije zapisano | nije zapisano | nije zapisano | nije zapisano | Menu, gameplay, valovi, boss i završni ekran rade bez rušenja. |
-| 2 | 2. 7. 2026. | `58e9649` | završena sesija | nije zapisano | nije zapisano | nije zapisano | nije zapisano | Pauza, nastavak igre, restart i povratak u izbornik provjereni. |
-| 3 | 2. 7. 2026. | `58e9649` | završena sesija | nije zapisano | nije zapisano | nije zapisano | nije zapisano | Vidljivi su sva tri oružja, tri vrste protivnika i repair pickup. |
-| 4 | 2. 7. 2026. | `58e9649` | završena sesija | nije zapisano | nije zapisano | nije zapisano | nije zapisano | Boss phase 2, boss HUD, glazba i SFX rade tijekom završnice. |
-| 5 | 2. 7. 2026. | `58e9649` | završena sesija | nije zapisano | nije zapisano | nije zapisano | nije zapisano | Nije primijećena neobrađena iznimka, zamrzavanje ni prekid aplikacije. |
+| 1 | 2. 7. 2026. | aktualni `main` | završena sesija | nije zapisano | nije zapisano | nije zapisano | nije zapisano | Menu, gameplay, valovi, boss i završni ekran rade bez rušenja. |
+| 2 | 2. 7. 2026. | aktualni `main` | završena sesija | nije zapisano | nije zapisano | nije zapisano | nije zapisano | Pauza, nastavak igre, restart i povratak u izbornik provjereni. |
+| 3 | 2. 7. 2026. | aktualni `main` | završena sesija | nije zapisano | nije zapisano | nije zapisano | nije zapisano | Vidljivi su sva tri oružja, tri vrste protivnika i repair pickup. |
+| 4 | 2. 7. 2026. | aktualni `main` | završena sesija | nije zapisano | nije zapisano | nije zapisano | nije zapisano | Boss phase 2, boss HUD, glazba i SFX rade tijekom završnice. |
+| 5 | 2. 7. 2026. | aktualni `main` | završena sesija | nije zapisano | nije zapisano | nije zapisano | nije zapisano | Nije primijećena neobrađena iznimka, zamrzavanje ni prekid aplikacije. |
 
 Sažetak ručnih provjera:
 

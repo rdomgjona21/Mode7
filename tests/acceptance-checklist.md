@@ -2,15 +2,15 @@
 
 **Projekt:** Aetherfront: Zeppelin Wars  
 **Datum:** 2. srpnja 2026.  
-**Commit provjere:** `58e9649`  
-**Status:** release kandidat; package/ZIP provjera završena, PDF i prezentacija ostaju zasebni završni materijali
+**Commit provjere:** najnoviji commit na `main` nakon završnog statusnog usklađivanja  
+**Status:** release kandidat; package/ZIP provjera i PDF dokumenti završeni, prezentacija se izrađuje naknadno
 
 ## Automatizirane provjere
 
 | Kriterij | Status | Dokaz |
 |---|---|---|
 | Ruff i Pytest prolaze | Prolazi | `PATH=.venv/bin:$PATH ./scripts/validate.sh` — `190 passed` |
-| Mode7 renderer prelazi 55 FPS | Prolazi | `python scripts/benchmark_mode7.py --duration 12 --minimum 55` — `159.9 FPS` |
+| Mode7 renderer prelazi 55 FPS | Prolazi | `python scripts/benchmark_mode7.py --duration 12 --minimum 55` — `156.4 FPS` |
 | Testovi pokrivaju osnovni state flow | Prolazi | `tests/test_game.py`, `tests/test_states.py`, `tests/test_session.py` |
 | Testovi pokrivaju Mode7, sudare, oružja, valove i bossa | Prolazi | `tests/test_mode7.py`, `tests/test_collisions.py`, `tests/test_weapons.py`, `tests/test_waves.py`, `tests/test_boss.py` |
 | Asset manifesti i audio/image resursi se provjeravaju | Prolazi | `tests/test_audio.py`, `tests/test_terrain.py` |

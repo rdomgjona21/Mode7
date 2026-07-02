@@ -1,8 +1,8 @@
 # Tehnička dokumentacija — Aetherfront: Zeppelin Wars
 
-**Verzija:** 2.0
+**Verzija:** 2.1
 
-**Datum:** 27. lipnja 2026.
+**Datum:** 2. srpnja 2026.
 
 **Status:** release kandidat s prvim završnim balance passom, steampunk HUD-om, SFX-om, glazbom i macOS paketom
 
@@ -77,9 +77,9 @@ svijetli atmosferski haze. Haze se postupno gasi prema donjem dijelu zaslona, pa
 perspektivno rastezanje teksture uz horizont bez zatamnjivanja fotorealistične cloud
 podloge, bliskih borbenih objekata ili same Mode7 projekcije.
 
-Na ciljanom M1 MacBook Airu izolirani 60-sekundni benchmark 20. lipnja 2026. izmjerio je
-159,3 FPS-a, čime je tehnički prag od najmanje 55 FPS-a ostvaren za trenutačni renderer.
-Mjerenje će se ponoviti pri najvećem planiranom borbenom opterećenju.
+Na ciljanom M1 MacBook Airu izolirani benchmark višestruko je ostao iznad praga od 55
+FPS-a. Završna kratka provjera 2. srpnja 2026. izmjerila je 156,4 FPS-a kroz 12 sekundi,
+a ranija 60-sekundna provjera 20. lipnja izmjerila je 159,3 FPS-a.
 
 ## Parallax sky
 

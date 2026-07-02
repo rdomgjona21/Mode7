@@ -1,11 +1,12 @@
 # Operativni plan završetka do 2. srpnja 2026.
 
-**Status:** aktivni dnevni raspored  
+**Status:** završni statusni zapis  
 **Razdoblje:** 20. lipnja – 2. srpnja 2026.  
 **Planirano preostalo opterećenje:** 56 sati
 
-Ovaj dokument čuva dogovoreni operativni raspored za potpuno završenu aplikaciju i sve
-materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19. lipnja.
+Ovaj dokument čuva dogovoreni operativni raspored za završetak aplikacije do 2. srpnja.
+Formalni `project-plan.md` usklađen je s ovim rokom 19. lipnja. Prezentacija je naknadno
+izdvojena iz ovog završnog commita prema korisnikovoj odluci i izrađuje se zasebno.
 
 ## Evidencija napretka
 
@@ -50,6 +51,14 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
 - **27.6.:** integrirani su ElevenLabs zvučni efekti za oružja, protivnike, bossa,
   repair, UI, pobjedu i game-over stanje. MP3 asseti su evidentirani u licencnim
   manifestima i uključeni u paketiranje.
+- **27.6.:** generirani su WAV glazbeni loopovi za menu, tri vala i dvije boss faze.
+- **1.7.:** generirana je cloud podloga i usklađen je vizualni dojam letenja iznad oblaka.
+- **1.7.:** dodan je jednokratni hitni popravak igrača pri 20 % boss healtha u fazi 2.
+- **2.7.:** autor je potvrdio pet i više ručnih sesija bez neobrađene iznimke.
+- **2.7.:** `./scripts/package.sh` izrađuje macOS `.app`, release ZIP i provjerava ZIP
+  smoke testom.
+- **2.7.:** izvezeni su PDF dokumenti za projektni plan, GDD, tehničku dokumentaciju,
+  izvještaj o testiranju i changelog.
 
 ## Dnevni raspored
 
@@ -66,8 +75,8 @@ materijale do 2. srpnja. Formalni `project-plan.md` usklađen je s ovim rokom 19
 | **28.6.** | 4 h | Implementirati Main Menu, Instructions, Playing, Paused, Victory i Game Over, restart i povratak u izbornik. Početi prezentaciju i završni kontrolni popis. | Potpun tok od izbornika do završetka. `Complete application state flow` |
 | **29.6.** | 4 h | Dodati sintetizirani zvuk, glazbenu podlogu, čestice, eksplozije i bljeskove bez agresivnog screen shakea. Snimiti prve završne screenshotove. | Funkcionalno dovršena igra. `Add audio and combat feedback` |
 | **30.6.** | 4 h | Zamrznuti funkcionalnosti. Balansirati borbu, profilirati opterećenje, odigrati tri potpune sesije i popraviti pronađene greške. | Stabilan release candidate i najmanje 55 FPS. `Balance and stabilize vertical slice` |
-| **1.7.** | 5 h | Završiti hrvatske dokumente, PDF-ove, izvještaj o testiranju, licence, AI evidenciju i changelog. Završiti engleski PPTX, itch.io tekst i medije. Napraviti `.app` i ZIP. | Svi materijali i zapakirani kandidat. `Prepare release documentation and package` |
-| **2.7.** | 4 h | Odigrati još dvije potpune sesije. Provjeriti čisti ZIP, kontrole, sadržaj, licence, jezike i prezentaciju. Popraviti samo blokirajuće greške i pokrenuti završne provjere. | Završena aplikacija i svi materijali. `Finalize Aetherfront release candidate` |
+| **1.7.** | 5 h | Završiti hrvatske dokumente, PDF-ove, izvještaj o testiranju, licence, AI evidenciju i changelog. Pripremiti `.app` i ZIP. | Dokumentacija i zapakirani kandidat. `Prepare release documentation and package` |
+| **2.7.** | 4 h | Odigrati još dvije potpune sesije. Provjeriti čisti ZIP, kontrole, sadržaj, licence i jezike. Popraviti samo blokirajuće greške i pokrenuti završne provjere. | Završena aplikacija, PDF dokumenti i release ZIP; prezentacija se izrađuje naknadno. `Finalize Aetherfront release candidate` |
 
 ## Dnevni postupak
 
@@ -88,8 +97,10 @@ obrasci ostaju na hrvatskom.
 - **27.6.:** moguće je odigrati cijelu borbu do pobjede nad šefom.
 - **29.6.:** završava dodavanje funkcionalnosti.
 - **30.6.:** tri potpune sesije završavaju bez neobrađene iznimke.
-- **2.7.:** ukupno pet uspješnih sesija, čisti ZIP radi, a dokumentacija i prezentacija
-  su završene.
+- **2.7.:** ukupno pet uspješnih sesija, čisti ZIP radi, a hrvatska dokumentacija, PDF
+  izvoz, licence i AI evidencija su završeni. Prezentacija se izrađuje naknadno prema
+  korisnikovoj odluci.
 
 Odobrenje nastavnika zaprimljeno je 22. lipnja 2026. Itch.io objava i službena predaja
-provode se nakon dovršetka aplikacije, dokumentacije i završnih provjera.
+provode se nakon dovršetka aplikacije, dokumentacije, završnih provjera i naknadne
+prezentacije.
