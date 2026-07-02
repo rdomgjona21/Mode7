@@ -504,3 +504,19 @@
   video/audio driverima bez ranog pada.
 - **Resursi:** nisu dodani novi asseti.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 2. srpnja 2026. — changelog i završni PDF dokumenti
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** pripremiti završni changelog i PDF verzije glavnih hrvatskih dokumenata za
+  predaju.
+- **Utjecaj:** dodan je `docs/changelog.md`, a iz Markdown izvora generiraju se PDF
+  artefakti za projektni plan, GDD, tehničku dokumentaciju, izvještaj o testiranju i
+  changelog. README je ažuriran poveznicom na changelog. Gameplay, balans, kontrole,
+  zvuk, vizuali i package skripta nisu mijenjani.
+- **Provjera:** PDF-ovi su generirani programatski iz aktualnih Markdown dokumenata.
+  Provjereni su brojem stranica, ekstrakcijom teksta kroz `pypdf` i renderiranjem
+  odabranih stranica u PNG. Lokalni Poppler alat ispisivao je fontconfig cache warninge,
+  ali renderirane stranice bile su čitljive, a `pypdf` je potvrdio očekivani tekst.
+- **Resursi:** nisu dodani novi gameplay asseti.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.

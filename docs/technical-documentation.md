@@ -311,6 +311,5 @@ kratku poruku bez Python tracebacka.
 
 ## Sljedeći tehnički korak
 
-Završno paketiranje i ZIP smoke test provedeni su 2. srpnja 2026. Sljedeća zasebna cjelina
-su završni PDF dokumenti ako su potrebni za predaju. Prezentacija se izrađuje naknadno
-prema korisnikovoj odluci.
+Završno paketiranje, ZIP smoke test i PDF export glavnih dokumenata provedeni su 2. srpnja
+2026. Prezentacija se izrađuje naknadno prema korisnikovoj odluci.

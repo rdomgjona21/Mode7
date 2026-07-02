@@ -16,6 +16,7 @@
 | Asset manifesti i audio/image resursi se provjeravaju | Prolazi | `tests/test_audio.py`, `tests/test_terrain.py` |
 | macOS `.app` build prolazi | Prolazi | `PATH=.venv/bin:$PATH ./scripts/package.sh` |
 | Release ZIP nastaje | Prolazi | `dist/Aetherfront-Zeppelin-Wars-macOS.zip`, približno 29 MB |
+| Završni PDF dokumenti postoje | Prolazi | `docs/project-plan.pdf`, `docs/gdd.pdf`, `docs/technical-documentation.pdf`, `docs/testing-report.pdf`, `docs/changelog.pdf` |
 
 ## Ručne provjere
 
@@ -47,6 +48,4 @@
 
 ## Stavke koje još treba zatvoriti prije konačne predaje
 
-- Ažurirati dokumentaciju rezultatima package/ZIP provjere.
-- Izvesti završne PDF dokumente ako su potrebni za predaju.
 - Prezentaciju izraditi naknadno prema posebnoj odluci.

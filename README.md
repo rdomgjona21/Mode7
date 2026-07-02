@@ -97,6 +97,15 @@ Release ZIP nastaje kao `dist/Aetherfront-Zeppelin-Wars-macOS.zip`.
 - [Izvještaj o testiranju](docs/testing-report.md)
 - [Završni kontrolni popis prihvata](tests/acceptance-checklist.md)
 - [Evidencija uporabe AI-ja](docs/ai-usage.md)
+- [Changelog](docs/changelog.md)
+
+PDF verzije završnih dokumenata nalaze se u istoj mapi:
+
+- [Projektni plan PDF](docs/project-plan.pdf)
+- [GDD PDF](docs/gdd.pdf)
+- [Tehnička dokumentacija PDF](docs/technical-documentation.pdf)
+- [Izvještaj o testiranju PDF](docs/testing-report.pdf)
+- [Changelog PDF](docs/changelog.pdf)
 
 Dokumentacija je na hrvatskom. Planirani tekst unutar igre i završna prezentacija bit će na engleskom.
 

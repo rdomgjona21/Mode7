@@ -111,5 +111,6 @@ Sažetak ručnih provjera:
   `Aetherfront.app` aplikaciju, `balance.json`, menu glazbu i cloud texture asset.
 - Raspakirani executable pokrenut je s dummy SDL video/audio driverima i nije završio
   greškom tijekom kratkog smoke testa.
-- Izvesti završne PDF dokumente ako vrijeme i lokalni alati dopuštaju.
+- Završni PDF dokumenti izvezeni su za projektni plan, GDD, tehničku dokumentaciju,
+  izvještaj o testiranju i changelog.
 - Prezentacija se izrađuje naknadno prema korisnikovoj odluci i nije dio ovog commita.
