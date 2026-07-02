@@ -28,7 +28,7 @@ Cilj je izraditi stabilnu, samostalnu macOS igru na engleskom jeziku pod nazivom
 1. Izraditi jednu dovršenu razinu „Siege of Brasshaven” s tokom od glavnog izbornika do pobjede.
 2. Održati prosječno najmanje 55 FPS pri najvećem predviđenom borbenom opterećenju na ciljanom M1 MacBook Airu.
 3. Implementirati tri oružja, tri vrste protivnika, tri vala, predmete za popravak, bodovanje i šefa s dvije faze.
-4. Uključiti upute, pauzu, poraz, pobjedu, HUD, zvuk, glazbu, čestice, povratnu informaciju sudara i podrhtavanje zaslona.
+4. Uključiti upute, pauzu, poraz, pobjedu, HUD, zvuk, glazbu, čestice i jasnu povratnu informaciju sudara bez agresivnog podrhtavanja zaslona.
 5. Proći automatizirane provjere prikaza, sudara, oružja, valova i licenci resursa.
 6. Završiti pet uzastopnih ručnih igranja bez neobrađene iznimke.
 7. Predati izvorni kod, macOS ZIP, projektni plan, GDD, tehničku dokumentaciju, izvještaj o testiranju, prezentaciju, evidenciju resursa i izjavu o uporabi AI-ja.

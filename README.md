@@ -4,7 +4,7 @@ Individualni projekt P5 — Mode7 / pucačina.
 
 ## Trenutačni status
 
-Projekt je u fazi igrive borbene probe. Dovršeni su:
+Projekt je u fazi release kandidata. Dovršeni su:
 
 - početna struktura mapa;
 - projektni plan;
@@ -37,14 +37,16 @@ Projekt je u fazi igrive borbene probe. Dovršeni su:
   popravci i primljena šteta;
 - skripta za 60-sekundno mjerenje performansi renderera;
 - skripta za izradu i provjeru macOS `.app` paketa;
-- početni automatizirani testovi, validacijska skripta i obrazac ručnog playtesta.
+- automatizirani testovi, validacijska skripta, obrazac ručnog playtesta i završni
+  kontrolni popis prihvata.
 
 Tri oružja, vidljivi pogoci i suptilni proceduralni efekti sada rade kroz tri konfigurirana
 redovna vala, boss susret, pobjedu i game-over stanje. Aplikacija ima tok od glavnog
 izbornika do završetka pokušaja. Parallax sky slojevi sada se suptilno pomiču sporije od
 kamere iznad horizonta. Prvi završni balance pass, minimalistički steampunk HUD, zvučni
-efekti i glazbena podloga su implementirani. Završni ručni playtestovi, prezentacija i
-završni distribucijski ZIP još nisu implementirani.
+efekti i glazbena podloga su implementirani. Autor je 2. srpnja 2026. potvrdio više od
+pet ručnih sesija bez neobrađene iznimke. Završni distribucijski ZIP i prezentacija još
+nisu zatvoreni u repozitoriju.
 
 Odobrenje nastavnika za temu P5 i izmijenjeni individualni raspored zaprimljeno je i
 evidentirano 22. lipnja 2026.
@@ -91,6 +93,7 @@ open dist/Aetherfront.app
 - [Tehnička dokumentacija](docs/technical-documentation.md)
 - [Vodič kroz trenutačni kod](docs/code-walkthrough.md)
 - [Izvještaj o testiranju](docs/testing-report.md)
+- [Završni kontrolni popis prihvata](tests/acceptance-checklist.md)
 - [Evidencija uporabe AI-ja](docs/ai-usage.md)
 
 Dokumentacija je na hrvatskom. Planirani tekst unutar igre i završna prezentacija bit će na engleskom.

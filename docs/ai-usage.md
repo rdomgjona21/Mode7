@@ -472,3 +472,18 @@
   jednokratnu dodjelu; pokrenuta je standardna validacija projekta.
 - **Resursi:** nisu dodani novi asseti.
 - **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj.
+
+## 2. srpnja 2026. — završna evidencija ručnih testova
+
+- **Alat:** OpenAI Codex.
+- **Namjena:** uskladiti dokumentaciju s korisnikovom potvrdom da je odigrao više od pet
+  potpunih sesija i da igra radi stabilno.
+- **Utjecaj:** ažurirani su `docs/testing-report.md`, `tests/acceptance-checklist.md`,
+  `README.md`, projektni plan, GDD i tehnička dokumentacija. Dokumentacija sada razlikuje
+  tehnički release kandidat i još otvoreni završni package/ZIP korak. Nisu mijenjani
+  gameplay, balans, kontrole, zvuk ni vizuali.
+- **Provjera:** dokumentirani su rezultati `./scripts/validate.sh` s 190 prolaznih testova
+  i 12-sekundni Mode7 benchmark od 159,9 FPS.
+- **Resursi:** nisu dodani novi asseti.
+- **Podaci:** nisu korištene vjerodajnice, osobni podaci ni povjerljivi sadržaj; detaljni
+  score/damage brojevi nisu izmišljeni jer nisu zabilježeni tijekom ručnih sesija.

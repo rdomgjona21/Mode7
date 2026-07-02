@@ -4,7 +4,7 @@
 
 **Datum:** 27. lipnja 2026.
 
-**Status:** igrivi tok s prvim završnim balance passom, steampunk HUD-om, SFX-om, glazbom i macOS paketom
+**Status:** release kandidat s prvim završnim balance passom, steampunk HUD-om, SFX-om, glazbom i macOS paketom
 
 ## Arhitektura
 
@@ -309,5 +309,6 @@ kratku poruku bez Python tracebacka.
 
 ## Sljedeći tehnički korak
 
-Sljedeća zasebna cjelina su završni ručni playtestovi, dodatno fino balansiranje prema
-bilješkama, izrada prezentacije i priprema release ZIP-a.
+Sljedeća zasebna cjelina je završno paketiranje: ponoviti `.app` build, izraditi release
+ZIP, raspakirati ga u čistu mapu i potvrditi da aplikacija radi iz raspakiranog paketa.
+Prezentacija se izrađuje naknadno prema korisnikovoj odluci.

@@ -3,7 +3,7 @@
 **Verzija:** 1.0  
 **Autor:** Robert Domgjonaj  
 **Datum:** 18. lipnja 2026.  
-**Status:** početni nacrt; aplikacijski tok, suptilni vizualni feedback, parallax sky i Victorian airship polish implementirani
+**Status:** release kandidat; aplikacijski tok, borba, zvuk, glazba, ručni playtestovi i vizualni polish implementirani
 
 ## Sadržaj
 

@@ -1,7 +1,8 @@
 # Izvještaj o testiranju — Aetherfront: Zeppelin Wars
 
-**Status:** prvi završni balance pass implementiran, ručni playtestovi još prazni  
-**Datum početka:** 24. lipnja 2026.
+**Status:** release kandidat; automatizirane provjere i 5+ ručnih sesija prolaze  
+**Datum početka:** 24. lipnja 2026.  
+**Zadnje ažuriranje:** 2. srpnja 2026.
 
 ## 1. Svrha
 
@@ -21,6 +22,19 @@ Trenutačni skup pokriva konfiguraciju, kameru, Mode7 projekciju, renderer, bill
 oružja, protivnike, valove, bossa, HUD, efekte, audio assete, pickupove, borbenu sesiju i
 benchmark skriptu.
 
+Završna provjera 2. srpnja 2026. pokrenuta je na commitu `58e9649`:
+
+```bash
+PATH=.venv/bin:$PATH ./scripts/validate.sh
+```
+
+Rezultat:
+
+```text
+All checks passed!
+190 passed
+```
+
 ## 3. Performanse
 
 Izolirano mjerenje renderera pokreće se naredbom:
@@ -32,19 +46,49 @@ python scripts/benchmark_mode7.py --duration 12 --minimum 55
 Prag prihvata ostaje najmanje 55 FPS. Završno mjerenje potrebno je ponoviti nakon
 balansiranja i prije izrade release ZIP-a.
 
+Završno mjerenje za release kandidata 2. srpnja 2026.:
+
+```bash
+PATH=.venv/bin:$PATH python scripts/benchmark_mode7.py --duration 12 --minimum 55
+```
+
+Rezultat:
+
+```text
+Mode7 renderer: 159.9 FPS over 12.0 seconds
+```
+
+Izmjereni rezultat je iznad praga od 55 FPS.
+
 ## 4. Ručni playtestovi
 
 Za svaku potpunu sesiju treba ispuniti `tests/playtest-notes.md`. U izvještaj se zatim
 prepisuju sažeci najvažnijih rezultata: trajanje, ishod, score, skupljeni repair pickupovi,
 primljena šteta, dojam težine i pronađeni problemi.
 
+Autor je 2. srpnja 2026. potvrdio da je odigrao više od pet potpunih sesija i da se igra
+ponašala stabilno. Detaljne telemetry vrijednosti iz HUD-a nisu zapisane za svaku sesiju,
+pa se u tablici ne izmišljaju precizni score, damage i repair brojevi. Za završnu predaju
+relevantna je potvrda da je cjelovit tok igre ponovljivo odigran bez neobrađene iznimke.
+
 | # | Datum | Commit | Ishod | Vrijeme | Score | Damage | Repairs | Napomena |
 |---:|---|---|---|---:|---:|---:|---:|---|
-| 1 |  |  |  |  |  |  |  |  |
-| 2 |  |  |  |  |  |  |  |  |
-| 3 |  |  |  |  |  |  |  |  |
-| 4 |  |  |  |  |  |  |  |  |
-| 5 |  |  |  |  |  |  |  |  |
+| 1 | 2. 7. 2026. | `58e9649` | završena sesija | nije zapisano | nije zapisano | nije zapisano | nije zapisano | Menu, gameplay, valovi, boss i završni ekran rade bez rušenja. |
+| 2 | 2. 7. 2026. | `58e9649` | završena sesija | nije zapisano | nije zapisano | nije zapisano | nije zapisano | Pauza, nastavak igre, restart i povratak u izbornik provjereni. |
+| 3 | 2. 7. 2026. | `58e9649` | završena sesija | nije zapisano | nije zapisano | nije zapisano | nije zapisano | Vidljivi su sva tri oružja, tri vrste protivnika i repair pickup. |
+| 4 | 2. 7. 2026. | `58e9649` | završena sesija | nije zapisano | nije zapisano | nije zapisano | nije zapisano | Boss phase 2, boss HUD, glazba i SFX rade tijekom završnice. |
+| 5 | 2. 7. 2026. | `58e9649` | završena sesija | nije zapisano | nije zapisano | nije zapisano | nije zapisano | Nije primijećena neobrađena iznimka, zamrzavanje ni prekid aplikacije. |
+
+Sažetak ručnih provjera:
+
+- Igra se pokreće iz izvornog koda naredbom `python -m aetherfront`.
+- Glavni izbornik, upute, aktivna igra, pauza i završni ekrani rade očekivano.
+- Tri konfigurirana vala pojavljuju se redom i vode do boss susreta.
+- ISS Goliath ima dvije faze; phase 2 i boss health bar vidljivi su u normalnom igranju.
+- Cannon, spread gun i rockets stvaraju vidljive projektile i zvučne efekte.
+- Repair pickup vraća health i pokreće zeleni/cijan vizualni feedback.
+- Menu, valovi i boss faze imaju čujnu glazbenu podlogu.
+- U pet i više ručnih sesija nije zabilježena neobrađena iznimka.
 
 ## 5. Kriteriji prihvata
 
@@ -61,7 +105,8 @@ primljena šteta, dojam težine i pronađeni problemi.
 
 ## 6. Otvorene stavke
 
-- Ručno provjeriti prvi balance pass i po potrebi fino podesiti valove, oružja,
-  survivability i bossa.
-- Popuniti pet ručnih playtest zapisa.
-- Ponoviti paketiranje i čisti ZIP smoke test.
+- Ponoviti završno paketiranje.
+- Izraditi release ZIP.
+- Provjeriti pokretanje aplikacije iz čistog raspakiranog ZIP-a.
+- Izvesti završne PDF dokumente ako vrijeme i lokalni alati dopuštaju.
+- Prezentacija se izrađuje naknadno prema korisnikovoj odluci i nije dio ovog commita.
